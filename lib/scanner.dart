@@ -60,10 +60,25 @@ class Scanner {
           tokens.add(Token(type: TokenTypes.semicolon, lexeme: ';'));
           advance();
           break;
+
+        case '/':
+          advance();
+          if (peek() == '/') {
+            comment();
+          } else {
+            tokens.add(Token(type: TokenTypes.division, lexeme: '/'));
+          }
+          break;
       }
     }
 
     return tokens;
+  }
+
+  void comment() {
+    do {
+      advance();
+    } while (!isOutOfRange() && peek() != '\n');
   }
 
   void advance() {
