@@ -40,12 +40,13 @@ enum TokenTypes {
 class Token {
   final TokenTypes type;
   final String lexeme;
+  final int line;
   final Object? value;
 
-  Token({required this.type, required this.lexeme, this.value});
+  Token({required this.type, required this.lexeme, required this.line, this.value});
 
   @override
   String toString() {
-    return '<$type - $lexeme : $value>';
+    return '<$type | $lexeme | $value | line: $line  >';
   }
 }
