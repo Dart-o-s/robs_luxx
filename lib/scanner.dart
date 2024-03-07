@@ -42,8 +42,7 @@ class Scanner {
           break;
 
         case '{':
-          tokens
-              .add(Token(type: TokenType.braceLeft, lexeme: '{', line: line));
+          tokens.add(Token(type: TokenType.braceLeft, lexeme: '{', line: line));
           advance();
           break;
 
@@ -54,8 +53,7 @@ class Scanner {
           break;
 
         case '(':
-          tokens
-              .add(Token(type: TokenType.parenLeft, lexeme: '(', line: line));
+          tokens.add(Token(type: TokenType.parenLeft, lexeme: '(', line: line));
           advance();
           break;
 
@@ -66,8 +64,7 @@ class Scanner {
           break;
 
         case ';':
-          tokens
-              .add(Token(type: TokenType.semicolon, lexeme: ';', line: line));
+          tokens.add(Token(type: TokenType.semicolon, lexeme: ';', line: line));
           advance();
           break;
 
@@ -99,8 +96,7 @@ class Scanner {
                 Token(type: TokenType.greaterEqual, lexeme: '>=', line: line));
             advance();
           } else {
-            tokens
-                .add(Token(type: TokenType.greater, lexeme: '>', line: line));
+            tokens.add(Token(type: TokenType.greater, lexeme: '>', line: line));
           }
           break;
 
@@ -140,6 +136,7 @@ class Scanner {
       }
     }
 
+    tokens.add(Token(type: TokenType.eof, lexeme: '', line: line));
     return tokens;
   }
 
