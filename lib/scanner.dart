@@ -109,6 +109,11 @@ class Scanner {
             tokens.add(Token(type: TokenTypes.bang, lexeme: '!'));
           }
           break;
+
+        case '"':
+          tokens.add(string());
+          advance();
+          break;
       }
     }
 
@@ -119,6 +124,22 @@ class Scanner {
     do {
       advance();
     } while (!isOutOfRange() && peek() != '\n');
+  }
+
+  Token string() {
+    advance();
+
+    String value = '';
+    while (peek().isNotEmpty && peek() != '"') {
+      value += peek();
+      advance();
+    }
+
+    if (peek().isEmpty) {
+      errors.add(ScanError('Closing \'"\' expected.'));
+    }
+
+    return Token(type: TokenTypes.string, lexeme: '"$value"',  value: value);
   }
 
   void advance() {
