@@ -2,6 +2,7 @@ import 'package:lox_dart/token.dart';
 
 class Scanner {
   final String input;
+  final List<Token> tokens = [];
   final List<ScanError> errors = [];
 
   int _pos = 0;
@@ -10,12 +11,8 @@ class Scanner {
   Scanner(this.input);
 
   List<Token> scan() {
-    List<Token> tokens = [];
-
     while (peek().isNotEmpty) {
-      String current = peek();
-
-      switch (current) {
+      switch (peek()) {
         case ' ':
         case '\t':
           advance();
@@ -27,44 +24,42 @@ class Scanner {
           break;
 
         case '+':
-          tokens.add(Token(type: TokenType.plus, lexeme: '+', line: line));
+          addToken(TokenType.plus, '+');
           advance();
           break;
 
         case '-':
-          tokens.add(Token(type: TokenType.minus, lexeme: '-', line: line));
+          addToken(TokenType.minus, '-');
           advance();
           break;
 
         case '*':
-          tokens.add(Token(type: TokenType.product, lexeme: '*', line: line));
+          addToken(TokenType.product, '*');
           advance();
           break;
 
         case '{':
-          tokens.add(Token(type: TokenType.braceLeft, lexeme: '{', line: line));
+          addToken(TokenType.braceLeft, '{');
           advance();
           break;
 
         case '}':
-          tokens
-              .add(Token(type: TokenType.braceRight, lexeme: '}', line: line));
+          addToken(TokenType.braceRight, '}');
           advance();
           break;
 
         case '(':
-          tokens.add(Token(type: TokenType.parenLeft, lexeme: '(', line: line));
+          addToken(TokenType.parenLeft, '(');
           advance();
           break;
 
         case ')':
-          tokens
-              .add(Token(type: TokenType.parenRight, lexeme: ')', line: line));
+          addToken(TokenType.parenRight, ')');
           advance();
           break;
 
         case ';':
-          tokens.add(Token(type: TokenType.semicolon, lexeme: ';', line: line));
+          addToken(TokenType.semicolon, ';');
           advance();
           break;
 
@@ -73,8 +68,7 @@ class Scanner {
           if (peek() == '/') {
             comment();
           } else {
-            tokens
-                .add(Token(type: TokenType.division, lexeme: '/', line: line));
+            addToken(TokenType.division, '/');
           }
           break;
 
@@ -82,43 +76,39 @@ class Scanner {
           advance();
           if (peek() == '=') {
             advance();
-            tokens.add(
-                Token(type: TokenType.lessEqual, lexeme: '<=', line: line));
+            addToken(TokenType.lessEqual, '<=');
           } else {
-            tokens.add(Token(type: TokenType.less, lexeme: '<', line: line));
+            addToken(TokenType.less, '<');
           }
           break;
 
         case '>':
           advance();
           if (peek() == '=') {
-            tokens.add(
-                Token(type: TokenType.greaterEqual, lexeme: '>=', line: line));
+            addToken(TokenType.greaterEqual, '>=');
             advance();
           } else {
-            tokens.add(Token(type: TokenType.greater, lexeme: '>', line: line));
+            addToken(TokenType.greater, '>');
           }
           break;
 
         case '=':
           advance();
           if (peek() == '=') {
-            tokens.add(
-                Token(type: TokenType.equalEqual, lexeme: '==', line: line));
+            addToken(TokenType.equalEqual, '==');
             advance();
           } else {
-            tokens.add(Token(type: TokenType.equal, lexeme: '=', line: line));
+            addToken(TokenType.equal, '=');
           }
           break;
 
         case '!':
           advance();
           if (peek() == '=') {
-            tokens.add(
-                Token(type: TokenType.bangEqual, lexeme: '!=', line: line));
+            addToken(TokenType.bangEqual, '!=');
             advance();
           } else {
-            tokens.add(Token(type: TokenType.bang, lexeme: '!', line: line));
+            addToken(TokenType.bang, '!');
           }
           break;
 
@@ -136,8 +126,12 @@ class Scanner {
       }
     }
 
-    tokens.add(Token(type: TokenType.eof, lexeme: '', line: line));
+    addToken(TokenType.eof, '');
     return tokens;
+  }
+
+  void addToken(TokenType type, String lexeme) {
+    tokens.add(Token(type: type, lexeme: lexeme, line: line));
   }
 
   void comment() {
