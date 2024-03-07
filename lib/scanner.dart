@@ -27,47 +27,47 @@ class Scanner {
           break;
 
         case '+':
-          tokens.add(Token(type: TokenTypes.plus, lexeme: '+', line: line));
+          tokens.add(Token(type: TokenType.plus, lexeme: '+', line: line));
           advance();
           break;
 
         case '-':
-          tokens.add(Token(type: TokenTypes.minus, lexeme: '-', line: line));
+          tokens.add(Token(type: TokenType.minus, lexeme: '-', line: line));
           advance();
           break;
 
         case '*':
-          tokens.add(Token(type: TokenTypes.product, lexeme: '*', line: line));
+          tokens.add(Token(type: TokenType.product, lexeme: '*', line: line));
           advance();
           break;
 
         case '{':
           tokens
-              .add(Token(type: TokenTypes.braceLeft, lexeme: '{', line: line));
+              .add(Token(type: TokenType.braceLeft, lexeme: '{', line: line));
           advance();
           break;
 
         case '}':
           tokens
-              .add(Token(type: TokenTypes.braceRight, lexeme: '}', line: line));
+              .add(Token(type: TokenType.braceRight, lexeme: '}', line: line));
           advance();
           break;
 
         case '(':
           tokens
-              .add(Token(type: TokenTypes.parenLeft, lexeme: '(', line: line));
+              .add(Token(type: TokenType.parenLeft, lexeme: '(', line: line));
           advance();
           break;
 
         case ')':
           tokens
-              .add(Token(type: TokenTypes.parenRight, lexeme: ')', line: line));
+              .add(Token(type: TokenType.parenRight, lexeme: ')', line: line));
           advance();
           break;
 
         case ';':
           tokens
-              .add(Token(type: TokenTypes.semicolon, lexeme: ';', line: line));
+              .add(Token(type: TokenType.semicolon, lexeme: ';', line: line));
           advance();
           break;
 
@@ -77,7 +77,7 @@ class Scanner {
             comment();
           } else {
             tokens
-                .add(Token(type: TokenTypes.division, lexeme: '/', line: line));
+                .add(Token(type: TokenType.division, lexeme: '/', line: line));
           }
           break;
 
@@ -86,9 +86,9 @@ class Scanner {
           if (peek() == '=') {
             advance();
             tokens.add(
-                Token(type: TokenTypes.lessEqual, lexeme: '<=', line: line));
+                Token(type: TokenType.lessEqual, lexeme: '<=', line: line));
           } else {
-            tokens.add(Token(type: TokenTypes.less, lexeme: '<', line: line));
+            tokens.add(Token(type: TokenType.less, lexeme: '<', line: line));
           }
           break;
 
@@ -96,11 +96,11 @@ class Scanner {
           advance();
           if (peek() == '=') {
             tokens.add(
-                Token(type: TokenTypes.greaterEqual, lexeme: '>=', line: line));
+                Token(type: TokenType.greaterEqual, lexeme: '>=', line: line));
             advance();
           } else {
             tokens
-                .add(Token(type: TokenTypes.greater, lexeme: '>', line: line));
+                .add(Token(type: TokenType.greater, lexeme: '>', line: line));
           }
           break;
 
@@ -108,10 +108,10 @@ class Scanner {
           advance();
           if (peek() == '=') {
             tokens.add(
-                Token(type: TokenTypes.equalEqual, lexeme: '==', line: line));
+                Token(type: TokenType.equalEqual, lexeme: '==', line: line));
             advance();
           } else {
-            tokens.add(Token(type: TokenTypes.equal, lexeme: '=', line: line));
+            tokens.add(Token(type: TokenType.equal, lexeme: '=', line: line));
           }
           break;
 
@@ -119,10 +119,10 @@ class Scanner {
           advance();
           if (peek() == '=') {
             tokens.add(
-                Token(type: TokenTypes.bangEqual, lexeme: '!=', line: line));
+                Token(type: TokenType.bangEqual, lexeme: '!=', line: line));
             advance();
           } else {
-            tokens.add(Token(type: TokenTypes.bang, lexeme: '!', line: line));
+            tokens.add(Token(type: TokenType.bang, lexeme: '!', line: line));
           }
           break;
 
@@ -163,7 +163,7 @@ class Scanner {
     }
 
     return Token(
-        type: TokenTypes.string, lexeme: '"$value"', value: value, line: line);
+        type: TokenType.string, lexeme: '"$value"', value: value, line: line);
   }
 
   Token number() {
@@ -187,7 +187,7 @@ class Scanner {
     } while (peek().isNotEmpty);
 
     return Token(
-        type: TokenTypes.number, lexeme: value, value: value, line: line);
+        type: TokenType.number, lexeme: value, value: value, line: line);
   }
 
   Token identifier() {
@@ -198,8 +198,8 @@ class Scanner {
       advance();
     } while (peek().isNotEmpty && isAlphaNumeric());
 
-    TokenTypes? type = getKeyword(value);
-    type ??= TokenTypes.identifier;
+    TokenType? type = getKeyword(value);
+    type ??= TokenType.identifier;
 
     return Token(type: type, lexeme: value, value: value, line: line);
   }
@@ -229,8 +229,8 @@ class Scanner {
     return alphanumeric.hasMatch(peek());
   }
 
-  TokenTypes? getKeyword(String value) {
-    Iterable<TokenTypes> results = TokenTypes.values
+  TokenType? getKeyword(String value) {
+    Iterable<TokenType> results = TokenType.values
         .where((element) => element.name.substring(0, 2) == 'kw')
         .where((element) => element.name.substring(2).toLowerCase() == value);
 

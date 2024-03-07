@@ -1,4 +1,4 @@
-enum TokenTypes {
+enum TokenType {
   bang,
   bangEqual,
   braceLeft,
@@ -38,7 +38,7 @@ enum TokenTypes {
 }
 
 class Token {
-  final TokenTypes type;
+  final TokenType type;
   final String lexeme;
   final int line;
   final Object? value;
@@ -47,6 +47,6 @@ class Token {
 
   @override
   String toString() {
-    return '<$type | $lexeme | $value | line: $line  >';
+    return '<${type.name} $lexeme $value>';
   }
 }
