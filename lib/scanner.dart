@@ -122,6 +122,9 @@ class Scanner {
             tokens.add(number());
           } else if (isAlphaNumeric()) {
             tokens.add(identifier());
+          } else {
+            errors.add(ScanError('Unexpected character.'));
+            advance();
           }
       }
     }
