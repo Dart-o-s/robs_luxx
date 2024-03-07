@@ -118,6 +118,8 @@ class Scanner {
         default:
           if (isNumeric()) {
             tokens.add(number());
+          } else if (isAlphaNumeric()) {
+            tokens.add(identifier());
           }
       }
     }
@@ -144,7 +146,7 @@ class Scanner {
       errors.add(ScanError('Closing \'"\' expected.'));
     }
 
-    return Token(type: TokenTypes.string, lexeme: '"$value"',  value: value);
+    return Token(type: TokenTypes.string, lexeme: '"$value"', value: value);
   }
 
   Token number() {
@@ -170,6 +172,20 @@ class Scanner {
     return Token(type: TokenTypes.number, lexeme: value, value: value);
   }
 
+  Token identifier() {
+    String value = '';
+
+    do {
+      value += peek();
+      advance();
+    } while (peek().isNotEmpty && isAlphaNumeric());
+
+    TokenTypes? type = getKeyword(value);
+    type ??= TokenTypes.identifier;
+
+    return Token(type: type, lexeme: value, value: value);
+  }
+
   void advance() {
     _pos++;
   }
@@ -188,6 +204,23 @@ class Scanner {
 
   bool isNumeric() {
     return int.tryParse(peek()) != null;
+  }
+
+  bool isAlphaNumeric() {
+    final alphanumeric = RegExp(r'^[a-zA-Z0-9]+$');
+    return alphanumeric.hasMatch(peek());
+  }
+
+  TokenTypes? getKeyword(String value) {
+    Iterable<TokenTypes> results = TokenTypes.values
+        .where((element) => element.name.substring(0, 2) == 'kw')
+        .where((element) => element.name.substring(2).toLowerCase() == value);
+
+    if (results.isNotEmpty) {
+      return results.first;
+    } else {
+      return null;
+    }
   }
 }
 
