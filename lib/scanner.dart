@@ -9,18 +9,18 @@ class Scanner {
   int line = 1;
 
   final Map<String, TokenType> _keywords = {
-    'and': TokenType.kwAnd,
-    'false': TokenType.kwFalse,
-    'for': TokenType.kwFor,
-    'fun': TokenType.kwFun,
-    'if': TokenType.kwIf,
+    'and': TokenType.and,
+    'false': TokenType.false$,
+    'for': TokenType.for$,
+    'fun': TokenType.fun,
+    'if': TokenType.if$,
     'nil': TokenType.nil,
-    'or': TokenType.kwOr,
-    'print': TokenType.kwPrint,
-    'return': TokenType.kwReturn,
-    'true': TokenType.kwTrue,
-    'var': TokenType.kwVar,
-    'while': TokenType.kwWhile,
+    'or': TokenType.or,
+    'print': TokenType.print,
+    'return': TokenType.return$,
+    'true': TokenType.true$,
+    'var': TokenType.var$,
+    'while': TokenType.while$,
   };
 
   Scanner(this.input);
