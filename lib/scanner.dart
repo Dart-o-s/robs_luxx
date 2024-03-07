@@ -8,6 +8,21 @@ class Scanner {
   int _pos = 0;
   int line = 1;
 
+  final Map<String, TokenType> _keywords = {
+    'and': TokenType.kwAnd,
+    'false': TokenType.kwFalse,
+    'for': TokenType.kwFor,
+    'fun': TokenType.kwFun,
+    'if': TokenType.kwIf,
+    'nil': TokenType.nil,
+    'or': TokenType.kwOr,
+    'print': TokenType.kwPrint,
+    'return': TokenType.kwReturn,
+    'true': TokenType.kwTrue,
+    'var': TokenType.kwVar,
+    'while': TokenType.kwWhile,
+  };
+
   Scanner(this.input);
 
   List<Token> scan() {
@@ -192,7 +207,7 @@ class Scanner {
       advance();
     } while (peek().isNotEmpty && isAlphaNumeric());
 
-    TokenType? type = getKeyword(value);
+    TokenType? type = _keywords[value];
     type ??= TokenType.identifier;
 
     return Token(type: type, lexeme: value, value: value, line: line);
@@ -221,18 +236,6 @@ class Scanner {
   bool isAlphaNumeric() {
     final alphanumeric = RegExp(r'^[a-zA-Z0-9]+$');
     return alphanumeric.hasMatch(peek());
-  }
-
-  TokenType? getKeyword(String value) {
-    Iterable<TokenType> results = TokenType.values
-        .where((element) => element.name.substring(0, 2) == 'kw')
-        .where((element) => element.name.substring(2).toLowerCase() == value);
-
-    if (results.isNotEmpty) {
-      return results.first;
-    } else {
-      return null;
-    }
   }
 }
 
