@@ -135,7 +135,7 @@ class Scanner {
           if (isNumeric()) {
             number();
           } else if (isAlphaNumeric()) {
-            tokens.add(identifier());
+            identifier();
           } else {
             errors.add(ScanError('Unexpected character "${peek()}" found.'));
             advance();
@@ -197,7 +197,7 @@ class Scanner {
         Token(type: TokenType.number, lexeme: value, value: double.parse(value), line: line));
   }
 
-  Token identifier() {
+  void identifier() {
     String value = '';
 
     do {
@@ -208,7 +208,7 @@ class Scanner {
     TokenType? type = _keywords[value];
     type ??= TokenType.identifier;
 
-    return Token(type: type, lexeme: value, value: value, line: line);
+    tokens.add(Token(type: type, lexeme: value, line: line));
   }
 
   void advance() {
