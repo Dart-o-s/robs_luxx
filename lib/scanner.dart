@@ -114,6 +114,11 @@ class Scanner {
           tokens.add(string());
           advance();
           break;
+
+        default:
+          if (isNumeric()) {
+            tokens.add(number());
+          }
       }
     }
 
@@ -142,6 +147,29 @@ class Scanner {
     return Token(type: TokenTypes.string, lexeme: '"$value"',  value: value);
   }
 
+  Token number() {
+    String value = '';
+    bool hasDecimal = false;
+
+    do {
+      value += peek();
+      advance();
+
+      if (!isNumeric()) {
+        if (peek() == '.' && !hasDecimal) {
+          hasDecimal = true;
+        } else if (peek() == ".") {
+          errors.add(ScanError('Unexpected decimal point found.'));
+          advance();
+        } else {
+          break;
+        }
+      }
+    } while (peek().isNotEmpty);
+
+    return Token(type: TokenTypes.number, lexeme: value, value: value);
+  }
+
   void advance() {
     _pos++;
   }
@@ -156,6 +184,10 @@ class Scanner {
 
   bool isOutOfRange() {
     return _pos >= input.length;
+  }
+
+  bool isNumeric() {
+    return int.tryParse(peek()) != null;
   }
 }
 
