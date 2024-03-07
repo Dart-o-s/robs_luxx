@@ -69,6 +69,46 @@ class Scanner {
             tokens.add(Token(type: TokenTypes.division, lexeme: '/'));
           }
           break;
+
+        case '<':
+          advance();
+          if (peek() == '=') {
+            advance();
+            tokens.add(Token(type: TokenTypes.lessEqual, lexeme: '<='));
+          } else {
+            tokens.add(Token(type: TokenTypes.less, lexeme: '<'));
+          }
+          break;
+
+        case '>':
+          advance();
+          if (peek() == '=') {
+            tokens.add(Token(type: TokenTypes.greaterEqual, lexeme: '>='));
+            advance();
+          } else {
+            tokens.add(Token(type: TokenTypes.greater, lexeme: '>'));
+          }
+          break;
+
+        case '=':
+          advance();
+          if (peek() == '=') {
+            tokens.add(Token(type: TokenTypes.equalEqual, lexeme: '=='));
+            advance();
+          } else {
+            tokens.add(Token(type: TokenTypes.equal, lexeme: '='));
+          }
+          break;
+
+        case '!':
+          advance();
+          if (peek() == '=') {
+            tokens.add(Token(type: TokenTypes.bangEqual, lexeme: '!='));
+            advance();
+          } else {
+            tokens.add(Token(type: TokenTypes.bang, lexeme: '!'));
+          }
+          break;
       }
     }
 
