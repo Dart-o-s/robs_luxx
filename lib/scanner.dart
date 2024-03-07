@@ -133,11 +133,11 @@ class Scanner {
 
         default:
           if (isNumeric()) {
-            tokens.add(number());
+            number();
           } else if (isAlphaNumeric()) {
             tokens.add(identifier());
           } else {
-            errors.add(ScanError('Unexpected character.'));
+            errors.add(ScanError('Unexpected character "${peek()}" found.'));
             advance();
           }
       }
@@ -176,7 +176,7 @@ class Scanner {
         type: TokenType.string, lexeme: '"$value"', value: value, line: line));
   }
 
-  Token number() {
+  void number() {
     String value = '';
     bool hasDecimal = false;
 
@@ -187,17 +187,14 @@ class Scanner {
       if (!isNumeric()) {
         if (peek() == '.' && !hasDecimal) {
           hasDecimal = true;
-        } else if (peek() == ".") {
-          errors.add(ScanError('Unexpected decimal point found.'));
-          advance();
         } else {
           break;
         }
       }
     } while (peek().isNotEmpty);
 
-    return Token(
-        type: TokenType.number, lexeme: value, value: value, line: line);
+    tokens.add(
+        Token(type: TokenType.number, lexeme: value, value: double.parse(value), line: line));
   }
 
   Token identifier() {
