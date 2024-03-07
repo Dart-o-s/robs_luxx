@@ -90,8 +90,8 @@ class Scanner {
         case '<':
           advance();
           if (peek() == '=') {
-            advance();
             addToken(TokenType.lessEqual, '<=');
+            advance();
           } else {
             addToken(TokenType.less, '<');
           }
@@ -128,8 +128,7 @@ class Scanner {
           break;
 
         case '"':
-          tokens.add(string());
-          advance();
+          string();
           break;
 
         default:
@@ -158,7 +157,7 @@ class Scanner {
     } while (peek().isNotEmpty && peek() != '\n');
   }
 
-  Token string() {
+  void string() {
     advance();
 
     String value = '';
@@ -169,10 +168,12 @@ class Scanner {
 
     if (peek().isEmpty) {
       errors.add(ScanError('Closing \'"\' expected.'));
+    } else {
+      advance();
     }
 
-    return Token(
-        type: TokenType.string, lexeme: '"$value"', value: value, line: line);
+    tokens.add(Token(
+        type: TokenType.string, lexeme: '"$value"', value: value, line: line));
   }
 
   Token number() {
