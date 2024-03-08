@@ -90,7 +90,7 @@ class Parser {
       Expr expr = expression();
       confirm(TokenType.parenRight, 'Closing ")" expected.');
 
-      return expr;
+      return Grouping(expr);
     } else {
       Expr expr = Literal(peek().value);
       advance();
