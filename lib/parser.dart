@@ -1,4 +1,5 @@
 import 'package:lox_dart/lox_dart.dart';
+import 'package:lox_dart/token.dart';
 
 class Parser {
   final List<Token> input;
@@ -20,8 +21,7 @@ class Parser {
     Expr expr = comparison();
 
     while (match([TokenType.bangEqual, TokenType.equalEqual])) {
-      Token operator = peek();
-      advance();
+      Token operator = peekAndAdvance();
       Expr right = comparison();
       expr = Binary(expr, operator, right);
     }
@@ -38,8 +38,7 @@ class Parser {
       TokenType.less,
       TokenType.lessEqual
     ])) {
-      Token operator = peek();
-      advance();
+      Token operator = peekAndAdvance();
       Expr right = term();
       expr = Binary(expr, operator, right);
     }
@@ -51,8 +50,7 @@ class Parser {
     Expr expr = factor();
 
     while (match([TokenType.minus, TokenType.plus])) {
-      Token operator = peek();
-      advance();
+      Token operator = peekAndAdvance();
       Expr right = factor();
       expr = Binary(expr, operator, right);
     }
@@ -64,8 +62,7 @@ class Parser {
     Expr expr = unary();
 
     while (match([TokenType.division, TokenType.product])) {
-      Token operator = peek();
-      advance();
+      Token operator = peekAndAdvance();
       Expr right = unary();
       expr = Binary(expr, operator, right);
     }
@@ -75,8 +72,7 @@ class Parser {
 
   Expr unary() {
     if (match([TokenType.bang, TokenType.minus])) {
-      Token operator = peek();
-      advance();
+      Token operator = peekAndAdvance();
       Expr operand = unary();
       return Unary(operator, operand);
     } else {
@@ -92,8 +88,7 @@ class Parser {
 
       return Grouping(expr);
     } else {
-      Expr expr = Literal(peek().value);
-      advance();
+      Expr expr = Literal(peekAndAdvance().value);
       return expr;
     }
   }
@@ -114,6 +109,12 @@ class Parser {
 
   Token peek() {
     return input[_pos];
+  }
+
+  Token peekAndAdvance() {
+    Token token = peek();
+    advance();
+    return token;
   }
 }
 
