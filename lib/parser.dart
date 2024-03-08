@@ -1,13 +1,12 @@
 import 'package:lox_dart/lox_dart.dart';
-import 'package:lox_dart/token.dart';
 
 class Parser {
-  final List<Token> input;
+  final List<Token> tokens;
   final List<ParseError> errors = [];
 
   int _pos = 0;
 
-  Parser(this.input);
+  Parser(this.tokens);
 
   Expr parse() {
     return expression();
@@ -85,7 +84,7 @@ class Parser {
       advance();
       Expr expr = expression();
       confirm(TokenType.parenRight, 'Closing ")" expected.');
-
+      advance();
       return Grouping(expr);
     } else {
       Expr expr = Literal(peekAndAdvance().value);
@@ -104,11 +103,11 @@ class Parser {
   }
 
   bool match(List<TokenType> types) {
-    return types.contains(input[_pos].type);
+    return types.contains(tokens[_pos].type);
   }
 
   Token peek() {
-    return input[_pos];
+    return tokens[_pos];
   }
 
   Token peekAndAdvance() {
