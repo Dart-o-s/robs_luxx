@@ -35,7 +35,7 @@ class Grouping extends Expr {
 
 class Literal extends Expr {
   Literal(this.value);
-  final Object value;
+  final Object? value;
 
   @override
   T accept<T>(Visitor<T> visitor) {
