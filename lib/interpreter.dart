@@ -35,49 +35,35 @@ class Interpreter extends xp.Visitor<Object?> {
           return left + right;
         }
         throw InterpretError(
-            'Both values must be string or number', expr.operator.line);
+            'Both values must be strings or numbers', expr.operator.line);
 
       case TokenType.minus:
-        if (left is double && right is double) {
-          return left - right;
-        }
-        throw InterpretError('Both values must be number', expr.operator.line);
+        _checkNumberOperands(expr.operator, [left, right]);
+        return (left as double) - (right as double);
 
       case TokenType.star:
-        if (left is double && right is double) {
-          return left * right;
-        }
-        throw InterpretError('Both values must be number', expr.operator.line);
+        _checkNumberOperands(expr.operator, [left, right]);
+        return (left as double) * (right as double);
 
       case TokenType.slash:
-        if (left is double && right is double) {
-          return left / right;
-        }
-        throw InterpretError('Both values must be number', expr.operator.line);
+        _checkNumberOperands(expr.operator, [left, right]);
+        return (left as double) / (right as double);
 
       case TokenType.greater:
-        if (left is double && right is double) {
-          return left > right;
-        }
-        throw InterpretError('Both values must be number', expr.operator.line);
+        _checkNumberOperands(expr.operator, [left, right]);
+        return (left as double) > (right as double);
 
       case TokenType.greaterEqual:
-        if (left is double && right is double) {
-          return left >= right;
-        }
-        throw InterpretError('Both values must be number', expr.operator.line);
+        _checkNumberOperands(expr.operator, [left, right]);
+        return (left as double) >= (right as double);
 
       case TokenType.less:
-        if (left is double && right is double) {
-          return left < right;
-        }
-        throw InterpretError('Both values must be number', expr.operator.line);
+        _checkNumberOperands(expr.operator, [left, right]);
+        return (left as double) < (right as double);
 
       case TokenType.lessEqual:
-        if (left is double && right is double) {
-          return left <= right;
-        }
-        throw InterpretError('Both values must be number', expr.operator.line);
+        _checkNumberOperands(expr.operator, [left, right]);
+        return (left as double) <= (right as double);
 
       case TokenType.equalEqual:
         return left == right;
@@ -123,6 +109,15 @@ class Interpreter extends xp.Visitor<Object?> {
     if (object == null) return false;
     if (object is bool) return object;
     return true;
+  }
+
+  void _checkNumberOperands(Token token, List<Object?> operands) {
+    final allNumbers = operands.fold(
+        true, (previousValue, element) => previousValue && (element is double));
+
+    if (!allNumbers) {
+      throw InterpretError('Operands must be numbers', token.line);
+    }
   }
 }
 
