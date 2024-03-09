@@ -40,8 +40,8 @@ void run(String input) {
   if (scanner.errors.isNotEmpty) {
     hadError = true;
 
-    for (var error in scanner.errors) {
-      print(error.description);
+    for (var err in scanner.errors) {
+      error(err.line, '', err.description);
     }
   }
 
@@ -55,8 +55,8 @@ void run(String input) {
   if (parser.errors.isNotEmpty) {
     hadError = true;
 
-    for (var error in parser.errors) {
-      print(error.description);
+    for (var err in parser.errors) {
+      error(err.line, '', err.description);
     }
   }
 

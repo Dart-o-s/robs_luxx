@@ -103,7 +103,7 @@ class Parser {
 
         default:
           final msg = 'Token ${peek().type} cannot be parse, yet.';
-          errors.add(ParseError(msg));
+          errors.add(ParseError(msg, peek().line));
           return Literal(null);
       }
     }
@@ -111,7 +111,7 @@ class Parser {
 
   void confirm(TokenType type, String msg) {
     if (peek().type != type) {
-      errors.add(ParseError(msg));
+      errors.add(ParseError(msg, peek().line));
     }
   }
 
@@ -136,6 +136,7 @@ class Parser {
 
 class ParseError extends Error {
   final String description;
+  final int line;
 
-  ParseError(this.description);
+  ParseError(this.description, this.line);
 }

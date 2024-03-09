@@ -137,7 +137,7 @@ class Scanner {
           } else if (isAlphaNumeric()) {
             identifier();
           } else {
-            errors.add(ScanError('Unexpected character "${peek()}" found.'));
+            errors.add(ScanError('Unexpected character "${peek()}" found', line));
             advance();
           }
       }
@@ -167,7 +167,7 @@ class Scanner {
     }
 
     if (peek().isEmpty) {
-      errors.add(ScanError('Closing \'"\' expected.'));
+      errors.add(ScanError('Closing \'"\' expected', line));
     } else {
       advance();
     }
@@ -193,8 +193,11 @@ class Scanner {
       }
     } while (peek().isNotEmpty);
 
-    tokens.add(
-        Token(type: TokenType.number, lexeme: value, value: double.parse(value), line: line));
+    tokens.add(Token(
+        type: TokenType.number,
+        lexeme: value,
+        value: double.parse(value),
+        line: line));
   }
 
   void identifier() {
@@ -239,6 +242,7 @@ class Scanner {
 
 class ScanError extends Error {
   final String description;
+  final int line;
 
-  ScanError(this.description);
+  ScanError(this.description, this.line);
 }
