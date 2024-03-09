@@ -83,7 +83,7 @@ class Scanner {
           if (peek() == '/') {
             comment();
           } else {
-            addToken(TokenType.division, '/');
+            addToken(TokenType.slash, '/');
           }
           break;
 
