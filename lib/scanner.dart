@@ -49,7 +49,7 @@ class Scanner {
           break;
 
         case '*':
-          addToken(TokenType.product, '*');
+          addToken(TokenType.star, '*');
           advance();
           break;
 

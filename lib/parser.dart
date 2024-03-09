@@ -69,7 +69,7 @@ class Parser {
   Expr factor() {
     Expr expr = unary();
 
-    while (match([TokenType.slash, TokenType.product])) {
+    while (match([TokenType.slash, TokenType.star])) {
       Token operator = peekAndAdvance();
       Expr right = unary();
       expr = Binary(expr, operator, right);
