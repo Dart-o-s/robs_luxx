@@ -36,10 +36,6 @@ void runFile(String filename) {
 void run(String input) {
   final scanner = Scanner(input);
   List<Token> tokens = scanner.scan();
-  final parser = Parser(tokens);
-  Expr expression = parser.parse();
-
-  print(AstPrinter().print(expression));
 
   if (scanner.errors.isNotEmpty) {
     hadError = true;
@@ -49,7 +45,16 @@ void run(String input) {
     }
   }
 
-  if (!hadError && parser.errors.isNotEmpty) {
+  if (hadError) exit(65);
+
+  final parser = Parser(tokens);
+  Expr expression = parser.parse();
+
+  print(AstPrinter().print(expression));
+
+  if (parser.errors.isNotEmpty) {
+    hadError = true;
+
     for (var error in parser.errors) {
       print(error.description);
     }

@@ -87,8 +87,25 @@ class Parser {
       advance();
       return Grouping(expr);
     } else {
-      Expr expr = Literal(peekAndAdvance().value);
-      return expr;
+      switch (peek().type) {
+        case TokenType.number:
+        case TokenType.string:
+          return Literal(peekAndAdvance().value);
+        case TokenType.true$:
+          advance();
+          return Literal(true);
+        case TokenType.false$:
+          advance();
+          return Literal(false);
+        case TokenType.nil:
+          advance();
+          return Literal(null);
+
+        default:
+          final msg = 'Token ${peek().type} cannot be parse, yet.';
+          errors.add(ParseError(msg));
+          return Literal(null);
+      }
     }
   }
 
