@@ -4,27 +4,27 @@ import 'package:lox_dart/lox_dart.dart';
 class Interpreter extends xp.Visitor<Object?> {
   List<InterpretError> errors = [];
 
-  Object? interpret(xp.Expr expr) {
-    Object? result;
-
+  void interpret(xp.Expr expr) {
     try {
-      result = expr.accept(this);
+      Object? result = evaluate(expr);
+      print(stringify(result));
     } catch (e) {
       if (e is! InterpretError) {
         errors.add(InterpretError(e.toString(), 1));
       } else {
         errors.add(e);
       }
-      return null;
     }
+  }
 
-    return result;
+  Object? evaluate(xp.Expr expr) {
+    return expr.accept(this);
   }
 
   @override
   Object? visitBinaryExpr(xp.Binary expr) {
-    final left = interpret(expr.left);
-    final right = interpret(expr.right);
+    final left = evaluate(expr.left);
+    final right = evaluate(expr.right);
 
     switch (expr.operator.type) {
       case TokenType.plus:
@@ -78,12 +78,12 @@ class Interpreter extends xp.Visitor<Object?> {
 
   @override
   Object? visitGroupingExpr(xp.Grouping expr) {
-    return interpret(expr.expression);
+    return evaluate(expr.expression);
   }
 
   @override
   Object? visitUnaryExpr(xp.Unary expr) {
-    final right = interpret(expr.right);
+    final right = evaluate(expr.right);
 
     switch (expr.operator.type) {
       case TokenType.bang:
@@ -118,6 +118,20 @@ class Interpreter extends xp.Visitor<Object?> {
     if (!allNumbers) {
       throw InterpretError('Operands must be numbers', token.line);
     }
+  }
+
+  String stringify(Object? object) {
+    if (object == null) return 'nil';
+
+    if (object is double) {
+      var text = object.toString();
+      if (text.endsWith('.0')) {
+        text = text.substring(0, text.length - 2);
+      }
+      return text;
+    }
+
+    return object.toString();
   }
 }
 

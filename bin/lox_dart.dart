@@ -55,7 +55,7 @@ void run(String input) {
   print(AstPrinter().print(expression!));
 
   final interpreter = Interpreter();
-  Object? result = interpreter.interpret(expression);
+  interpreter.interpret(expression);
 
   if (interpreter.errors.isNotEmpty) {
     for (var err in interpreter.errors) {
@@ -64,8 +64,6 @@ void run(String input) {
 
     exit(65);
   }
-
-  print(result);
 }
 
 void error(int line, String where, String message) {
