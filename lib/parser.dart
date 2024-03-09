@@ -92,8 +92,7 @@ class Parser {
     if (match([TokenType.parenLeft])) {
       advance();
       Expr expr = expression();
-      confirm(TokenType.parenRight, 'Closing ")" expected.');
-      advance();
+      confirmAndAdvance(TokenType.parenRight, 'Closing ")" expected.');
       return Grouping(expr);
     } else {
       switch (peek().type) {
@@ -117,9 +116,11 @@ class Parser {
     }
   }
 
-  void confirm(TokenType type, String msg) {
+  void confirmAndAdvance(TokenType type, String msg) {
     if (peek().type != type) {
       throw ParseError(msg, peek().line);
+    } else {
+      advance();
     }
   }
 
