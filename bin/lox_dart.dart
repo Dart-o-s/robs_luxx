@@ -3,8 +3,6 @@ import 'package:lox_dart/ast_printer.dart';
 import 'package:lox_dart/lox_dart.dart';
 import 'package:lox_dart/parser.dart';
 
-bool hadError = false;
-
 void main(List<String> arguments) {
   if (arguments.length > 1) {
     stdout.writeln('Usage: dart run lox_dart [file]');
@@ -38,32 +36,27 @@ void run(String input) {
   List<Token> tokens = scanner.scan();
 
   if (scanner.errors.isNotEmpty) {
-    hadError = true;
-
     for (var err in scanner.errors) {
       error(err.line, '', err.description);
     }
+
+    exit(65);
   }
 
-  if (hadError) exit(65);
-
   final parser = Parser(tokens);
-  Expr expression = parser.parse();
-
-  print(AstPrinter().print(expression));
+  Expr? expression = parser.parse();
 
   if (parser.errors.isNotEmpty) {
-    hadError = true;
-
     for (var err in parser.errors) {
       error(err.line, '', err.description);
     }
+
+    exit(65);
   }
 
-  if (hadError) exit(65);
+  print(AstPrinter().print(expression!));
 }
 
 void error(int line, String where, String message) {
   print('[line $line] Error $where: $message');
-  hadError = true;
 }

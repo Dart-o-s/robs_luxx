@@ -8,8 +8,17 @@ class Parser {
 
   Parser(this.tokens);
 
-  Expr parse() {
-    return expression();
+  Expr? parse() {
+    Expr? expr;
+
+    try {
+      expr = expression();
+    } catch (e) {
+      errors.add(e as ParseError);
+      return null;
+    }
+
+    return expr;
   }
 
   Expr expression() {
@@ -103,15 +112,14 @@ class Parser {
 
         default:
           final msg = 'Token ${peek().type} cannot be parse, yet.';
-          errors.add(ParseError(msg, peek().line));
-          return Literal(null);
+          throw ParseError(msg, peek().line);
       }
     }
   }
 
   void confirm(TokenType type, String msg) {
     if (peek().type != type) {
-      errors.add(ParseError(msg, peek().line));
+      throw ParseError(msg, peek().line);
     }
   }
 
