@@ -1,7 +1,5 @@
 import 'dart:io';
-import 'package:lox_dart/ast_printer.dart';
 import 'package:lox_dart/lox_dart.dart';
-import 'package:lox_dart/parser.dart';
 
 void main(List<String> arguments) {
   if (arguments.length > 1) {
@@ -55,6 +53,19 @@ void run(String input) {
   }
 
   print(AstPrinter().print(expression!));
+
+  final interpreter = Interpreter();
+  Object? result = interpreter.interpret(expression);
+
+  if (interpreter.errors.isNotEmpty) {
+    for (var err in interpreter.errors) {
+      error(err.line, '', err.description);
+    }
+
+    exit(65);
+  }
+
+  print(result);
 }
 
 void error(int line, String where, String message) {
