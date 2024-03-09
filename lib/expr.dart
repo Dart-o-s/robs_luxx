@@ -1,4 +1,4 @@
-import 'package:lox_dart/token.dart';
+import 'package:lox_dart/lox_dart.dart';
 
 abstract class Expr {
   T accept<T>(ExprVisitor<T> visitor);

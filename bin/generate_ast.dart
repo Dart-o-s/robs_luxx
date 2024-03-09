@@ -14,13 +14,17 @@ void main(List<String> arguments) {
     "Literal: Object? value",
     "Unary: Token operator, Expr right",
   ]);
+  defineAst(outputDir, "Stmt", [
+    "ExprStmt: Expr expression",
+    "Print: Expr expression",
+  ]);
 }
 
 void defineAst(String outputDir, String baseName, List<String> types) {
   String path = '$outputDir/${baseName.toLowerCase()}.dart';
   final file = File(path);
   final sink = file.openWrite();
-  sink.writeln('import \'package:lox_dart/token.dart\';');
+  sink.writeln('import \'package:lox_dart/lox_dart.dart\';');
   sink.writeln();
   sink.writeln('abstract class $baseName {');
   sink.writeln('  T accept<T>(${baseName}Visitor<T> visitor);');
