@@ -1,10 +1,9 @@
-import 'package:lox_dart/expr.dart' as xp;
 import 'package:lox_dart/lox_dart.dart';
 
-class Interpreter extends xp.Visitor<Object?> {
+class Interpreter extends ExprVisitor<Object?> {
   List<InterpretError> errors = [];
 
-  void interpret(xp.Expr expr) {
+  void interpret(Expr expr) {
     try {
       Object? result = evaluate(expr);
       print(stringify(result));
@@ -17,12 +16,12 @@ class Interpreter extends xp.Visitor<Object?> {
     }
   }
 
-  Object? evaluate(xp.Expr expr) {
+  Object? evaluate(Expr expr) {
     return expr.accept(this);
   }
 
   @override
-  Object? visitBinaryExpr(xp.Binary expr) {
+  Object? visitBinaryExpr(Binary expr) {
     final left = evaluate(expr.left);
     final right = evaluate(expr.right);
 
@@ -77,12 +76,12 @@ class Interpreter extends xp.Visitor<Object?> {
   }
 
   @override
-  Object? visitGroupingExpr(xp.Grouping expr) {
+  Object? visitGroupingExpr(Grouping expr) {
     return evaluate(expr.expression);
   }
 
   @override
-  Object? visitUnaryExpr(xp.Unary expr) {
+  Object? visitUnaryExpr(Unary expr) {
     final right = evaluate(expr.right);
 
     switch (expr.operator.type) {
@@ -101,7 +100,7 @@ class Interpreter extends xp.Visitor<Object?> {
   }
 
   @override
-  Object? visitLiteralExpr(xp.Literal expr) {
+  Object? visitLiteralExpr(Literal expr) {
     return expr.value;
   }
 

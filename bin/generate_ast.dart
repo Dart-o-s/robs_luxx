@@ -23,7 +23,7 @@ void defineAst(String outputDir, String baseName, List<String> types) {
   sink.writeln('import \'package:lox_dart/token.dart\';');
   sink.writeln();
   sink.writeln('abstract class $baseName {');
-  sink.writeln('  T accept<T>(Visitor<T> visitor);');
+  sink.writeln('  T accept<T>(${baseName}Visitor<T> visitor);');
   sink.writeln('}');
   sink.writeln();
   defineVisitor(sink, baseName, types);
@@ -41,7 +41,7 @@ void defineAst(String outputDir, String baseName, List<String> types) {
 }
 
 void defineVisitor(IOSink sink, String baseName, List<String> types) {
-  sink.writeln('abstract class Visitor<T> {');
+  sink.writeln('abstract class ${baseName}Visitor<T> {');
 
   for (String type in types) {
     String typeName = type.split(':')[0].trim();
@@ -66,7 +66,7 @@ void defineType(IOSink sink, String baseName, String className,
 
   sink.writeln();
   sink.writeln('  @override');
-  sink.writeln('  T accept<T>(Visitor<T> visitor) {');
+  sink.writeln('  T accept<T>(${baseName}Visitor<T> visitor) {');
   sink.writeln('    return visitor.visit$className$baseName(this);');
   sink.writeln('  }');
 

@@ -1,10 +1,10 @@
 import 'package:lox_dart/token.dart';
 
 abstract class Expr {
-  T accept<T>(Visitor<T> visitor);
+  T accept<T>(ExprVisitor<T> visitor);
 }
 
-abstract class Visitor<T> {
+abstract class ExprVisitor<T> {
   T visitBinaryExpr(Binary expr);
   T visitGroupingExpr(Grouping expr);
   T visitLiteralExpr(Literal expr);
@@ -18,7 +18,7 @@ class Binary extends Expr {
   final Expr right;
 
   @override
-  T accept<T>(Visitor<T> visitor) {
+  T accept<T>(ExprVisitor<T> visitor) {
     return visitor.visitBinaryExpr(this);
   }
 }
@@ -28,7 +28,7 @@ class Grouping extends Expr {
   final Expr expression;
 
   @override
-  T accept<T>(Visitor<T> visitor) {
+  T accept<T>(ExprVisitor<T> visitor) {
     return visitor.visitGroupingExpr(this);
   }
 }
@@ -38,7 +38,7 @@ class Literal extends Expr {
   final Object? value;
 
   @override
-  T accept<T>(Visitor<T> visitor) {
+  T accept<T>(ExprVisitor<T> visitor) {
     return visitor.visitLiteralExpr(this);
   }
 }
@@ -49,7 +49,7 @@ class Unary extends Expr {
   final Expr right;
 
   @override
-  T accept<T>(Visitor<T> visitor) {
+  T accept<T>(ExprVisitor<T> visitor) {
     return visitor.visitUnaryExpr(this);
   }
 }
