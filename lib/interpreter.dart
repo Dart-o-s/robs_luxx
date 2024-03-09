@@ -80,16 +80,10 @@ class Interpreter extends xp.Visitor<Object?> {
         throw InterpretError('Both values must be number', expr.operator.line);
 
       case TokenType.equalEqual:
-        if (left is double && right is double) {
-          return left == right;
-        }
-        throw InterpretError('Both values must be number', expr.operator.line);
+        return _isEqual(left, right);
 
       case TokenType.bangEqual:
-        if (left is double && right is double) {
-          return left != right;
-        }
-        throw InterpretError('Both values must be number', expr.operator.line);
+        return !_isEqual(left, right);
 
       default:
         throw InterpretError('Unrecognized expression', expr.operator.line);
@@ -129,6 +123,12 @@ class Interpreter extends xp.Visitor<Object?> {
     if (object == null) return false;
     if (object is bool) return object;
     return true;
+  }
+
+  bool _isEqual(Object? a, Object? b) {
+    if (a == null && b == null) return true;
+    if (a == null) return false;
+    return a == b;
   }
 }
 
