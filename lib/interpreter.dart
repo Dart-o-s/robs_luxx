@@ -10,7 +10,11 @@ class Interpreter extends xp.Visitor<Object?> {
     try {
       result = expr.accept(this);
     } catch (e) {
-      errors.add(e as InterpretError);
+      if (e is! InterpretError) {
+        errors.add(InterpretError(e.toString(), 1));
+      } else {
+        errors.add(e);
+      }
       return null;
     }
 
@@ -103,10 +107,7 @@ class Interpreter extends xp.Visitor<Object?> {
 
     switch (expr.operator.type) {
       case TokenType.bang:
-        if (right is bool) {
-          return !right;
-        }
-        throw InterpretError('Value must be boolean', expr.operator.line);
+        return !_isTruthy(right);
 
       case TokenType.minus:
         if (right is double) {
@@ -122,6 +123,12 @@ class Interpreter extends xp.Visitor<Object?> {
   @override
   Object? visitLiteralExpr(xp.Literal expr) {
     return expr.value;
+  }
+
+  bool _isTruthy(Object? object) {
+    if (object == null) return false;
+    if (object is bool) return object;
+    return true;
   }
 }
 
