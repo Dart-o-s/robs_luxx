@@ -132,6 +132,24 @@ class Parser {
     advance();
     return token;
   }
+
+  void synchronize() {
+    advance();
+
+    while (!match([TokenType.eof])) {
+      if (match([
+        TokenType.semicolon,
+        TokenType.fun,
+        TokenType.var$,
+        TokenType.for$,
+        TokenType.if$,
+        TokenType.while$,
+        TokenType.print,
+        TokenType.return$
+      ])) return;
+      advance();
+    }
+  }
 }
 
 class ParseError extends Error {
