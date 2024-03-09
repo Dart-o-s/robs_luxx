@@ -1,6 +1,9 @@
 import 'dart:io';
 import 'package:lox_dart/lox_dart.dart';
 
+bool hadError = true;
+bool hadRuntimeError = true;
+
 void main(List<String> arguments) {
   if (arguments.length > 1) {
     stdout.writeln('Usage: dart run lox_dart [file]');
@@ -20,12 +23,17 @@ void runRepl() {
     run(input);
     stdout.write('> ');
     input = stdin.readLineSync();
+
+    hadError = false;
+    hadRuntimeError = false;
   }
 }
 
 void runFile(String filename) {
   File(filename).readAsString().then((input) {
     run(input);
+    if (hadError) exit(65);
+    if (hadRuntimeError) exit(70);
   });
 }
 
@@ -38,7 +46,7 @@ void run(String input) {
       error(err.line, '', err.description);
     }
 
-    exit(65);
+    hadError = true;
   }
 
   final parser = Parser(tokens);
@@ -62,7 +70,7 @@ void run(String input) {
       error(err.line, '', err.description);
     }
 
-    exit(65);
+    hadRuntimeError = true;
   }
 }
 
