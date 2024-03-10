@@ -33,13 +33,13 @@ class Parser {
   Stmt printStmt() {
     advance();
     Expr expr = expression();
-    confirmAndAdvance(TokenType.semicolon, 'Semicolon expected.');
+    confirmAndAdvance(TokenType.semicolon, 'Expect ";" after value.');
     return Print(expr);
   }
 
   Stmt expressionStmt() {
     Expr expr = expression();
-    confirmAndAdvance(TokenType.semicolon, 'Semicolon expected.');
+    confirmAndAdvance(TokenType.semicolon, 'Expect ";" after expression.');
     return Expression(expr);
   }
 

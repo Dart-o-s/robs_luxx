@@ -1,0 +1,4 @@
+print(1 + 2);
+print "hola";
+print(1 + 2 * (4 + 5) * (32 /  4) > 10);
+"hola" + 4;
