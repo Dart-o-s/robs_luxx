@@ -1,23 +1,39 @@
 import 'package:lox_dart/lox_dart.dart';
 
-class Interpreter extends ExprVisitor<Object?> {
+class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   List<InterpretError> errors = [];
 
-  void interpret(Expr expr) {
-    try {
-      Object? result = evaluate(expr);
-      print(stringify(result));
-    } catch (e) {
-      if (e is! InterpretError) {
-        errors.add(InterpretError(e.toString(), 1));
-      } else {
-        errors.add(e);
+  void interpret(List<Stmt> statements) {
+    for (final stmt in statements) {
+      try {
+        execute(stmt);
+      } catch (e) {
+        if (e is! InterpretError) {
+          errors.add(InterpretError(e.toString(), 1));
+        } else {
+          errors.add(e);
+        }
       }
     }
   }
 
+  void execute(Stmt stmt) {
+    stmt.accept(this);
+  }
+
   Object? evaluate(Expr expr) {
     return expr.accept(this);
+  }
+
+  @override
+  void visitPrintStmt(Print stmt) {
+    Object? result = evaluate(stmt.expression);
+    print(stringify(result));
+  }
+
+  @override
+  void visitExpressionStmt(Expression stmt) {
+    evaluate(stmt.expression);
   }
 
   @override

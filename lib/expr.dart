@@ -4,7 +4,7 @@ abstract class Expr {
   T accept<T>(ExprVisitor<T> visitor);
 }
 
-abstract class ExprVisitor<T> {
+mixin ExprVisitor<T> {
   T visitBinaryExpr(Binary expr);
   T visitGroupingExpr(Grouping expr);
   T visitLiteralExpr(Literal expr);

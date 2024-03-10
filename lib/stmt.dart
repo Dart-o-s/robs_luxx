@@ -4,18 +4,18 @@ abstract class Stmt {
   T accept<T>(StmtVisitor<T> visitor);
 }
 
-abstract class StmtVisitor<T> {
-  T visitExprStmtStmt(ExprStmt stmt);
+mixin StmtVisitor<T> {
+  T visitExpressionStmt(Expression stmt);
   T visitPrintStmt(Print stmt);
 }
 
-class ExprStmt extends Stmt {
-  ExprStmt(this.expression);
+class Expression extends Stmt {
+  Expression(this.expression);
   final Expr expression;
 
   @override
   T accept<T>(StmtVisitor<T> visitor) {
-    return visitor.visitExprStmtStmt(this);
+    return visitor.visitExpressionStmt(this);
   }
 }
 

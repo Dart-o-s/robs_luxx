@@ -51,7 +51,7 @@ void run(String input) {
   }
 
   final parser = Parser(tokens);
-  Expr? expression = parser.parse();
+  List<Stmt> statements = parser.parse();
 
   if (parser.errors.isNotEmpty) {
     for (var err in parser.errors) {
@@ -62,9 +62,7 @@ void run(String input) {
     return;
   }
 
-  print(AstPrinter().print(expression!));
-
-  interpreter.interpret(expression);
+  interpreter.interpret(statements);
 
   if (interpreter.errors.isNotEmpty) {
     for (var err in interpreter.errors) {

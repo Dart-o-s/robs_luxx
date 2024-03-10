@@ -15,7 +15,7 @@ void main(List<String> arguments) {
     "Unary: Token operator, Expr right",
   ]);
   defineAst(outputDir, "Stmt", [
-    "ExprStmt: Expr expression",
+    "Expression: Expr expression",
     "Print: Expr expression",
   ]);
 }
@@ -45,7 +45,7 @@ void defineAst(String outputDir, String baseName, List<String> types) {
 }
 
 void defineVisitor(IOSink sink, String baseName, List<String> types) {
-  sink.writeln('abstract class ${baseName}Visitor<T> {');
+  sink.writeln('mixin ${baseName}Visitor<T> {');
 
   for (String type in types) {
     String typeName = type.split(':')[0].trim();

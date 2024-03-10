@@ -8,17 +8,39 @@ class Parser {
 
   Parser(this.tokens);
 
-  Expr? parse() {
-    Expr? expr;
+  List<Stmt> parse() {
+    List<Stmt> stmts = [];
 
     try {
-      expr = expression();
+      while (!match([TokenType.eof])) {
+        stmts.add(statement());
+      }
     } catch (e) {
       errors.add(e as ParseError);
-      return null;
     }
 
-    return expr;
+    return stmts;
+  }
+
+  Stmt statement() {
+    if (match([TokenType.print])) {
+      return printStmt();
+    } else {
+      return expressionStmt();
+    }
+  }
+
+  Stmt printStmt() {
+    advance();
+    Expr expr = expression();
+    confirmAndAdvance(TokenType.semicolon, 'Semicolon expected.');
+    return Print(expr);
+  }
+
+  Stmt expressionStmt() {
+    Expr expr = expression();
+    confirmAndAdvance(TokenType.semicolon, 'Semicolon expected.');
+    return Expression(expr);
   }
 
   Expr expression() {

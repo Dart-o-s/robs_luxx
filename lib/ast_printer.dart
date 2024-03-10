@@ -1,6 +1,6 @@
 import 'package:lox_dart/lox_dart.dart';
 
-class AstPrinter extends ExprVisitor<String> {
+class AstPrinter with ExprVisitor<String> {
   String print(Expr expr) {
     return expr.accept(this);
   }
