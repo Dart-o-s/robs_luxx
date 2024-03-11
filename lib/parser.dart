@@ -72,14 +72,21 @@ class Parser {
   }
 
   Expr assignment() {
-    if (match([TokenType.identifier]) && match([TokenType.equal], 1)) {
-      Token name = peek();
-      advance(2);
-      Expr value = assignment();
-      return Assign(name, value);
+    Expr expr = equality();
+
+    if (match([TokenType.equal])) {
+      Token equals = peek();
+      advance();
+
+      if (expr is Variable) {
+        Expr value = assignment();
+        return Assign(expr.name, value);
+      }
+
+      throw ParseError('Invalid assignment target', equals.line);
     }
 
-    return equality();
+    return expr;
   }
 
   Expr equality() {
