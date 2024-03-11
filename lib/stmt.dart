@@ -7,6 +7,7 @@ abstract class Stmt {
 mixin StmtVisitor<T> {
   T visitExpressionStmt(Expression stmt);
   T visitPrintStmt(Print stmt);
+  T visitVarStmt(Var stmt);
 }
 
 class Expression extends Stmt {
@@ -26,6 +27,17 @@ class Print extends Stmt {
   @override
   T accept<T>(StmtVisitor<T> visitor) {
     return visitor.visitPrintStmt(this);
+  }
+}
+
+class Var extends Stmt {
+  Var(this.name,this.initializer);
+  final Token name;
+  final Expr initializer;
+
+  @override
+  T accept<T>(StmtVisitor<T> visitor) {
+    return visitor.visitVarStmt(this);
   }
 }
 

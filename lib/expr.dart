@@ -9,6 +9,7 @@ mixin ExprVisitor<T> {
   T visitGroupingExpr(Grouping expr);
   T visitLiteralExpr(Literal expr);
   T visitUnaryExpr(Unary expr);
+  T visitVariableExpr(Variable expr);
 }
 
 class Binary extends Expr {
@@ -51,6 +52,16 @@ class Unary extends Expr {
   @override
   T accept<T>(ExprVisitor<T> visitor) {
     return visitor.visitUnaryExpr(this);
+  }
+}
+
+class Variable extends Expr {
+  Variable(this.name);
+  final Token name;
+
+  @override
+  T accept<T>(ExprVisitor<T> visitor) {
+    return visitor.visitVariableExpr(this);
   }
 }
 
