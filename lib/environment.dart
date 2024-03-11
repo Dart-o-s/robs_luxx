@@ -2,6 +2,9 @@ import 'package:lox_dart/lox_dart.dart';
 
 class Environment {
   final Map<String, Object?> vars = {};
+  Environment? enclosing;
+
+  Environment([this.enclosing]);
 
   void define(String key, Object? value) {
     vars[key] = value;
@@ -12,14 +15,20 @@ class Environment {
       return vars[name.lexeme];
     }
 
+    if (enclosing != null) {
+      return enclosing!.vars[name.lexeme];
+    }
+
     throw InterpretError('Undefined variable "${name.lexeme}".', name.line);
   }
 
   void assign(Token name, Object? value) {
     if (vars.containsKey(name.lexeme)) {
       vars[name.lexeme] = value;
+    } else if (enclosing != null) {
+      enclosing!.assign(name, value);
     } else {
-      throw InterpretError('Undefined variable "${name.lexeme}".', name.line);      
+      throw InterpretError('Undefined variable "${name.lexeme}".', name.line);
     }
   }
 }
