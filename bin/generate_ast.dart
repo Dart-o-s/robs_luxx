@@ -18,7 +18,7 @@ void main(List<String> arguments) {
   defineAst(outputDir, "Stmt", [
     "Expression: Expr expression",
     "Print: Expr expression",
-    "Var: Token name, Expr initializer",
+    "Var: Token name, Expr? initializer",
   ]);
 }
 

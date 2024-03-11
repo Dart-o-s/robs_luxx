@@ -35,7 +35,7 @@ class Parser {
     advance();
     ensure(TokenType.identifier, 'Expect variable name.');
     Token name = peekAndAdvance();
-    Expr initializer = Literal(null);
+    Expr? initializer;
 
     if (match([TokenType.equal])) {
       advance();

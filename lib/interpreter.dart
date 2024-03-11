@@ -34,7 +34,12 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
 
   @override
   void visitVarStmt(Var stmt) {
-    Object? value = evaluate(stmt.initializer);
+    Object? value;
+
+    if (stmt.initializer != null) {
+      value = evaluate(stmt.initializer!);
+    }
+
     environment.declare(stmt.name.lexeme, value);
   }
 

@@ -33,7 +33,7 @@ class Print extends Stmt {
 class Var extends Stmt {
   Var(this.name,this.initializer);
   final Token name;
-  final Expr initializer;
+  final Expr? initializer;
 
   @override
   T accept<T>(StmtVisitor<T> visitor) {
