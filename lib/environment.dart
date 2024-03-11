@@ -3,7 +3,7 @@ import 'package:lox_dart/lox_dart.dart';
 class Environment {
   final Map<String, Object?> vars = {};
 
-  void declare(String key, Object? value) {
+  void define(String key, Object? value) {
     vars[key] = value;
   }
 

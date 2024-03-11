@@ -40,7 +40,7 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
       value = evaluate(stmt.initializer!);
     }
 
-    environment.declare(stmt.name.lexeme, value);
+    environment.define(stmt.name.lexeme, value);
   }
 
   @override
