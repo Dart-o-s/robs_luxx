@@ -13,13 +13,35 @@ class Parser {
 
     try {
       while (!match([TokenType.eof])) {
-        stmts.add(statement());
+        stmts.add(declaration());
       }
     } catch (e) {
       errors.add(e as ParseError);
     }
 
     return stmts;
+  }
+
+  Stmt declaration() {
+    if (match([TokenType.var$])) {
+      return varDeclaration();
+    } else {
+      return statement();
+    }
+  }
+
+  Stmt varDeclaration() {
+    advance();
+    Token name = peekAndAdvance();
+    Expr initializer = Literal(null);
+
+    if (match([TokenType.equal])) {
+      advance();
+      initializer = expression();
+    }
+
+    confirmAndAdvance(TokenType.semicolon, 'Expect ";" after declaration.');
+    return Var(name, initializer);
   }
 
   Stmt statement() {
@@ -130,6 +152,8 @@ class Parser {
         case TokenType.nil:
           advance();
           return Literal(null);
+        case TokenType.identifier:
+          return Variable(peekAndAdvance());
 
         default:
           final msg = 'Token ${peek().type} cannot be parse, yet.';

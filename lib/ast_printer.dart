@@ -29,6 +29,11 @@ class AstPrinter with ExprVisitor<String> {
     return _parenthesize(expr.operator.lexeme, [expr.right]);
   }
 
+  @override
+  String visitVariableExpr(Variable expr) {
+    return _parenthesize('var', [expr]);
+  }
+
   String _parenthesize(String name, List<Expr> exprs) {
     final buffer = StringBuffer();
 

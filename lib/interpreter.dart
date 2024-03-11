@@ -2,6 +2,7 @@ import 'package:lox_dart/lox_dart.dart';
 
 class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   List<InterpretError> errors = [];
+  Environment environment = Environment();
 
   void interpret(List<Stmt> statements) {
     for (final stmt in statements) {
@@ -29,6 +30,12 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   void visitPrintStmt(Print stmt) {
     Object? result = evaluate(stmt.expression);
     print(stringify(result));
+  }
+
+  @override
+  void visitVarStmt(Var stmt) {
+    Object? value = evaluate(stmt.initializer);
+    environment.declare(stmt.name.lexeme, value);
   }
 
   @override
@@ -113,6 +120,11 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
       default:
         throw InterpretError('Unrecognized expression', expr.operator.line);
     }
+  }
+
+  @override
+  Object? visitVariableExpr(Variable expr) {
+    return environment.lookup(expr.name.lexeme);
   }
 
   @override
