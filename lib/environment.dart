@@ -14,4 +14,12 @@ class Environment {
 
     throw InterpretError('Undefined variable "${name.lexeme}".', name.line);
   }
+
+  void assign(Token name, Object? value) {
+    if (vars.containsKey(name.lexeme)) {
+      vars[name.lexeme] = value;
+    } else {
+      throw InterpretError('Undefined variable "${name.lexeme}".', name.line);      
+    }
+  }
 }

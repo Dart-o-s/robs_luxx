@@ -1,0 +1,6 @@
+var nombre = "Roberto";
+print nombre;
+nombre = "Carlos";
+print nombre;
+var numero = 30;
+print (10 + numero) * 100;

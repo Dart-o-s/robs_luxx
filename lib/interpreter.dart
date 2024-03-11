@@ -49,6 +49,13 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   }
 
   @override
+  Object? visitAssignExpr(Assign expr) {
+    Object? value = evaluate(expr.value);
+    environment.assign(expr.name, value);
+    return value;
+  }
+
+  @override
   Object? visitBinaryExpr(Binary expr) {
     final left = evaluate(expr.left);
     final right = evaluate(expr.right);

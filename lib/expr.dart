@@ -5,11 +5,23 @@ abstract class Expr {
 }
 
 mixin ExprVisitor<T> {
+  T visitAssignExpr(Assign expr);
   T visitBinaryExpr(Binary expr);
   T visitGroupingExpr(Grouping expr);
   T visitLiteralExpr(Literal expr);
   T visitUnaryExpr(Unary expr);
   T visitVariableExpr(Variable expr);
+}
+
+class Assign extends Expr {
+  Assign(this.name,this.value);
+  final Token name;
+  final Expr value;
+
+  @override
+  T accept<T>(ExprVisitor<T> visitor) {
+    return visitor.visitAssignExpr(this);
+  }
 }
 
 class Binary extends Expr {

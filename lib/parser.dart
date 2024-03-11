@@ -68,6 +68,17 @@ class Parser {
   }
 
   Expr expression() {
+    return assignment();
+  }
+
+  Expr assignment() {
+    if (match([TokenType.identifier]) && match([TokenType.equal], 1)) {
+      Token name = peek();
+      advance(2);
+      Expr value = assignment();
+      return Assign(name, value);
+    }
+
     return equality();
   }
 
@@ -175,12 +186,12 @@ class Parser {
     advance();
   }
 
-  void advance() {
-    _pos++;
+  void advance([int steps = 1]) {
+    _pos += steps;
   }
 
-  bool match(List<TokenType> types) {
-    return types.contains(tokens[_pos].type);
+  bool match(List<TokenType> types, [int offset = 0]) {
+    return types.contains(tokens[_pos + offset].type);
   }
 
   Token peek() {
