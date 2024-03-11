@@ -11,12 +11,13 @@ class Parser {
   List<Stmt> parse() {
     List<Stmt> stmts = [];
 
-    try {
-      while (!match([TokenType.eof])) {
+    while (!match([TokenType.eof])) {
+      try {
         stmts.add(declaration());
+      } catch (e) {
+        errors.add(e as ParseError);
+        synchronize();
       }
-    } catch (e) {
-      errors.add(e as ParseError);
     }
 
     return stmts;
@@ -32,6 +33,7 @@ class Parser {
 
   Stmt varDeclaration() {
     advance();
+    ensure(TokenType.identifier, 'Expect variable name.');
     Token name = peekAndAdvance();
     Expr initializer = Literal(null);
 
@@ -40,7 +42,7 @@ class Parser {
       initializer = expression();
     }
 
-    confirmAndAdvance(TokenType.semicolon, 'Expect ";" after declaration.');
+    ensureAndAdvance(TokenType.semicolon, 'Expect ";" after declaration.');
     return Var(name, initializer);
   }
 
@@ -55,13 +57,13 @@ class Parser {
   Stmt printStmt() {
     advance();
     Expr expr = expression();
-    confirmAndAdvance(TokenType.semicolon, 'Expect ";" after value.');
+    ensureAndAdvance(TokenType.semicolon, 'Expect ";" after value.');
     return Print(expr);
   }
 
   Stmt expressionStmt() {
     Expr expr = expression();
-    confirmAndAdvance(TokenType.semicolon, 'Expect ";" after expression.');
+    ensureAndAdvance(TokenType.semicolon, 'Expect ";" after expression.');
     return Expression(expr);
   }
 
@@ -136,7 +138,7 @@ class Parser {
     if (match([TokenType.parenLeft])) {
       advance();
       Expr expr = expression();
-      confirmAndAdvance(TokenType.parenRight, 'Closing ")" expected.');
+      ensureAndAdvance(TokenType.parenRight, 'Closing ")" expected.');
       return Grouping(expr);
     } else {
       switch (peek().type) {
@@ -162,12 +164,15 @@ class Parser {
     }
   }
 
-  void confirmAndAdvance(TokenType type, String msg) {
+  void ensure(TokenType type, String msg) {
     if (peek().type != type) {
       throw ParseError(msg, peek().line);
-    } else {
-      advance();
     }
+  }
+
+  void ensureAndAdvance(TokenType type, String msg) {
+    ensure(type, msg);
+    advance();
   }
 
   void advance() {
