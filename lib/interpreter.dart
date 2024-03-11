@@ -124,7 +124,7 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
 
   @override
   Object? visitVariableExpr(Variable expr) {
-    return environment.lookup(expr.name.lexeme);
+    return environment.get(expr.name);
   }
 
   @override

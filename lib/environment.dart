@@ -1,3 +1,5 @@
+import 'package:lox_dart/lox_dart.dart';
+
 class Environment {
   final Map<String, Object?> vars = {};
 
@@ -5,11 +7,11 @@ class Environment {
     vars[key] = value;
   }
 
-  Object? lookup(String key) {
-    if (vars.containsKey(key)) {
-      return vars[key];
+  Object? get(Token name) {
+    if (vars.containsKey(name.lexeme)) {
+      return vars[name.lexeme];
     }
 
-    throw Exception('Var does not exists');
+    throw InterpretError('Undefined variable "${name.lexeme}".', name.line);
   }
 }
