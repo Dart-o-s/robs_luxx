@@ -33,6 +33,16 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   }
 
   @override
+  void visitBlockStmt(Block stmt) {
+    Environment global = environment;
+    environment = Environment(global);
+    for (final stmt in stmt.statements) {
+      execute(stmt);
+    }
+    environment = global;
+  }
+
+  @override
   void visitVarStmt(Var stmt) {
     Object? value;
 

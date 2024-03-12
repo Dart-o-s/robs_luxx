@@ -5,9 +5,20 @@ abstract class Stmt {
 }
 
 mixin StmtVisitor<T> {
+  T visitBlockStmt(Block stmt);
   T visitExpressionStmt(Expression stmt);
   T visitPrintStmt(Print stmt);
   T visitVarStmt(Var stmt);
+}
+
+class Block extends Stmt {
+  Block(this.statements);
+  final List<Stmt> statements;
+
+  @override
+  T accept<T>(StmtVisitor<T> visitor) {
+    return visitor.visitBlockStmt(this);
+  }
 }
 
 class Expression extends Stmt {

@@ -1,0 +1,12 @@
+var nombre = "Robert";
+print nombre;
+{
+  var nombre = "Carlos";
+  print nombre;
+  {
+    var nombre = "Gonze";
+    print nombre;
+  }
+  print nombre;
+}
+print nombre;

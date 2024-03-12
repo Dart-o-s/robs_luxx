@@ -1,4 +1,5 @@
 import 'package:lox_dart/lox_dart.dart';
+import 'package:lox_dart/stmt.dart';
 
 class Parser {
   final List<Token> tokens;
@@ -26,6 +27,8 @@ class Parser {
   Stmt declaration() {
     if (match([TokenType.var$])) {
       return varDeclaration();
+    } else if (match([TokenType.braceLeft])) {
+      return block();
     } else {
       return statement();
     }
@@ -44,6 +47,18 @@ class Parser {
 
     ensureAndAdvance(TokenType.semicolon, 'Expect ";" after declaration.');
     return Var(name, initializer);
+  }
+
+  Stmt block() {
+    advance();
+    List<Stmt> statements = [];
+
+    while (!match([TokenType.braceRight, TokenType.eof])) {
+      statements.add(declaration());
+    }
+
+    ensureAndAdvance(TokenType.braceRight, 'Expect "}" after statements.');
+    return Block(statements);
   }
 
   Stmt statement() {
