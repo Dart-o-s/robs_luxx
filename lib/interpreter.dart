@@ -67,8 +67,7 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
 
   @override
   void visitIfStmt(If stmt) {
-    final condition = evaluate(stmt.condition);
-    if (_isTruthy(condition)) {
+    if (_isTruthy(evaluate(stmt.condition))) {
       execute(stmt.thenBranch);
     } else if (stmt.elseBranch != null) {
       execute(stmt.elseBranch!);
