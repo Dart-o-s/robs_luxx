@@ -10,6 +10,7 @@ class Scanner {
 
   final Map<String, TokenType> _keywords = {
     'and': TokenType.and,
+    'else': TokenType.else$,
     'false': TokenType.false$,
     'for': TokenType.for$,
     'fun': TokenType.fun,

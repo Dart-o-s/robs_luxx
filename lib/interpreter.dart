@@ -66,6 +66,16 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   }
 
   @override
+  void visitIfStmt(If stmt) {
+    final condition = evaluate(stmt.condition);
+    if (_isTruthy(condition)) {
+      execute(stmt.thenBranch);
+    } else if (stmt.elseBranch != null) {
+      execute(stmt.elseBranch!);
+    }
+  }
+
+  @override
   Object? visitAssignExpr(Assign expr) {
     Object? value = evaluate(expr.value);
     environment.assign(expr.name, value);

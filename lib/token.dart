@@ -8,6 +8,7 @@ enum TokenType {
   comment,
   equal,
   equalEqual,
+  else$,
   eof,
   false$,
   for$,

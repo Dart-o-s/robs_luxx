@@ -7,6 +7,7 @@ abstract class Stmt {
 mixin StmtVisitor<T> {
   T visitBlockStmt(Block stmt);
   T visitExpressionStmt(Expression stmt);
+  T visitIfStmt(If stmt);
   T visitPrintStmt(Print stmt);
   T visitVarStmt(Var stmt);
 }
@@ -28,6 +29,18 @@ class Expression extends Stmt {
   @override
   T accept<T>(StmtVisitor<T> visitor) {
     return visitor.visitExpressionStmt(this);
+  }
+}
+
+class If extends Stmt {
+  If(this.condition,this.thenBranch,this.elseBranch);
+  final Expr condition;
+  final Stmt thenBranch;
+  final Stmt? elseBranch;
+
+  @override
+  T accept<T>(StmtVisitor<T> visitor) {
+    return visitor.visitIfStmt(this);
   }
 }
 

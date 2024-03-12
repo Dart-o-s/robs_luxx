@@ -48,7 +48,9 @@ class Parser {
   }
 
   Stmt statement() {
-    if (match([TokenType.print])) {
+    if (match([TokenType.if$])) {
+      return ifStmt();
+    } else if (match([TokenType.print])) {
       return printStmt();
     } else if (match([TokenType.braceLeft])) {
       advance();
@@ -56,6 +58,24 @@ class Parser {
     } else {
       return expressionStmt();
     }
+  }
+
+  Stmt ifStmt() {
+    advance();
+    ensureAndAdvance(TokenType.parenLeft, 'Expect "(" after if.');
+
+    Expr condition = expression();
+    ensureAndAdvance(TokenType.parenRight, 'Expect ")" after expression.');
+
+    Stmt thenBranch = statement();
+    Stmt? elseBranch;
+
+    if (match([TokenType.else$])) {
+      advance();
+      elseBranch = statement();
+    }
+
+    return If(condition, thenBranch, elseBranch);
   }
 
   Stmt printStmt() {
