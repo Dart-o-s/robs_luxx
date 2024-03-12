@@ -34,12 +34,19 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
 
   @override
   void visitBlockStmt(Block stmt) {
-    Environment global = environment;
-    environment = Environment(global);
-    for (final stmt in stmt.statements) {
-      execute(stmt);
+    executeBlock(stmt.statements, Environment(environment));
+  }
+
+  void executeBlock(List<Stmt> statements, Environment environment) {
+    Environment previous = this.environment;
+    try {
+      this.environment = environment;
+      for (final stmt in statements) {
+        execute(stmt);
+      }
+    } finally {
+      this.environment = previous;
     }
-    environment = global;
   }
 
   @override

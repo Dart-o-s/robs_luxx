@@ -28,7 +28,8 @@ class Parser {
     if (match([TokenType.var$])) {
       return varDeclaration();
     } else if (match([TokenType.braceLeft])) {
-      return block();
+      advance();
+      return Block(block());
     } else {
       return statement();
     }
@@ -49,16 +50,15 @@ class Parser {
     return Var(name, initializer);
   }
 
-  Stmt block() {
-    advance();
+  List<Stmt> block() {
     List<Stmt> statements = [];
 
     while (!match([TokenType.braceRight, TokenType.eof])) {
       statements.add(declaration());
     }
 
-    ensureAndAdvance(TokenType.braceRight, 'Expect "}" after statements.');
-    return Block(statements);
+    ensureAndAdvance(TokenType.braceRight, 'Expect "}" after block.');
+    return statements;
   }
 
   Stmt statement() {
