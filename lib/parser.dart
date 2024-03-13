@@ -51,6 +51,8 @@ class Parser {
       return ifStmt();
     } else if (match([TokenType.print])) {
       return printStmt();
+    } else if (match([TokenType.while$])) {
+      return whileStmt();
     } else if (match([TokenType.braceLeft])) {
       advance();
       return Block(block());
@@ -82,6 +84,17 @@ class Parser {
     Expr expr = expression();
     ensureAndAdvance(TokenType.semicolon, 'Expect ";" after value.');
     return Print(expr);
+  }
+
+  Stmt whileStmt() {
+    advance();
+    ensureAndAdvance(TokenType.parenLeft, 'Expect "(" after while.');
+
+    Expr condition = expression();
+    ensureAndAdvance(TokenType.parenRight, 'Expect ")" after condition.');
+
+    Stmt body = statement();
+    return While(condition, body);
   }
 
   List<Stmt> block() {

@@ -10,6 +10,7 @@ mixin StmtVisitor<T> {
   T visitIfStmt(If stmt);
   T visitPrintStmt(Print stmt);
   T visitVarStmt(Var stmt);
+  T visitWhileStmt(While stmt);
 }
 
 class Block extends Stmt {
@@ -62,6 +63,17 @@ class Var extends Stmt {
   @override
   T accept<T>(StmtVisitor<T> visitor) {
     return visitor.visitVarStmt(this);
+  }
+}
+
+class While extends Stmt {
+  While(this.condition,this.body);
+  final Expr condition;
+  final Stmt body;
+
+  @override
+  T accept<T>(StmtVisitor<T> visitor) {
+    return visitor.visitWhileStmt(this);
   }
 }
 

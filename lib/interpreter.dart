@@ -61,6 +61,13 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   }
 
   @override
+  void visitWhileStmt(While stmt) {
+    while (_isTruthy(evaluate(stmt.condition))) {
+      execute(stmt.body);
+    }
+  }
+
+  @override
   void visitExpressionStmt(Expression stmt) {
     evaluate(stmt.expression);
   }
