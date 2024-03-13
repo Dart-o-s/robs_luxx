@@ -170,6 +170,25 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
     return expr.value;
   }
 
+  @override
+  Object? visitLogicalExpr(Logical expr) {
+    Object? left = evaluate(expr.left);
+
+    if (expr.operator.type == TokenType.or) {
+      Object? right = evaluate(expr.right);
+
+      if (_isTruthy(left)) {
+        return left;
+      } else {
+        return right;
+      }
+    } else if (!_isTruthy(left)) {
+      return left;
+    } else {
+      return evaluate(expr.right);
+    }
+  }
+
   bool _isTruthy(Object? object) {
     if (object == null) return false;
     if (object is bool) return object;

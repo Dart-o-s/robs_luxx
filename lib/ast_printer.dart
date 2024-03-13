@@ -25,6 +25,11 @@ class AstPrinter with ExprVisitor<String> {
   }
 
   @override
+  String visitLogicalExpr(Logical expr) {
+    return _parenthesize(expr.operator.lexeme, [expr.left, expr.right]);
+  }
+
+  @override
   String visitUnaryExpr(Unary expr) {
     return _parenthesize(expr.operator.lexeme, [expr.right]);
   }

@@ -1,5 +1,4 @@
 import 'package:lox_dart/lox_dart.dart';
-import 'package:lox_dart/stmt.dart';
 
 class Parser {
   final List<Token> tokens;
@@ -107,11 +106,10 @@ class Parser {
   }
 
   Expr assignment() {
-    Expr expr = equality();
+    Expr expr = logicOr();
 
     if (match([TokenType.equal])) {
-      Token equals = peek();
-      advance();
+      Token equals = peekAndAdvance();
 
       if (expr is Variable) {
         Expr value = assignment();
@@ -119,6 +117,30 @@ class Parser {
       }
 
       throw ParseError('Invalid assignment target', equals.line);
+    }
+
+    return expr;
+  }
+
+  Expr logicOr() {
+    Expr expr = logicAnd();
+
+    if (match([TokenType.or])) {
+      Token operator = peekAndAdvance();
+      Expr right = logicAnd();
+      expr = Logical(expr, operator, right);
+    }
+
+    return expr;
+  }
+
+  Expr logicAnd() {
+    Expr expr = equality();
+
+    if (match([TokenType.and])) {
+      Token operator = peekAndAdvance();
+      Expr right = equality();
+      expr = Logical(expr, operator, right);
     }
 
     return expr;
