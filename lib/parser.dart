@@ -51,6 +51,8 @@ class Parser {
       return ifStmt();
     } else if (match([TokenType.print])) {
       return printStmt();
+    } else if (match([TokenType.for$])) {
+      return forStmt();
     } else if (match([TokenType.while$])) {
       return whileStmt();
     } else if (match([TokenType.braceLeft])) {
@@ -84,6 +86,35 @@ class Parser {
     Expr expr = expression();
     ensureAndAdvance(TokenType.semicolon, 'Expect ";" after value.');
     return Print(expr);
+  }
+
+  Stmt forStmt() {
+    advance();
+    ensureAndAdvance(TokenType.parenLeft, 'Expect "(" after for.');
+
+    Stmt? initializer;
+    if (match([TokenType.var$])) {
+      initializer = varDeclaration();
+    } else if (!match([TokenType.semicolon])) {
+      initializer = expressionStmt();
+    } else {
+      ensureAndAdvance(TokenType.semicolon, 'Expect ";" after initializer.');
+    }
+
+    Expr? condition;
+    if (!match([TokenType.semicolon])) {
+      condition = expression();
+    }
+    ensureAndAdvance(TokenType.semicolon, 'Expect ";" after condition.');
+
+    Expr? increment;
+    if (!match([TokenType.parenRight])) {
+      increment = expression();
+    }
+
+    ensureAndAdvance(TokenType.parenRight, 'Expect ")" after increment.');
+    Stmt body = statement();
+    return For(initializer, condition, increment, body);
   }
 
   Stmt whileStmt() {
