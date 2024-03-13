@@ -269,8 +269,6 @@ class Parser {
   }
 
   void synchronize() {
-    advance();
-
     while (!match([TokenType.eof])) {
       if (match([
         TokenType.semicolon,
