@@ -16,7 +16,7 @@ class Environment {
     }
 
     if (enclosing != null) {
-      return enclosing!.vars[name.lexeme];
+      return enclosing!.get(name);
     }
 
     throw InterpretError('Undefined variable "${name.lexeme}".', name.line);
