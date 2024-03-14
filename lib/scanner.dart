@@ -39,6 +39,11 @@ class Scanner {
           advance();
           break;
 
+        case ',':
+          addToken(TokenType.comma, ',');
+          advance();
+          break;
+
         case '+':
           addToken(TokenType.plus, '+');
           advance();

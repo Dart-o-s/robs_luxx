@@ -269,6 +269,25 @@ class Parser {
     }
   }
 
+  Expr call() {
+    Expr callee = primary();
+
+    if (match([TokenType.parenLeft])) {
+      Token paren = peekAndAdvance();
+      List<Expr> arguments = [];
+
+      if (!match([TokenType.parenRight])) {
+        do {
+          arguments.add(expression());
+        } while (match([TokenType.comma]));
+      }
+
+      return Call(callee, paren, arguments);
+    }
+
+    return callee;
+  }
+
   Expr primary() {
     if (match([TokenType.parenLeft])) {
       advance();

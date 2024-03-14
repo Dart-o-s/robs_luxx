@@ -7,6 +7,7 @@ abstract class Expr {
 mixin ExprVisitor<T> {
   T visitAssignExpr(Assign expr);
   T visitBinaryExpr(Binary expr);
+  T visitCallExpr(Call expr);
   T visitGroupingExpr(Grouping expr);
   T visitLiteralExpr(Literal expr);
   T visitLogicalExpr(Logical expr);
@@ -34,6 +35,18 @@ class Binary extends Expr {
   @override
   T accept<T>(ExprVisitor<T> visitor) {
     return visitor.visitBinaryExpr(this);
+  }
+}
+
+class Call extends Expr {
+  Call(this.callee,this.paren,this.arguments);
+  final Expr callee;
+  final Token paren;
+  final List<Expr> arguments;
+
+  @override
+  T accept<T>(ExprVisitor<T> visitor) {
+    return visitor.visitCallExpr(this);
   }
 }
 
