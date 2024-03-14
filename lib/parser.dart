@@ -265,27 +265,36 @@ class Parser {
       Expr operand = unary();
       return Unary(operator, operand);
     } else {
-      return primary();
+      return call();
     }
   }
 
   Expr call() {
     Expr callee = primary();
 
-    if (match([TokenType.parenLeft])) {
-      Token paren = peekAndAdvance();
-      List<Expr> arguments = [];
-
-      if (!match([TokenType.parenRight])) {
-        do {
-          arguments.add(expression());
-        } while (match([TokenType.comma]));
-      }
-
-      return Call(callee, paren, arguments);
+    while (match([TokenType.parenLeft])) {
+      callee = finishCall(callee);
     }
 
     return callee;
+  }
+
+  Expr finishCall(callee) {
+    Token paren = peekAndAdvance();
+    List<Expr> arguments = [];
+
+    if (!match([TokenType.parenRight])) {
+      do {
+        if (arguments.length >= 255) {
+          errors.add(ParseError('Cannot have more than 255 arguments.', peek().line));
+        }
+
+        arguments.add(expression());
+      } while (match([TokenType.comma]));
+    }
+
+    ensureAndAdvance(TokenType.parenRight, 'Expect ")" after arguments.');
+    return Call(callee, paren, arguments);
   }
 
   Expr primary() {
