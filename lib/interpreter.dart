@@ -144,6 +144,29 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   }
 
   @override
+  Object? visitCallExpr(Call expr) {
+    final function = evaluate(expr.callee);
+
+    List<Object?> arguments = [];
+    for (final argument in expr.arguments) {
+      arguments.add(evaluate(argument));
+    }
+
+    if (function is! LoxCallable) {
+      throw InterpretError(
+          'Can only call functions and classes', expr.paren.line);
+    }
+
+    if (arguments.length != function.arity()) {
+      throw InterpretError(
+          'Expected ${function.arity()} arguments but got ${arguments.length}',
+          expr.paren.line);
+    }
+
+    return function.call(this, arguments);
+  }
+
+  @override
   Object? visitGroupingExpr(Grouping expr) {
     return evaluate(expr.expression);
   }

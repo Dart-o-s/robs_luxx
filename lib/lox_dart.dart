@@ -6,3 +6,5 @@ export 'parser.dart';
 export 'ast_printer.dart';
 export 'interpreter.dart';
 export 'environment.dart';
+export 'lox_callable.dart';
+export 'lox_function.dart';
