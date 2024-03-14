@@ -15,6 +15,7 @@ class Parser {
       try {
         stmts.add(declaration());
       } catch (e) {
+        print(e);
         errors.add(e as ParseError);
         synchronize();
       }
@@ -114,7 +115,22 @@ class Parser {
 
     ensureAndAdvance(TokenType.parenRight, 'Expect ")" after increment.');
     Stmt body = statement();
-    return For(initializer, condition, increment, body);
+
+    if (increment != null) {
+      body = Block([body, Expression(increment)]);
+    }
+
+    if (condition != null) {
+      body = While(condition, body);
+    } else {
+      body = While(Literal(true), body);
+    }
+
+    if (initializer != null) {
+      body = Block([initializer, body]);
+    }
+
+    return body;
   }
 
   Stmt whileStmt() {

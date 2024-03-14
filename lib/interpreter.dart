@@ -68,20 +68,6 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   }
 
   @override
-  void visitForStmt(For stmt) {
-    if (stmt.initializer != null) {
-      execute(stmt.initializer!);
-    }
-
-    while (stmt.condition == null || _isTruthy(evaluate(stmt.condition!))) {
-      execute(stmt.body);
-      if (stmt.increment != null) {
-        evaluate(stmt.increment!);
-      }
-    }
-  }
-
-  @override
   void visitExpressionStmt(Expression stmt) {
     evaluate(stmt.expression);
   }
