@@ -1,8 +1,15 @@
 import 'package:lox_dart/lox_dart.dart';
+import 'package:lox_dart/native_funs.dart';
 
 class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   List<InterpretError> errors = [];
-  Environment environment = Environment();
+  final Environment globals = Environment();
+  late Environment environment;
+
+  Interpreter() {
+    environment = globals;
+    globals.define('clock', Clock());
+  }
 
   void interpret(List<Stmt> statements) {
     for (final stmt in statements) {

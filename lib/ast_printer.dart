@@ -11,6 +11,11 @@ class AstPrinter with ExprVisitor<String> {
   }
 
   @override
+  String visitCallExpr(Call expr) {
+    return _parenthesize('', [expr.callee, ...expr.arguments]);
+  }
+
+  @override
   String visitGroupingExpr(Grouping expr) {
     return _parenthesize("group", [expr.expression]);
   }
