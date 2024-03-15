@@ -3,4 +3,9 @@ fun sayName(first, last) {
   print "Bye " + last + "!";
 }
 
+fun sayNothing() {
+  print "Nothing!";
+}
+
 sayName("Robert", "Oliver");
+sayNothing();

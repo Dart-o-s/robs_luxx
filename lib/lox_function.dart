@@ -19,4 +19,7 @@ class LoxFunction extends LoxCallable {
     interpreter.executeBlock(declaration.body, closure);
     return null;
   }
+
+  @override
+  String toString() => '<fn ${declaration.name.lexeme}>';
 }

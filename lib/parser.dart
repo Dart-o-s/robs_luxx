@@ -29,7 +29,7 @@ class Parser {
 
   Stmt declaration() {
     if (match([TokenType.fun])) {
-      return funDeclaration();
+      return funDeclaration('function');
     } else if (match([TokenType.var$])) {
       return varDeclaration();
     } else {
@@ -37,22 +37,27 @@ class Parser {
     }
   }
 
-  Stmt funDeclaration() {
+  Stmt funDeclaration(String kind) {
     advance();
-    ensure(TokenType.identifier, 'Expect function name.');
+    ensure(TokenType.identifier, 'Expect $kind name.');
     Token name = peekAndAdvance();
-    ensureAndAdvance(TokenType.parenLeft, 'Expect "(" after function name.');
+    ensureAndAdvance(TokenType.parenLeft, 'Expect "(" after $kind name.');
     List<Token> params = [];
 
     if (!match([TokenType.parenRight])) {
       do {
+        if (params.length >= 255) {
+          errors.add(
+              ParseError('Cannot have more than 255 parameters.', peek().line));
+        }
+
         ensure(TokenType.identifier, 'Expect parameter name.');
         params.add(peekAndAdvance());
       } while (matchAndAdvance([TokenType.comma]));
     }
 
-    ensureAndAdvance(TokenType.parenRight, 'Expect ")" after params.');
-    ensureAndAdvance(TokenType.braceLeft, 'Expect "{" after params.');
+    ensureAndAdvance(TokenType.parenRight, 'Expect ")" after parameters.');
+    ensureAndAdvance(TokenType.braceLeft, 'Expect "{" before $kind body.');
     return Fun(name, params, block());
   }
 
