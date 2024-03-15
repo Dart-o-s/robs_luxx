@@ -1,0 +1,6 @@
+fun sayName(first, last) {
+  print "Hello " + first + "!";
+  print "Bye " + last + "!";
+}
+
+sayName("Robert", "Oliver");

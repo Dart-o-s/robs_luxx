@@ -80,6 +80,11 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   }
 
   @override
+  void visitFunStmt(Fun stmt) {
+    environment.define(stmt.name.lexeme, LoxFunction(stmt));
+  }
+
+  @override
   void visitIfStmt(If stmt) {
     if (_isTruthy(evaluate(stmt.condition))) {
       execute(stmt.thenBranch);

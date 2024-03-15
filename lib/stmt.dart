@@ -7,6 +7,7 @@ abstract class Stmt {
 mixin StmtVisitor<T> {
   T visitBlockStmt(Block stmt);
   T visitExpressionStmt(Expression stmt);
+  T visitFunStmt(Fun stmt);
   T visitIfStmt(If stmt);
   T visitPrintStmt(Print stmt);
   T visitVarStmt(Var stmt);
@@ -30,6 +31,18 @@ class Expression extends Stmt {
   @override
   T accept<T>(StmtVisitor<T> visitor) {
     return visitor.visitExpressionStmt(this);
+  }
+}
+
+class Fun extends Stmt {
+  Fun(this.name,this.params,this.body);
+  final Token name;
+  final List<Token> params;
+  final List<Stmt> body;
+
+  @override
+  T accept<T>(StmtVisitor<T> visitor) {
+    return visitor.visitFunStmt(this);
   }
 }
 

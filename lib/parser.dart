@@ -15,8 +15,11 @@ class Parser {
       try {
         stmts.add(declaration());
       } catch (e) {
-        print(e);
-        errors.add(e as ParseError);
+        if (e is! ParseError) {
+          errors.add(ParseError(e.toString(), 1));
+        } else {
+          errors.add(e);
+        }
         synchronize();
       }
     }
@@ -25,11 +28,32 @@ class Parser {
   }
 
   Stmt declaration() {
-    if (match([TokenType.var$])) {
+    if (match([TokenType.fun])) {
+      return funDeclaration();
+    } else if (match([TokenType.var$])) {
       return varDeclaration();
     } else {
       return statement();
     }
+  }
+
+  Stmt funDeclaration() {
+    advance();
+    ensure(TokenType.identifier, 'Expect function name.');
+    Token name = peekAndAdvance();
+    ensureAndAdvance(TokenType.parenLeft, 'Expect "(" after function name.');
+    List<Token> params = [];
+
+    if (!match([TokenType.parenRight])) {
+      do {
+        ensure(TokenType.identifier, 'Expect parameter name.');
+        params.add(peekAndAdvance());
+      } while (matchAndAdvance([TokenType.comma]));
+    }
+
+    ensureAndAdvance(TokenType.parenRight, 'Expect ")" after params.');
+    ensureAndAdvance(TokenType.braceLeft, 'Expect "{" after params.');
+    return Fun(name, params, block());
   }
 
   Stmt varDeclaration() {
@@ -286,11 +310,12 @@ class Parser {
     if (!match([TokenType.parenRight])) {
       do {
         if (arguments.length >= 255) {
-          errors.add(ParseError('Cannot have more than 255 arguments.', peek().line));
+          errors.add(
+              ParseError('Cannot have more than 255 arguments.', peek().line));
         }
 
         arguments.add(expression());
-      } while (match([TokenType.comma]));
+      } while (matchAndAdvance([TokenType.comma]));
     }
 
     ensureAndAdvance(TokenType.parenRight, 'Expect ")" after arguments.');
@@ -344,6 +369,14 @@ class Parser {
 
   bool match(List<TokenType> types, [int offset = 0]) {
     return types.contains(tokens[_pos + offset].type);
+  }
+
+  bool matchAndAdvance(List<TokenType> types) {
+    final result = match(types);
+    if (result) {
+      advance();
+    }
+    return result;
   }
 
   Token peek() {
