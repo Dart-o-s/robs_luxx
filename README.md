@@ -1,2 +1,3 @@
-A sample command-line application with an entrypoint in `bin/`, library code
-in `lib/`, and example unit test in `test/`.
+## Lox Dart
+
+An interpreter for the Lox programming language built in Dart.
