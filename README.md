@@ -1,3 +1,3 @@
 ## Lox Dart
 
-An interpreter for the Lox programming language built in Dart.
+An interpreter for the [Lox](https://github.com/munificent/craftinginterpreters) programming language wrote in Dart.
