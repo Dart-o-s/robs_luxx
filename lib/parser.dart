@@ -81,6 +81,8 @@ class Parser {
       return ifStmt();
     } else if (match([TokenType.print])) {
       return printStmt();
+    } else if (match([TokenType.return$])) {
+      return returnStmt();
     } else if (match([TokenType.for$])) {
       return forStmt();
     } else if (match([TokenType.while$])) {
@@ -116,6 +118,19 @@ class Parser {
     Expr expr = expression();
     ensureAndAdvance(TokenType.semicolon, 'Expect ";" after value.');
     return Print(expr);
+  }
+
+  Stmt returnStmt() {
+    Token keyword = peekAndAdvance();
+    Expr? expr;
+
+    if (!match([TokenType.semicolon])) {
+      expr = expression();
+    }
+
+    ensureAndAdvance(
+        TokenType.semicolon, 'Expect ";" after keyword or expression.');
+    return Return(keyword, expr);
   }
 
   Stmt forStmt() {

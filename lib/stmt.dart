@@ -10,6 +10,7 @@ mixin StmtVisitor<T> {
   T visitFunStmt(Fun stmt);
   T visitIfStmt(If stmt);
   T visitPrintStmt(Print stmt);
+  T visitReturnStmt(Return stmt);
   T visitVarStmt(Var stmt);
   T visitWhileStmt(While stmt);
 }
@@ -65,6 +66,17 @@ class Print extends Stmt {
   @override
   T accept<T>(StmtVisitor<T> visitor) {
     return visitor.visitPrintStmt(this);
+  }
+}
+
+class Return extends Stmt {
+  Return(this.keyword,this.value);
+  final Token keyword;
+  final Expr? value;
+
+  @override
+  T accept<T>(StmtVisitor<T> visitor) {
+    return visitor.visitReturnStmt(this);
   }
 }
 

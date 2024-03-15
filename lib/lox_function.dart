@@ -16,7 +16,16 @@ class LoxFunction extends LoxCallable {
       closure.define(declaration.params[i].lexeme, arguments[i]);
     }
 
-    interpreter.executeBlock(declaration.body, closure);
+    try {
+      interpreter.executeBlock(declaration.body, closure);
+    } catch (e) {
+      if (e is ReturnException) {
+        return e.value;
+      } else {
+        rethrow;
+      }
+    }
+
     return null;
   }
 

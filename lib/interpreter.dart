@@ -40,6 +40,16 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   }
 
   @override
+  void visitReturnStmt(Return stmt) {
+    Object? value;
+    if (stmt.value != null) {
+      value = evaluate(stmt.value!);
+    }
+
+    throw ReturnException(value);
+  }
+
+  @override
   void visitBlockStmt(Block stmt) {
     executeBlock(stmt.statements, Environment(environment));
   }
