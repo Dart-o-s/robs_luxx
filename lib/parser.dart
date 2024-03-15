@@ -67,8 +67,7 @@ class Parser {
     Token name = peekAndAdvance();
     Expr? initializer;
 
-    if (match([TokenType.equal])) {
-      advance();
+    if (matchAndAdvance([TokenType.equal])) {
       initializer = expression();
     }
 
@@ -105,8 +104,7 @@ class Parser {
     Stmt thenBranch = statement();
     Stmt? elseBranch;
 
-    if (match([TokenType.else$])) {
-      advance();
+    if (matchAndAdvance([TokenType.else$])) {
       elseBranch = statement();
     }
 
@@ -343,8 +341,7 @@ class Parser {
   }
 
   Expr primary() {
-    if (match([TokenType.parenLeft])) {
-      advance();
+    if (matchAndAdvance([TokenType.parenLeft])) {
       Expr expr = expression();
       ensureAndAdvance(TokenType.parenRight, 'Closing ")" expected.');
       return Grouping(expr);
