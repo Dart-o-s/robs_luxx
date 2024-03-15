@@ -2,22 +2,23 @@ import 'package:lox_dart/lox_dart.dart';
 
 class LoxFunction extends LoxCallable {
   final Fun declaration;
+  final Environment closure;
 
-  LoxFunction(this.declaration);
+  LoxFunction(this.declaration, this.closure);
 
   @override
   int arity() => declaration.params.length;
 
   @override
   Object? call(Interpreter interpreter, List<Object?> arguments) {
-    Environment closure = Environment(interpreter.globals);
+    Environment environment = Environment(closure);
 
     for (int i = 0; i < declaration.params.length; i++) {
-      closure.define(declaration.params[i].lexeme, arguments[i]);
+      environment.define(declaration.params[i].lexeme, arguments[i]);
     }
 
     try {
-      interpreter.executeBlock(declaration.body, closure);
+      interpreter.executeBlock(declaration.body, environment);
     } catch (e) {
       if (e is ReturnException) {
         return e.value;
