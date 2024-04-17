@@ -4,6 +4,7 @@ import 'package:lox_dart/native_funs.dart';
 class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   List<InterpretError> errors = [];
   final Environment globals = Environment();
+  final Map<Token, int> scopes = {};
   late Environment environment;
 
   Interpreter() {
@@ -264,6 +265,10 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
     }
 
     return object.toString();
+  }
+
+  void resolve(Token name, int depth) {
+    scopes[name] = depth;
   }
 }
 
