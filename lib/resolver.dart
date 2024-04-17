@@ -132,7 +132,7 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
 
   @override
   void visitVariableExpr(Variable expr) {
-    resolveLocal(expr.name);
+    resolveLocal(expr);
   }
 
   @override
@@ -165,10 +165,10 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
     scopes.removeLast();
   }
 
-  void resolveLocal(Token name) {
+  void resolveLocal(Variable variable) {
     for (int i = 0; i < scopes.length; i++) {
-      if (i > 0 && scopes[i].containsKey(name.lexeme)) {
-        interpreter.resolve(name, i);
+      if (i > 0 && scopes[i].containsKey(variable.name.lexeme)) {
+        interpreter.resolve(variable, i);
       }
     }
   }

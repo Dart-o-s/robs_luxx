@@ -1,15 +1,10 @@
-var nombre = "Robert";
-print nombre;
+var a = "global";
 {
-  var nombre = "Carlos";
-  var apellido = "Oliver";
-  print nombre;
-  print apellido;
-  {
-    var nombre = "Gonze";
-    print nombre;
+  fun showA() {
+    print a;
   }
-  print nombre;
+
+  showA();
+  var a = "block";
+  showA();
 }
-print nombre;
-print apellido;

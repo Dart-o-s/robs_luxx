@@ -22,6 +22,21 @@ class Environment {
     throw InterpretError('Undefined variable "${name.lexeme}".', name.line);
   }
 
+  Object? getAt(Token name, int depth) {
+    Environment? environment = enclosing;
+    for (int i = 0; i < depth; i++) {
+      if (environment != null) {
+        environment = environment.enclosing;
+      }
+    }
+
+    if (environment != null) {
+      return environment.get(name);
+    }
+
+    return null;
+  }
+
   void assign(Token name, Object? value) {
     if (vars.containsKey(name.lexeme)) {
       vars[name.lexeme] = value;

@@ -62,6 +62,18 @@ void run(String input) {
     return;
   }
 
+  final resolver = Resolver(interpreter);
+  resolver.resolve(statements);
+
+  if (resolver.errors.isNotEmpty) {
+    for (var err in resolver.errors) {
+      error(err.line, '', err.description);
+    }
+
+    hadError = true;
+    return;
+  }
+
   interpreter.interpret(statements);
 
   if (interpreter.errors.isNotEmpty) {

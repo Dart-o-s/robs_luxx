@@ -4,8 +4,8 @@ import 'package:lox_dart/native_funs.dart';
 class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   List<InterpretError> errors = [];
   final Environment globals = Environment();
-  final Map<Token, int> scopes = {};
   late Environment environment;
+  final Map<Expr, int> scopes = {};
 
   Interpreter() {
     environment = globals;
@@ -215,7 +215,7 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
 
   @override
   Object? visitVariableExpr(Variable expr) {
-    return environment.get(expr.name);
+    return resolveLocal(expr);
   }
 
   @override
@@ -267,8 +267,16 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
     return object.toString();
   }
 
-  void resolve(Token name, int depth) {
-    scopes[name] = depth;
+  void resolve(Variable variable, int depth) {
+    scopes[variable] = depth;
+  }
+
+  Object? resolveLocal(Variable variable) {
+    if (scopes[variable] != null) {
+      return environment.getAt(variable.name, scopes[variable]!);
+    } else {
+      return globals.get(variable.name);
+    }
   }
 }
 
