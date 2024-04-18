@@ -28,7 +28,11 @@ class Parser {
   }
 
   Stmt declaration() {
-    if (match([TokenType.fun])) {
+    if (match([TokenType.class$])) {
+      advance();
+      return classDeclaration();
+    } else if (match([TokenType.fun])) {
+      advance();
       return funDeclaration('function');
     } else if (match([TokenType.var$])) {
       return varDeclaration();
@@ -37,8 +41,21 @@ class Parser {
     }
   }
 
+  Stmt classDeclaration() {
+    ensure(TokenType.identifier, 'Expect class name.');
+    Token name = peekAndAdvance();
+    ensureAndAdvance(TokenType.braceLeft, 'Expect "{" after class name.');
+    List<Fun> methods = [];
+
+    while (!match([TokenType.braceRight, TokenType.eof])) {
+      methods.add(funDeclaration('method') as Fun);
+    }
+
+    ensureAndAdvance(TokenType.braceRight, 'Expect "}" after class body.');
+    return Class(name, methods);
+  }
+
   Stmt funDeclaration(String kind) {
-    advance();
     ensure(TokenType.identifier, 'Expect $kind name.');
     Token name = peekAndAdvance();
     ensureAndAdvance(TokenType.parenLeft, 'Expect "(" after $kind name.');

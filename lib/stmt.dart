@@ -6,6 +6,7 @@ abstract class Stmt {
 
 mixin StmtVisitor<T> {
   T visitBlockStmt(Block stmt);
+  T visitClassStmt(Class stmt);
   T visitExpressionStmt(Expression stmt);
   T visitFunStmt(Fun stmt);
   T visitIfStmt(If stmt);
@@ -22,6 +23,17 @@ class Block extends Stmt {
   @override
   T accept<T>(StmtVisitor<T> visitor) {
     return visitor.visitBlockStmt(this);
+  }
+}
+
+class Class extends Stmt {
+  Class(this.name,this.methods);
+  final Token name;
+  final List<Fun> methods;
+
+  @override
+  T accept<T>(StmtVisitor<T> visitor) {
+    return visitor.visitClassStmt(this);
   }
 }
 

@@ -5,6 +5,7 @@ enum TokenType {
   braceLeft,
   braceRight,
   boolean,
+  class$,
   comma,
   comment,
   equal,

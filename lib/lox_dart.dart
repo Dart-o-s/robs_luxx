@@ -9,4 +9,5 @@ export 'interpreter.dart';
 export 'environment.dart';
 export 'lox_callable.dart';
 export 'lox_function.dart';
+export 'lox_class.dart';
 export 'return_exception.dart';

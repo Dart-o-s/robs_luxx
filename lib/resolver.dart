@@ -2,7 +2,8 @@ import 'package:lox_dart/lox_dart.dart';
 
 enum FunctionType {
   none,
-  function
+  function,
+  method
 }
 
 class Resolver with ExprVisitor<void>, StmtVisitor<void> {
@@ -97,6 +98,15 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
   @override
   void visitExpressionStmt(Expression stmt) {
     resolveExpr(stmt.expression);
+  }
+
+  @override
+  void visitClassStmt(Class stmt) {
+    declare(stmt.name);
+    define(stmt.name);
+    for (Fun method in stmt.methods) {
+      resolveFunction(method, FunctionType.method);
+    }
   }
 
   @override
