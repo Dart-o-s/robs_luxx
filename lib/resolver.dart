@@ -1,8 +1,14 @@
 import 'package:lox_dart/lox_dart.dart';
 
+enum FunctionType {
+  none,
+  function
+}
+
 class Resolver with ExprVisitor<void>, StmtVisitor<void> {
   List<ResolveError> errors = [];
   final List<Map<String, bool>> scopes = [];
+  FunctionType currentFunction = FunctionType.none;
   late Interpreter interpreter;
 
   Resolver(this.interpreter);
@@ -35,7 +41,10 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
     }
   }
 
-  void resolveFunction(Fun stmt) {
+  void resolveFunction(Fun stmt, FunctionType type) {
+    final enclosingFunction = currentFunction;
+    currentFunction = type;
+
     beginScope();
     for (Token param in stmt.params) {
       declare(param);
@@ -43,6 +52,8 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
     }
     resolveBlock(stmt.body);
     endScope();
+
+    currentFunction = enclosingFunction;
   }
 
   @override
@@ -52,6 +63,10 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
 
   @override
   void visitReturnStmt(Return stmt) {
+    if (currentFunction == FunctionType.none) {
+      throw ResolveError('Cannot return from top-level code', stmt.keyword.line);
+    }
+
     if (stmt.value != null) {
       resolveExpr(stmt.value!);
     }
@@ -88,7 +103,7 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
   void visitFunStmt(Fun stmt) {
     declare(stmt.name);
     define(stmt.name);
-    resolveFunction(stmt);
+    resolveFunction(stmt, FunctionType.function);
   }
 
   @override
@@ -151,6 +166,9 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
 
   void declare(Token name) {
     if (scopes.isEmpty) return;
+    if (scopes.last.containsKey(name.lexeme)) {
+      throw ResolveError('Already a variable with this name in this scope', name.line);
+    }
     scopes.last[name.lexeme] = false;
   }
 
