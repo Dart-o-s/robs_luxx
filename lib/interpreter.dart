@@ -5,7 +5,7 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   List<InterpretError> errors = [];
   final Environment globals = Environment();
   late Environment environment;
-  final Map<Expr, int> scopes = {};
+  final Map<Expr, int> locals = {};
 
   Interpreter() {
     environment = globals;
@@ -107,7 +107,12 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   @override
   Object? visitAssignExpr(Assign expr) {
     Object? value = evaluate(expr.value);
-    environment.assign(expr.name, value);
+    if (locals[expr] != null) {
+      environment.assignAt(locals[expr]!, expr.name, value);
+    } else {
+      environment.assign(expr.name, value);
+    }
+
     return value;
   }
 
@@ -215,7 +220,7 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
 
   @override
   Object? visitVariableExpr(Variable expr) {
-    return resolveLocal(expr);
+    return lookUpVariable(expr.name, expr);
   }
 
   @override
@@ -267,15 +272,15 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
     return object.toString();
   }
 
-  void resolve(Variable variable, int depth) {
-    scopes[variable] = depth;
+  void resolve(Expr expr, int depth) {
+    locals[expr] = depth;
   }
 
-  Object? resolveLocal(Variable variable) {
-    if (scopes[variable] != null) {
-      return environment.getAt(variable.name, scopes[variable]!);
+  Object? lookUpVariable(Token name, Expr expr) {
+    if (locals[expr] != null) {
+      return environment.getAt(locals[expr]!, name.lexeme);
     } else {
-      return globals.get(variable.name);
+      return globals.get(name);
     }
   }
 }

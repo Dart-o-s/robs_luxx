@@ -22,18 +22,20 @@ class Environment {
     throw InterpretError('Undefined variable "${name.lexeme}".', name.line);
   }
 
-  Object? getAt(Token name, int depth) {
-    Environment? environment = enclosing;
-    for (int i = 0; i < depth; i++) {
-      if (environment != null) {
-        environment = environment.enclosing;
-      }
+  Environment? ancestor(int distance) {
+    Environment? environment = this;
+    for (int i = 0; i < distance; i++) {
+      environment = environment?.enclosing;
     }
 
+    return environment;
+  }
+
+  Object? getAt(int distance, String name) {
+    Environment? environment = ancestor(distance);
     if (environment != null) {
-      return environment.get(name);
+      return environment.vars[name];
     }
-
     return null;
   }
 
@@ -44,6 +46,13 @@ class Environment {
       enclosing!.assign(name, value);
     } else {
       throw InterpretError('Undefined variable "${name.lexeme}".', name.line);
+    }
+  }
+
+  void assignAt(int distance, Token name, Object? value) {
+    Environment? environment = ancestor(distance);
+    if (environment != null) {
+      environment.define(name.lexeme, value);
     }
   }
 }

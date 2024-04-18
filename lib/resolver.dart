@@ -30,10 +30,18 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
   }
 
   void resolveBlock(List<Stmt> statements) {
-    beginScope();
     for (final stmt in statements) {
       resolveStmt(stmt);
     }
+  }
+
+  void resolveFunction(Fun stmt) {
+    beginScope();
+    for (Token param in stmt.params) {
+      declare(param);
+      define(param);
+    }
+    resolveBlock(stmt.body);
     endScope();
   }
 
@@ -51,24 +59,24 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
 
   @override
   void visitBlockStmt(Block stmt) {
+    beginScope();
     resolveBlock(stmt.statements);
+    endScope();
   }
 
   @override
   void visitVarStmt(Var stmt) {
     declare(stmt.name);
-    define(stmt.name);
     if (stmt.initializer != null) {
       resolveExpr(stmt.initializer!);
     }
+    define(stmt.name);
   }
 
   @override
   void visitWhileStmt(While stmt) {
     resolveExpr(stmt.condition);
-    beginScope();
     resolveStmt(stmt.body);
-    endScope();
   }
 
   @override
@@ -80,10 +88,7 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
   void visitFunStmt(Fun stmt) {
     declare(stmt.name);
     define(stmt.name);
-
-    beginScope();
-    resolveBlock(stmt.body);
-    endScope();
+    resolveFunction(stmt);
   }
 
   @override
@@ -97,11 +102,8 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
 
   @override
   void visitAssignExpr(Assign expr) {
-    if (scopes.isEmpty || !scopes.last.containsKey(expr.name.lexeme) || scopes.last.containsKey(expr.name.lexeme) == false) {
-      throw ResolveError('Var cannot assign to itself', expr.name.line);
-    }
-
     resolveExpr(expr.value);
+    resolveLocal(expr, expr.name);
   }
 
   @override
@@ -113,11 +115,9 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
   @override
   void visitCallExpr(Call expr) {
     resolveExpr(expr.callee);
-    beginScope();
     for (Expr arg in expr.arguments) {
       resolveExpr(arg);
     }
-    endScope();
   }
 
   @override
@@ -132,7 +132,10 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
 
   @override
   void visitVariableExpr(Variable expr) {
-    resolveLocal(expr);
+    if (scopes.isNotEmpty && scopes.last[expr.name.lexeme] == false) {
+      throw ResolveError('Cannot read local variable in its own initializer', expr.name.line);
+    }
+    resolveLocal(expr, expr.name);
   }
 
   @override
@@ -147,13 +150,13 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
   }
 
   void declare(Token name) {
-    final scope = scopes.last;
-    scope[name.lexeme] = false;
+    if (scopes.isEmpty) return;
+    scopes.last[name.lexeme] = false;
   }
 
   void define(Token name) {
-    final scope = scopes.last;
-    scope[name.lexeme] = true;
+    if (scopes.isEmpty) return;
+    scopes.last[name.lexeme] = true;
   }
 
   void beginScope() {
@@ -165,10 +168,10 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
     scopes.removeLast();
   }
 
-  void resolveLocal(Variable variable) {
-    for (int i = 0; i < scopes.length; i++) {
-      if (i > 0 && scopes[i].containsKey(variable.name.lexeme)) {
-        interpreter.resolve(variable, i);
+  void resolveLocal(Expr expr, Token name) {
+    for (int i = scopes.length - 1; i >= 0; i--) {
+      if (scopes[i].containsKey(name.lexeme)) {
+        interpreter.resolve(expr, (scopes.length - 1) - i);
       }
     }
   }
