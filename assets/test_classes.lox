@@ -1,3 +1,6 @@
 class Mio {}
 
 print Mio;
+
+var inst = Mio();
+print inst;
