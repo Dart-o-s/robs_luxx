@@ -12,7 +12,7 @@ class LoxClass extends LoxCallable {
 
   @override
   int arity() {
-    LoxFunction? init = methods['init'];
+    LoxFunction? init = findMethod('init');
     if (init != null) {
       return init.arity();
     } else {
@@ -23,7 +23,7 @@ class LoxClass extends LoxCallable {
   @override
   Object? call(Interpreter interpreter, List<Object?> arguments) {
     LoxInstance instance = LoxInstance(this);
-    LoxFunction? init = methods['init'];
+    LoxFunction? init = findMethod('init');
     if (init != null) {
       init.bind(instance).call(interpreter, arguments);
     }
