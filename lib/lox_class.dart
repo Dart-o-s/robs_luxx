@@ -12,12 +12,22 @@ class LoxClass extends LoxCallable {
 
   @override
   int arity() {
-    return 0;
+    LoxFunction? init = methods['init'];
+    if (init != null) {
+      return init.arity();
+    } else {
+      return 0;
+    }
   }
 
   @override
   Object? call(Interpreter interpreter, List<Object?> arguments) {
-    return LoxInstance(this);
+    LoxInstance instance = LoxInstance(this);
+    LoxFunction? init = methods['init'];
+    if (init != null) {
+      init.bind(instance).call(interpreter, arguments);
+    }
+    return instance;
   }
 
   @override

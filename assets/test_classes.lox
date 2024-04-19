@@ -1,12 +1,17 @@
 class Mio {
+  init(last) {
+    this.last = last;
+  }
+
   salute() {
     print "Hello: " + this.name;
+    print "Last: " + this.last;
   }
 }
 
 print Mio;
 
-var inst = Mio();
+var inst = Mio("Oliver");
 print inst;
 
 inst.any = "wow";
