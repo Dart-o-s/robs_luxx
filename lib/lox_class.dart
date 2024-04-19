@@ -6,6 +6,16 @@ class LoxClass extends LoxCallable {
 
   LoxClass(this.name, this.methods);
 
+  Fun? findMethod(Token name) {
+    for (Fun method in methods) {
+      if (method.name.lexeme == name.lexeme) {
+        return method;
+      }
+    }
+
+    return null;
+  }
+
   @override
   int arity() {
     return 0;

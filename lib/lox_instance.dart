@@ -11,6 +11,11 @@ class LoxInstance {
       return fields[name.lexeme];
     }
 
+    Fun? method = klass.findMethod(name);
+    if (method != null) {
+      return LoxFunction(method, Environment());
+    }
+
     throw InterpretError('Undefined property "${name.lexeme}"', name.line);
   }
 

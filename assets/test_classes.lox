@@ -1,4 +1,8 @@
-class Mio {}
+class Mio {
+  salute() {
+    print "Hello!";
+  }
+}
 
 print Mio;
 
@@ -7,3 +11,5 @@ print inst;
 
 inst.any = "wow";
 print inst.any;
+
+inst.salute();
