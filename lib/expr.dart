@@ -8,6 +8,7 @@ mixin ExprVisitor<T> {
   T visitAssignExpr(Assign expr);
   T visitBinaryExpr(Binary expr);
   T visitCallExpr(Call expr);
+  T visitGetExpr(Get expr);
   T visitGroupingExpr(Grouping expr);
   T visitLiteralExpr(Literal expr);
   T visitLogicalExpr(Logical expr);
@@ -47,6 +48,17 @@ class Call extends Expr {
   @override
   T accept<T>(ExprVisitor<T> visitor) {
     return visitor.visitCallExpr(this);
+  }
+}
+
+class Get extends Expr {
+  Get(this.object,this.name);
+  final Expr object;
+  final Token name;
+
+  @override
+  T accept<T>(ExprVisitor<T> visitor) {
+    return visitor.visitGetExpr(this);
   }
 }
 

@@ -8,6 +8,7 @@ enum TokenType {
   class$,
   comma,
   comment,
+  dot,
   equal,
   equalEqual,
   else$,

@@ -40,6 +40,11 @@ class Scanner {
           advance();
           break;
 
+        case '.':
+          addToken(TokenType.dot, '.');
+          advance();
+          break;
+
         case ',':
           addToken(TokenType.comma, ',');
           advance();

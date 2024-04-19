@@ -1,10 +1,6 @@
 import 'package:lox_dart/lox_dart.dart';
 
-enum FunctionType {
-  none,
-  function,
-  method
-}
+enum FunctionType { none, function, method }
 
 class Resolver with ExprVisitor<void>, StmtVisitor<void> {
   List<ResolveError> errors = [];
@@ -65,7 +61,8 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
   @override
   void visitReturnStmt(Return stmt) {
     if (currentFunction == FunctionType.none) {
-      throw ResolveError('Cannot return from top-level code', stmt.keyword.line);
+      throw ResolveError(
+          'Cannot return from top-level code', stmt.keyword.line);
     }
 
     if (stmt.value != null) {
@@ -146,6 +143,11 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
   }
 
   @override
+  void visitGetExpr(Get expr) {
+    resolveExpr(expr.object);
+  }
+
+  @override
   void visitGroupingExpr(Grouping expr) {
     resolveExpr(expr.expression);
   }
@@ -158,7 +160,8 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
   @override
   void visitVariableExpr(Variable expr) {
     if (scopes.isNotEmpty && scopes.last[expr.name.lexeme] == false) {
-      throw ResolveError('Cannot read local variable in its own initializer', expr.name.line);
+      throw ResolveError(
+          'Cannot read local variable in its own initializer', expr.name.line);
     }
     resolveLocal(expr, expr.name);
   }
@@ -177,7 +180,8 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
   void declare(Token name) {
     if (scopes.isEmpty) return;
     if (scopes.last.containsKey(name.lexeme)) {
-      throw ResolveError('Already a variable with this name in this scope', name.line);
+      throw ResolveError(
+          'Already a variable with this name in this scope', name.line);
     }
     scopes.last[name.lexeme] = false;
   }

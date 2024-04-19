@@ -202,6 +202,18 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   }
 
   @override
+  Object? visitGetterExpr(Get expr) {
+    final instance = evaluate(expr.object);
+
+    if (instance is! LoxInstance) {
+      throw InterpretError(
+          'Can only call properties on instances', expr.name.line);
+    }
+
+    return instance.get(expr.name.lexeme);
+  }
+
+  @override
   Object? visitGroupingExpr(Grouping expr) {
     return evaluate(expr.expression);
   }

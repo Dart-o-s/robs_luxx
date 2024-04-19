@@ -4,3 +4,6 @@ print Mio;
 
 var inst = Mio();
 print inst;
+
+inst.any = "wow";
+print inst.any;

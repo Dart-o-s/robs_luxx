@@ -331,8 +331,17 @@ class Parser {
   Expr call() {
     Expr callee = primary();
 
-    while (match([TokenType.parenLeft])) {
-      callee = finishCall(callee);
+    while (true) {
+      if (match([TokenType.parenLeft])) {
+        callee = finishCall(callee);
+      } else if (match([TokenType.dot])) {
+        advance();
+        ensure(TokenType.identifier, 'Expect property name after dot.');
+        Token name = peekAndAdvance();
+        callee = Get(callee, name);
+      } else {
+        break;
+      }
     }
 
     return callee;
