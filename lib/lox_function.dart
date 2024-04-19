@@ -9,6 +9,12 @@ class LoxFunction extends LoxCallable {
   @override
   int arity() => declaration.params.length;
 
+  LoxFunction bind(LoxInstance instance) {
+    Environment environment = Environment(closure);
+    environment.define("this", instance);
+    return LoxFunction(declaration, environment);
+  }
+
   @override
   Object? call(Interpreter interpreter, List<Object?> arguments) {
     Environment environment = Environment(closure);

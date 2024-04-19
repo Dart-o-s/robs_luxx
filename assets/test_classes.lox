@@ -1,6 +1,6 @@
 class Mio {
   salute() {
-    print "Hello!";
+    print "Hello: " + this.name;
   }
 }
 
@@ -12,4 +12,5 @@ print inst;
 inst.any = "wow";
 print inst.any;
 
+inst.name = "Robert";
 inst.salute();

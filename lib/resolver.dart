@@ -101,9 +101,15 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
   void visitClassStmt(Class stmt) {
     declare(stmt.name);
     define(stmt.name);
+
+    beginScope();
+    scopes.last["this"] = true;
+
     for (Fun method in stmt.methods) {
       resolveFunction(method, FunctionType.method);
     }
+
+    endScope();
   }
 
   @override
@@ -151,6 +157,11 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
   void visitSetExpr(Set expr) {
     resolveExpr(expr.value);
     resolveExpr(expr.object);
+  }
+
+  @override
+  void visitThisExpr(This expr) {
+    resolveLocal(expr, expr.keyword);
   }
 
   @override

@@ -389,6 +389,7 @@ class Parser {
           advance();
           return Literal(null);
         case TokenType.identifier:
+        case TokenType.this$:
           return Variable(peekAndAdvance());
 
         default:

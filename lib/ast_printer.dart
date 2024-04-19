@@ -59,6 +59,11 @@ class AstPrinter with ExprVisitor<String> {
     return _parenthesize('.=', [expr.object]);
   }
 
+  @override
+  String visitThisExpr(This expr) {
+    return _parenthesize('this', [expr]);
+  }
+
   String _parenthesize(String name, List<Expr> exprs) {
     final buffer = StringBuffer();
 
