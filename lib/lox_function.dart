@@ -3,8 +3,9 @@ import 'package:lox_dart/lox_dart.dart';
 class LoxFunction extends LoxCallable {
   final Fun declaration;
   final Environment closure;
+  final bool isInitializer;
 
-  LoxFunction(this.declaration, this.closure);
+  LoxFunction(this.declaration, this.closure, this.isInitializer);
 
   @override
   int arity() => declaration.params.length;
@@ -12,7 +13,7 @@ class LoxFunction extends LoxCallable {
   LoxFunction bind(LoxInstance instance) {
     Environment environment = Environment(closure);
     environment.define("this", instance);
-    return LoxFunction(declaration, environment);
+    return LoxFunction(declaration, environment, isInitializer);
   }
 
   @override
@@ -31,6 +32,10 @@ class LoxFunction extends LoxCallable {
       } else {
         rethrow;
       }
+    }
+
+    if (isInitializer) {
+      return closure.getAt(0, 'this');
     }
 
     return null;

@@ -95,7 +95,7 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
     environment.define(stmt.name.lexeme, null);
     Map<String, LoxFunction> methods = {};
     for (Fun method in stmt.methods) {
-      LoxFunction function = LoxFunction(method, environment);
+      LoxFunction function = LoxFunction(method, environment, method.name.lexeme == 'init');
       methods[method.name.lexeme] = function;
     }
     LoxClass klass = LoxClass(stmt.name.lexeme, methods);
@@ -104,7 +104,7 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
 
   @override
   void visitFunStmt(Fun stmt) {
-    environment.define(stmt.name.lexeme, LoxFunction(stmt, environment));
+    environment.define(stmt.name.lexeme, LoxFunction(stmt, environment, false));
   }
 
   @override
