@@ -389,8 +389,9 @@ class Parser {
           advance();
           return Literal(null);
         case TokenType.identifier:
-        case TokenType.this$:
           return Variable(peekAndAdvance());
+        case TokenType.this$:
+          return This(peekAndAdvance());
 
         default:
           final msg = 'Token ${peek().type} cannot be parse, yet.';

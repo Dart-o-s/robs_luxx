@@ -2,10 +2,13 @@ import 'package:lox_dart/lox_dart.dart';
 
 enum FunctionType { none, function, method }
 
+enum ClassType { none, klass }
+
 class Resolver with ExprVisitor<void>, StmtVisitor<void> {
   List<ResolveError> errors = [];
   final List<Map<String, bool>> scopes = [];
   FunctionType currentFunction = FunctionType.none;
+  ClassType currentClass = ClassType.none;
   late Interpreter interpreter;
 
   Resolver(this.interpreter);
@@ -99,6 +102,9 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
 
   @override
   void visitClassStmt(Class stmt) {
+    ClassType enclosingClass = currentClass;
+    currentClass = ClassType.klass;
+
     declare(stmt.name);
     define(stmt.name);
 
@@ -110,6 +116,7 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
     }
 
     endScope();
+    currentClass = enclosingClass;
   }
 
   @override
@@ -161,6 +168,10 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
 
   @override
   void visitThisExpr(This expr) {
+    if (currentClass == ClassType.none) {
+      throw ResolveError(
+          'Cannot use "this" outside a class.', expr.keyword.line);
+    }
     resolveLocal(expr, expr.keyword);
   }
 
