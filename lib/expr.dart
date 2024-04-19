@@ -12,6 +12,7 @@ mixin ExprVisitor<T> {
   T visitGroupingExpr(Grouping expr);
   T visitLiteralExpr(Literal expr);
   T visitLogicalExpr(Logical expr);
+  T visitSetExpr(Set expr);
   T visitUnaryExpr(Unary expr);
   T visitVariableExpr(Variable expr);
 }
@@ -91,6 +92,18 @@ class Logical extends Expr {
   @override
   T accept<T>(ExprVisitor<T> visitor) {
     return visitor.visitLogicalExpr(this);
+  }
+}
+
+class Set extends Expr {
+  Set(this.object,this.name,this.value);
+  final Expr object;
+  final Token name;
+  final Expr value;
+
+  @override
+  T accept<T>(ExprVisitor<T> visitor) {
+    return visitor.visitSetExpr(this);
   }
 }
 

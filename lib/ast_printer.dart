@@ -49,6 +49,16 @@ class AstPrinter with ExprVisitor<String> {
     return _parenthesize('${expr.name.lexeme} = ', [expr.value]);
   }
 
+  @override
+  String visitGetExpr(Get expr) {
+    return _parenthesize('.', [expr.object]);
+  }
+
+  @override
+  String visitSetExpr(Set expr) {
+    return _parenthesize('.=', [expr.object]);
+  }
+
   String _parenthesize(String name, List<Expr> exprs) {
     final buffer = StringBuffer();
 

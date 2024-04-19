@@ -229,10 +229,13 @@ class Parser {
 
     if (match([TokenType.equal])) {
       Token equals = peekAndAdvance();
+      Expr value = assignment();
 
       if (expr is Variable) {
-        Expr value = assignment();
         return Assign(expr.name, value);
+      } else if (expr is Get) {
+        Get get = expr;
+        return Set(get.object, get.name, value);
       }
 
       throw ParseError('Invalid assignment target', equals.line);

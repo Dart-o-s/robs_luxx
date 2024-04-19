@@ -148,6 +148,12 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
   }
 
   @override
+  void visitSetExpr(Set expr) {
+    resolveExpr(expr.value);
+    resolveExpr(expr.object);
+  }
+
+  @override
   void visitGroupingExpr(Grouping expr) {
     resolveExpr(expr.expression);
   }

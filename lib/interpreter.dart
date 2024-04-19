@@ -202,7 +202,7 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   }
 
   @override
-  Object? visitGetterExpr(Get expr) {
+  Object? visitGetExpr(Get expr) {
     final instance = evaluate(expr.object);
 
     if (instance is! LoxInstance) {
@@ -210,7 +210,21 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
           'Can only call properties on instances', expr.name.line);
     }
 
-    return instance.get(expr.name.lexeme);
+    return instance.get(expr.name);
+  }
+
+  @override
+  Object? visitSetExpr(Set expr) {
+    final instance = evaluate(expr.object);
+
+    if (instance is! LoxInstance) {
+      throw InterpretError(
+          'Can only call properties on instances', expr.name.line);
+    }
+
+    Object? value = evaluate(expr.value);
+    instance.set(expr.name.lexeme, value);
+    return value;
   }
 
   @override
