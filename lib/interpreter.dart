@@ -93,7 +93,12 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   @override
   void visitClassStmt(Class stmt) {
     environment.define(stmt.name.lexeme, null);
-    LoxClass klass = LoxClass(stmt.name.lexeme, stmt.methods);
+    Map<String, LoxFunction> methods = {};
+    for (Fun method in stmt.methods) {
+      LoxFunction function = LoxFunction(method, environment);
+      methods[method.name.lexeme] = function;
+    }
+    LoxClass klass = LoxClass(stmt.name.lexeme, methods);
     environment.assign(stmt.name, klass);
   }
 

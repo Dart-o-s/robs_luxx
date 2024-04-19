@@ -2,18 +2,12 @@ import 'package:lox_dart/lox_dart.dart';
 
 class LoxClass extends LoxCallable {
   final String name;
-  late final List<Fun> methods;
+  late final Map<String, LoxFunction> methods;
 
   LoxClass(this.name, this.methods);
 
-  Fun? findMethod(Token name) {
-    for (Fun method in methods) {
-      if (method.name.lexeme == name.lexeme) {
-        return method;
-      }
-    }
-
-    return null;
+  LoxFunction? findMethod(String name) {
+    return methods[name];
   }
 
   @override

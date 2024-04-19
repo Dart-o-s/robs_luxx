@@ -1,4 +1,5 @@
 import 'package:lox_dart/lox_dart.dart';
+import 'package:lox_dart/lox_function.dart';
 
 class LoxInstance {
   late final LoxClass klass;
@@ -11,9 +12,9 @@ class LoxInstance {
       return fields[name.lexeme];
     }
 
-    Fun? method = klass.findMethod(name);
+    LoxFunction? method = klass.findMethod(name.lexeme);
     if (method != null) {
-      return LoxFunction(method, Environment());
+      return method;
     }
 
     throw InterpretError('Undefined property "${name.lexeme}"', name.line);
