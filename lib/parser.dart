@@ -48,7 +48,7 @@ class Parser {
 
     if (match([TokenType.less])) {
       advance();
-      ensure(TokenType.identifier, 'Expect "super" class name.');
+      ensure(TokenType.identifier, 'Expect superclass name.');
       superclass = Variable(peekAndAdvance());
     }
 

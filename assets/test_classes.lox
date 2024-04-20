@@ -9,22 +9,21 @@ class Mio {
   }
 }
 
+print Mio;
+var inst = Mio("Oliver");
+print inst;
+
+inst.any = "wow";
+print inst.any;
+
+inst.name = "Robert";
+inst.salute();
+
 class Tuyo < Mio {
   cheers() {
     print "Say what?";
   }
 }
-
-// print Mio;
-
-// var inst = Mio("Oliver");
-// print inst;
-
-// inst.any = "wow";
-// print inst.any;
-
-// inst.name = "Robert";
-// inst.salute();
 
 var child = Tuyo("Jackson");
 child.cheers();

@@ -112,6 +112,11 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
     declare(stmt.name);
     define(stmt.name);
 
+    if (stmt.superclass != null &&
+        stmt.name.lexeme == stmt.superclass!.name.lexeme) {
+      throw ResolveError('A class cannot inherit from itself.', stmt.name.line);
+    }
+
     if (stmt.superclass != null) {
       resolveExpr(stmt.superclass!);
     }
