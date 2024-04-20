@@ -2,12 +2,17 @@ import 'package:lox_dart/lox_dart.dart';
 
 class LoxClass extends LoxCallable {
   final String name;
+  LoxClass? superclass;
   late final Map<String, LoxFunction> methods;
 
-  LoxClass(this.name, this.methods);
+  LoxClass(this.name, this.superclass, this.methods);
 
   LoxFunction? findMethod(String name) {
-    return methods[name];
+    if (methods.containsKey(name)) {
+      return methods[name];
+    }
+
+    return superclass?.findMethod(name);
   }
 
   @override

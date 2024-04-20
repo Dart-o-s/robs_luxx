@@ -93,12 +93,24 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   @override
   void visitClassStmt(Class stmt) {
     environment.define(stmt.name.lexeme, null);
+    Object? superclass;
+
+    if (stmt.superclass != null) {
+      superclass = evaluate(stmt.superclass!);
+      if (superclass is! LoxClass) {
+        throw InterpretError('Superclass must be a class.', stmt.name.line);
+      }
+    }
+
     Map<String, LoxFunction> methods = {};
     for (Fun method in stmt.methods) {
-      LoxFunction function = LoxFunction(method, environment, method.name.lexeme == 'init');
+      LoxFunction function =
+          LoxFunction(method, environment, method.name.lexeme == 'init');
       methods[method.name.lexeme] = function;
     }
-    LoxClass klass = LoxClass(stmt.name.lexeme, methods);
+
+    LoxClass klass =
+        LoxClass(stmt.name.lexeme, superclass as LoxClass, methods);
     environment.assign(stmt.name, klass);
   }
 

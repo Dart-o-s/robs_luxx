@@ -44,6 +44,14 @@ class Parser {
   Stmt classDeclaration() {
     ensure(TokenType.identifier, 'Expect class name.');
     Token name = peekAndAdvance();
+    Variable? superclass;
+
+    if (match([TokenType.less])) {
+      advance();
+      ensure(TokenType.identifier, 'Expect "super" class name.');
+      superclass = Variable(peekAndAdvance());
+    }
+
     ensureAndAdvance(TokenType.braceLeft, 'Expect "{" after class name.');
     List<Fun> methods = [];
 
@@ -52,7 +60,7 @@ class Parser {
     }
 
     ensureAndAdvance(TokenType.braceRight, 'Expect "}" after class body.');
-    return Class(name, methods);
+    return Class(name, superclass, methods);
   }
 
   Stmt funDeclaration(String kind) {

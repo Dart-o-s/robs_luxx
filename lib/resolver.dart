@@ -112,6 +112,10 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
     declare(stmt.name);
     define(stmt.name);
 
+    if (stmt.superclass != null) {
+      resolveExpr(stmt.superclass!);
+    }
+
     beginScope();
     scopes.last["this"] = true;
 

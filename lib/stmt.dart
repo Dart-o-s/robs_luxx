@@ -27,8 +27,9 @@ class Block extends Stmt {
 }
 
 class Class extends Stmt {
-  Class(this.name,this.methods);
+  Class(this.name,this.superclass,this.methods);
   final Token name;
+  final Variable? superclass;
   final List<Fun> methods;
 
   @override
