@@ -28,7 +28,11 @@ class LoxFunction extends LoxCallable {
       interpreter.executeBlock(declaration.body, environment);
     } catch (e) {
       if (e is ReturnException) {
-        return e.value;
+        if (isInitializer) {
+          return closure.getAt(0, 'this');
+        } else {
+          return e.value;
+        }
       } else {
         rethrow;
       }

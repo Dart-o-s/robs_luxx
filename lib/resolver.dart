@@ -1,6 +1,6 @@
 import 'package:lox_dart/lox_dart.dart';
 
-enum FunctionType { none, function, method }
+enum FunctionType { none, function, initializer, method }
 
 enum ClassType { none, klass }
 
@@ -69,6 +69,10 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
     }
 
     if (stmt.value != null) {
+      if (currentFunction == FunctionType.initializer) {
+        throw ResolveError(
+            'Cannot return value from initializer', stmt.keyword.line);
+      }
       resolveExpr(stmt.value!);
     }
   }
@@ -112,7 +116,11 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
     scopes.last["this"] = true;
 
     for (Fun method in stmt.methods) {
-      resolveFunction(method, FunctionType.method);
+      FunctionType declaration = FunctionType.method;
+      if (method.name.lexeme == 'init') {
+        declaration = FunctionType.initializer;
+      }
+      resolveFunction(method, declaration);
     }
 
     endScope();
