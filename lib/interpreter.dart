@@ -92,7 +92,6 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
 
   @override
   void visitClassStmt(Class stmt) {
-    Environment enclosing = environment;
     Object? superclass;
     if (stmt.superclass != null) {
       superclass = evaluate(stmt.superclass!);
@@ -104,7 +103,7 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
     environment.define(stmt.name.lexeme, null);
 
     if (stmt.superclass != null) {
-      environment = Environment(enclosing);
+      environment = Environment(environment);
       environment.define('super', superclass);
     }
 
@@ -119,7 +118,7 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
         (superclass != null ? superclass as LoxClass : null), methods);
 
     if (stmt.superclass != null) {
-      environment = enclosing;
+      environment = environment.enclosing!;
     }
 
     environment.assign(stmt.name, klass);
@@ -258,15 +257,16 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   @override
   Object? visitSuperExpr(Super expr) {
     int distance = locals[expr]!;
-    Object? parent = environment.getAt(distance, expr.keyword.lexeme);
-    Object? child = environment.getAt(distance - 1, 'this');
-    Object? method = (parent as LoxClass).findMethod(expr.name.lexeme);
+    Object? superclass = environment.getAt(distance, 'super');
+    Object? object = environment.getAt(distance - 1, 'this');
+    Object? method = (superclass as LoxClass).findMethod(expr.name.lexeme);
 
     if (method != null && method is LoxFunction) {
-      return method.bind(child as LoxInstance);
+      return method.bind(object as LoxInstance);
     }
 
-    return null;
+    throw InterpretError(
+        'Undefined property "${expr.name.lexeme}"', expr.name.line);
   }
 
   @override
