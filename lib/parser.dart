@@ -400,6 +400,11 @@ class Parser {
           return Variable(peekAndAdvance());
         case TokenType.this$:
           return This(peekAndAdvance());
+        case TokenType.super$:
+          Token kw = peekAndAdvance();
+          ensureAndAdvance(TokenType.dot, 'Expect "." after super keyword.');
+          ensure(TokenType.identifier, 'Expect method name for "super".');
+          return Super(kw, peekAndAdvance());
 
         default:
           final msg = 'Token ${peek().type} cannot be parse, yet.';

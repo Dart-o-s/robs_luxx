@@ -23,6 +23,11 @@ class Tuyo < Mio {
   cheers() {
     print "Say what?";
   }
+
+  salute() {
+    super.salute();
+    print "Yessssss";
+  }
 }
 
 var child = Tuyo("Jackson");

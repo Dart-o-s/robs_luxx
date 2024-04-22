@@ -92,6 +92,7 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
 
   @override
   void visitClassStmt(Class stmt) {
+    Environment enclosing = environment;
     Object? superclass;
     if (stmt.superclass != null) {
       superclass = evaluate(stmt.superclass!);
@@ -102,6 +103,11 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
 
     environment.define(stmt.name.lexeme, null);
 
+    if (stmt.superclass != null) {
+      environment = Environment(enclosing);
+      environment.define('super', superclass);
+    }
+
     Map<String, LoxFunction> methods = {};
     for (Fun method in stmt.methods) {
       LoxFunction function =
@@ -109,8 +115,13 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
       methods[method.name.lexeme] = function;
     }
 
-    LoxClass klass =
-        LoxClass(stmt.name.lexeme, (superclass != null ? superclass as LoxClass : null), methods);
+    LoxClass klass = LoxClass(stmt.name.lexeme,
+        (superclass != null ? superclass as LoxClass : null), methods);
+
+    if (stmt.superclass != null) {
+      environment = enclosing;
+    }
+
     environment.assign(stmt.name, klass);
   }
 
@@ -242,6 +253,20 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
     Object? value = evaluate(expr.value);
     instance.set(expr.name.lexeme, value);
     return value;
+  }
+
+  @override
+  Object? visitSuperExpr(Super expr) {
+    int distance = locals[expr]!;
+    Object? parent = environment.getAt(distance, expr.keyword.lexeme);
+    Object? child = environment.getAt(distance - 1, 'this');
+    Object? method = (parent as LoxClass).findMethod(expr.name.lexeme);
+
+    if (method != null && method is LoxFunction) {
+      return method.bind(child as LoxInstance);
+    }
+
+    return null;
   }
 
   @override

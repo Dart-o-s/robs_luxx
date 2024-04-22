@@ -35,6 +35,7 @@ enum TokenType {
   star,
   slash,
   string,
+  super$,
   this$,
   true$,
   var$,

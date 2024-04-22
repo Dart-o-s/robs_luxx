@@ -60,6 +60,11 @@ class AstPrinter with ExprVisitor<String> {
   }
 
   @override
+  String visitSuperExpr(Super expr) {
+    return _parenthesize('super', [expr]);
+  }
+
+  @override
   String visitThisExpr(This expr) {
     return _parenthesize('this', [expr]);
   }

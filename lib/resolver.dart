@@ -121,6 +121,11 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
       resolveExpr(stmt.superclass!);
     }
 
+    if (stmt.superclass != null) {
+      beginScope();
+      scopes.last["super"] = true;
+    }
+
     beginScope();
     scopes.last["this"] = true;
 
@@ -133,6 +138,11 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
     }
 
     endScope();
+
+    if (stmt.superclass != null) {
+      endScope();
+    }
+
     currentClass = enclosingClass;
   }
 
@@ -181,6 +191,11 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
   void visitSetExpr(Set expr) {
     resolveExpr(expr.value);
     resolveExpr(expr.object);
+  }
+
+  @override
+  void visitSuperExpr(Super expr) {
+    resolveLocal(expr, expr.keyword);
   }
 
   @override
