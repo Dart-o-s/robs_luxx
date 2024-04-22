@@ -2,7 +2,7 @@ import 'package:lox_dart/lox_dart.dart';
 
 enum FunctionType { none, function, initializer, method }
 
-enum ClassType { none, klass }
+enum ClassType { none, klass, subklass }
 
 class Resolver with ExprVisitor<void>, StmtVisitor<void> {
   List<ResolveError> errors = [];
@@ -118,6 +118,7 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
     }
 
     if (stmt.superclass != null) {
+      currentClass = ClassType.subklass;
       resolveExpr(stmt.superclass!);
     }
 
@@ -195,6 +196,13 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
 
   @override
   void visitSuperExpr(Super expr) {
+    if (currentClass == ClassType.none) {
+      throw ResolveError(
+          'Cannot use "super" outside of a class.', expr.name.line);
+    } else if (currentClass != ClassType.subklass) {
+      throw ResolveError(
+          'Cannot use "super" in class with no superclass', expr.name.line);
+    }
     resolveLocal(expr, expr.keyword);
   }
 
