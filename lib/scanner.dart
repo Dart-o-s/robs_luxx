@@ -4,6 +4,7 @@ class Scanner {
   final String input;
   final List<Token> tokens = [];
   final List<ScanError> errors = [];
+  var lastComment = <String>[];
 
   int _pos = 0;
   int line = 1;
@@ -25,6 +26,7 @@ class Scanner {
     'true': TokenType.true$,
     'var': TokenType.var$,
     'while': TokenType.while$,
+    '_meta::printAst': TokenType.printAst,
   };
 
   Scanner(this.input);
@@ -172,7 +174,9 @@ class Scanner {
   }
 
   void comment() {
+    lastComment = [];
     do {
+      lastComment.add(peek());
       advance();
     } while (peek().isNotEmpty && peek() != '\n');
   }
@@ -229,9 +233,15 @@ class Scanner {
     } while (peek().isNotEmpty && (isAlphaNumeric() || peek() == ':'));
 
     TokenType? type = _keywords[value];
-    type ??= TokenType.identifier;
-
-    tokens.add(Token(type: type, lexeme: value, line: line));
+    if (type != null) {
+      var tt = Token(type: type, lexeme: value, line: line);
+      handleMetaToken(tt);
+      tt.isKeyword = true;
+      tokens.add(tt);
+    } else {
+      type ??= TokenType.identifier;
+      tokens.add(Token(type: type, lexeme: value, line: line));
+    }
   }
 
   void advance() {
@@ -259,8 +269,15 @@ class Scanner {
   }
 
   bool isAlphaNumeric() {
-    final alphanumeric = RegExp(r'^[a-zA-Z0-9]+$');
+    final alphanumeric = RegExp(r'^[_a-zA-Z0-9]+$');
     return alphanumeric.hasMatch(peek());
+  }
+
+  void handleMetaToken(Token tt) {
+    if (tt.lexeme.startsWith("_meta::")) {
+      comment();
+      tt.eolComment = lastComment.toString();
+    }
   }
 }
 

@@ -40,6 +40,7 @@ enum TokenType {
   true$,
   var$,
   while$,
+  printAst,
 }
 
 class Token {
@@ -47,6 +48,13 @@ class Token {
   final String lexeme;
   final int line;
   final Object? value;
+
+  String leadingComment = "";
+
+  /// also used for meta tokens as argument
+  String eolComment = "";
+
+  bool isKeyword = false;
 
   Token({required this.type, required this.lexeme, required this.line, this.value});
 

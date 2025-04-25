@@ -1,5 +1,16 @@
 # Plan for Luxx
 
+## todo
+    [x] DONE 2025-04-26 02:27 conocatanate doubles to sting ends
+    [ ] OPEN metaTokens to interprete directly by the parser or even scanner
+        - scan to EOL and put it as value into the token
+        - _meta::printAst
+    [ ] OPEN source code breakpoint, see STBLUXX
+    [ ] OPEN hang comments at the following token
+    [ ] OPEN give keyword tokens a isKeyword flag
+    [ ] OPEN Change string concatanation to StringBuffers
+    [ ] OPEN Multi Line comments or the Scanner Switches (see below)
+
 ## Ideas 
 [ ] better test suit. The compiler ignores to many errors!
 [ ] make # and EOL Comment
