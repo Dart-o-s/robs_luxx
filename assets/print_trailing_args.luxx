@@ -1,1 +1,2 @@
+// Bug: Interpreter hangs, or parser - did not figure it yet.
 print "Alpha", 1, 2;
