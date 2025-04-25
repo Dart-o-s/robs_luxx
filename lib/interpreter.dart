@@ -160,11 +160,11 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
         if (left is double && right is double) {
           return left + right;
         }
-        if (left is String && right is String) {
-          return left + right;
+        if (left is String) {
+          return left + right.toString();
         }
         throw InterpretError(
-            'Both values must be strings or numbers', expr.operator.line);
+            'Both values must be strings or numbers (AoS: OOPS, how did we get here?)', expr.operator.line);
 
       case TokenType.minus:
         _checkNumberOperands(expr.operator, [left, right]);

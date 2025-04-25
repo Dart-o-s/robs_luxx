@@ -151,6 +151,12 @@ class Scanner {
           } else if (isAlphaNumeric()) {
             identifier();
           } else {
+            /// Kanji can be parsed, it is just not in the range of idents
+            /// sumerian are two ints, and the first one starts with d808
+            // String w1= peekAsInt().toRadixString(16);
+            // advance();
+            // String w2= peekAsInt().toRadixString(16);
+            // print ("Codes: $w1");
             errors.add(ScanError('Unexpected character "${peek()}" found', line));
             advance();
           }
@@ -220,7 +226,7 @@ class Scanner {
     do {
       value += peek();
       advance();
-    } while (peek().isNotEmpty && isAlphaNumeric());
+    } while (peek().isNotEmpty && (isAlphaNumeric() || peek() == ':'));
 
     TokenType? type = _keywords[value];
     type ??= TokenType.identifier;
@@ -232,6 +238,10 @@ class Scanner {
     _pos++;
   }
 
+  int peekAsInt() {
+    int i = input.codeUnitAt(_pos);
+    return i;
+  }
   String peek() {
     if (isOutOfRange()) {
       return '';

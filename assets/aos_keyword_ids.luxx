@@ -1,0 +1,57 @@
+print "start keyword ids";
+var verbose = false;
+
+if (verbose)
+    print "Verbose: true";
+else
+    print "Verbose: false";
+
+class Base {
+}
+
+class Ctr {
+    init() {}
+}
+
+var b = Base();
+var ctr = Ctr();
+
+class Root {
+    init() {
+        print "root created";
+    }
+}
+var r = Root();
+    print r;
+
+
+class Trunk < Root {
+    init() {
+        print "trunk created";
+    }
+    meth:od(a, b) {
+        print "in meth:od of Trunk";
+    }
+}
+
+var t = Trunk();
+print t;
+t.meth:od(1, 2); // trailing , makes problem?
+
+class Array {
+    init(size) {
+        print "Array created: ";
+    }
+    put:at:(item, idx) {
+        print "putting {item} at {idx}"; // trailing items make a hang! , item, idx;
+    }
+    get:(idx) {
+        return "item from {idx}";
+    }
+}
+
+var arr = Array(4);
+    arr.put:at ("Something", 5);
+    arr.get:(5);
+
+print "End keyword ids";

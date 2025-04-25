@@ -1,0 +1,5 @@
+var beta = 13;
+print "Alpha" + beta;
+
+var gamma = 0.13;
+print "Out " + gamma + " Alpha"; // oi oi oi, if it evaluates from left, this should work ...

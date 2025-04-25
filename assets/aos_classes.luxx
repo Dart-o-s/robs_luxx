@@ -1,0 +1,58 @@
+print "start classes";
+var verbose = false;
+
+if (verbose)
+    print "Verbose: true";
+else
+    print "Verbose: false";
+
+class Base {
+}
+
+class Ctr {
+    Ctr() {}
+}
+
+var b = Base();
+var ctr = Ctr();
+
+class Root {
+    init() {
+        print "root created";
+    }
+}
+var r = Root();
+    print r;
+
+
+class Trunk < Root {
+    init() {
+        print "trunk created";
+    }
+}
+
+var t = Trunk();
+print t;
+
+// dumpParseTree();
+
+verbose = false;
+
+if (verbose) {
+    print b;
+    print ctr;
+
+    print r;
+    print t;
+}
+
+// leads to scanner errors
+// var   𒈨 = "test";
+// print 𒈨;
+
+
+print "End classes";
+
+// why does that not lead to an error?
+// after adding the pBRK, it did lead to an error in the scanner.
+// pBRK 𒆶
