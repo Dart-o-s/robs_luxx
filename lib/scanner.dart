@@ -4,12 +4,20 @@ class Scanner {
   final String input;
   final List<Token> tokens = [];
   final List<ScanError> errors = [];
-  var lastComment = <String>[];
+  var lastComment = StringBuffer();
 
   int _pos = 0;
   int line = 1;
 
   final Map<String, TokenType> _keywords = {
+    // a, an, is and is_a are fancy end of line comments
+    'a'  : TokenType.a,
+    'an' : TokenType.an,
+    'is' : TokenType.is$,
+    'is_a' : TokenType.is_a, // in source code: 'is a' - probably do not need it
+
+    'in' : TokenType.in$,
+
     'and': TokenType.and,
     'class': TokenType.class$,
     'else': TokenType.else$,
@@ -98,6 +106,8 @@ class Scanner {
           advance();
           if (peek() == '/') {
             comment();
+          } else if (peek() == '*') {
+            _advanceUntilCommentEnd();
           } else {
             addToken(TokenType.slash, '/');
           }
@@ -174,9 +184,9 @@ class Scanner {
   }
 
   void comment() {
-    lastComment = [];
+    lastComment.clear();
     do {
-      lastComment.add(peek());
+      lastComment.write(peek());
       advance();
     } while (peek().isNotEmpty && peek() != '\n');
   }
@@ -252,6 +262,7 @@ class Scanner {
     int i = input.codeUnitAt(_pos);
     return i;
   }
+
   String peek() {
     if (isOutOfRange()) {
       return '';
@@ -278,6 +289,36 @@ class Scanner {
       comment();
       tt.eolComment = lastComment.toString();
     }
+  }
+
+  bool _match(String expected) {
+    if (isOutOfRange() || peek() != expected) {
+      return false;
+    } else {
+      _pos++;
+      return true;
+    }
+  }
+
+  void _advanceUntilCommentEnd() {
+    int commentLevel = 1;
+    int lastOpening = line;
+
+    while (commentLevel > 0 && !isOutOfRange()) {
+      if (_match('\n')) {
+        line++;
+        continue;
+      } else if (_match('/') && peek() == '*') {
+        commentLevel = commentLevel + 1;
+        lastOpening = line;
+      } else if (_match('*') && peek() == '/') {
+        commentLevel = commentLevel - 1;
+      }
+      advance();
+    }
+    isOutOfRange();
+    errors.add(ScanError('Closing "*/" expected. Last opening "/*" at ${lastOpening}', line));
+
   }
 }
 

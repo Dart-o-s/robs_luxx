@@ -1,5 +1,9 @@
 enum TokenType {
   and,
+
+  a,
+  an,
+
   bang,
   bangEqual,
   braceLeft,
@@ -20,6 +24,11 @@ enum TokenType {
   greaterEqual,
   identifier,
   if$,
+
+  in$,
+  is$,
+  is_a,
+
   less,
   lessEqual,
   minus,

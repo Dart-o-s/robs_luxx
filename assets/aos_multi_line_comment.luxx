@@ -1,0 +1,17 @@
+// testing multi line comment
+// the text is formatted odd, because the line counting is one off (because of the \n directly after /*)
+// I fix that at some time ...
+
+print "START: multi line comment";
+
+/*
+print "nothing to print";
+
+
+
+    /*
+    print "nested is not printed either
+    */
+
+*/
+print "END: multi line comment";

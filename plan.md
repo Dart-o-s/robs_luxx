@@ -2,18 +2,33 @@
 
 ## todo
     [x] DONE 2025-04-26 02:27 conocatanate doubles to sting ends
-    [ ] OPEN metaTokens to interprete directly by the parser or even scanner
+    [o] POST metaTokens to interprete directly by the parser or even scanner
         - scan to EOL and put it as value into the token
         - _meta::printAst
-    [ ] OPEN source code breakpoint, see STBLUXX
-    [ ] OPEN hang comments at the following token
-    [ ] OPEN give keyword tokens a isKeyword flag
+            for some reason the parser loses track if this instruction is on top level?
+
+    [o] OPEN source code breakpoint, see STBLUXX
+        - see above with _meta
+
+    [X] DONE 2025-05-26 03:11 hang comments at the following token
+    [X] DONE 2025-04-26 03:11 give keyword tokens a isKeyword flag
     [ ] OPEN Change string concatanation to StringBuffers
-    [ ] OPEN Multi Line comments or the Scanner Switches (see below)
+    [X] DONE 2025-04-26 13:05 Multi Line comments or the Scanner Switches (see below)
+        - nested MLCs  
+    [ ] LUXX return named result.
+        int found = qaList.findCardContaining(it, from: cur);
+        ^^^^^^^^^ this could be a "name" variable provided by the function
+        for example: findCardContaining(it, from) as card -- this would introduce a variable card at point of usage holding the result
+        exit keyword/statement.
 
 ## Ideas 
-[ ] better test suit. The compiler ignores to many errors!
-[ ] make # and EOL Comment
+    [ ] OPEN OO/Graph Database on Luxx
+    [ ] OPEN Tree Walking Multi Methods, like in "Adaptive Programming"
+    [ ] 
+    [ ] better test suit. The compiler ignores to many errors!
+    [ ] OPEN make # an EOL Comment
+        [ ] OPEN add also ``` "code"  ``` blocks, which get ignored by the scanner
+
 [ ] LUXX the last literal used, should be in an helper variable "it" (or similar).
 - better idea, there is always a helper "declared" and we set it manually where needed
 - in theory, all "keywords" of a previous keyword message could be variables for reuse?
@@ -23,12 +38,6 @@
     - break point markers or other message or information markers could be part of the tokens
     OPEN add some diagnostics output to it, like line surrounding tokens and allow an argument or some.
         treat it as end of line comment, scanner just eats till there
-
-[ ] LUXX return named result.
-int found = qaList.findCardContaining(it, from: cur);
-^^^^^^^^^ this could be a "name" variable provided by the function
-for example: findCardContaining(it, from) as card -- this would introduce a variable card at point of usage holding the result
-    exit keyword/statement.
 
 https://stackoverflow.com/questions/12636738/access-to-user-environment-variable
 [ ] Put Environment Variables into a super global scope

@@ -8,6 +8,7 @@ print a;
 
 // the parser is supposed to stumble over this
 // and print the ast
+
 _meta::printAst and this is the message, everything after the meta token is eaten by the scanner and is printed out!
 
 print "this was not in the ast yet";

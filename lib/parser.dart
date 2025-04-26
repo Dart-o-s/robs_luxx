@@ -441,6 +441,13 @@ class Parser {
   }
 
   Token peek() {
+    var tk = tokens[_pos];
+    if (tk.type == TokenType.printAst) {
+      print(tk.eolComment);
+      printAst();
+      _pos++;
+    }
+
     return tokens[_pos];
   }
 
@@ -464,6 +471,10 @@ class Parser {
       ])) return;
       advance();
     }
+  }
+
+  void printAst() {
+    print("OOPS: the AstPrinter can only walk expressions");
   }
 }
 
