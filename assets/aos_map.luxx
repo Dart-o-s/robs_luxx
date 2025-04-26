@@ -1,0 +1,21 @@
+/// fooling around with maps
+var key1 = "aos";
+var key2 = "enkimaru";
+
+var map = mapCreate();
+
+if (map != nil)
+    print "we have an map in luxx/lox";
+
+print "Length: " + mapLength(map);
+
+var map2 = mapSetAt(map, key1, "Something ...");
+    mapSetAt(map2, key2, "... more");
+
+print "Length: " + mapLength(map);
+mapSetAt(map2, key1, "cleared");
+
+print "Lets get 'em! " +
+    mapGetAt(map2, key1) + " " +
+    mapGetAt(map2, key2);
+

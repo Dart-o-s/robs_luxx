@@ -1,0 +1,19 @@
+/// fooling around with arrays
+
+var array = arrayCreate();
+
+if (array != nil)
+    print "we have an array in luxx/lox";
+
+print "Length: " + arrayLength(array);
+
+var array2 = arrayAdd(array, "Something ...");
+    arrayAdd(array2, "... more");
+
+print "Length: " + arrayLength(array);
+arraySetAt(array2, "cleared", 0);
+
+print "Lets get 'em! " +
+    arrayGetAt(array2, 0) + " " +
+    arrayGetAt(array2, 1);
+

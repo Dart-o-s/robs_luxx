@@ -1,5 +1,7 @@
 import 'package:lox_dart/lox_dart.dart';
 import 'package:lox_dart/native_funs.dart';
+import 'luxx_array.dart';
+import 'luxx_map.dart';
 
 class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   List<InterpretError> errors = [];
@@ -10,7 +12,18 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   Interpreter() {
     environment = globals;
     globals.define('clock', Clock());
-  }
+
+    globals.define('arrayCreate', ArrayCreate());
+    globals.define('arrayLength', ArrayLength());
+    globals.define('arrayAdd', ArrayAdd());
+    globals.define('arraySetAt', ArraySet());
+    globals.define('arrayGetAt', ArrayGet());
+
+    globals.define('mapCreate', MapCreate());
+    globals.define('mapLength', MapLength());
+    globals.define('mapSetAt', MapSet());
+    globals.define('mapGetAt', MapGet());
+}
 
   void interpret(List<Stmt> statements) {
     for (final stmt in statements) {

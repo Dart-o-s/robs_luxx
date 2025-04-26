@@ -1,5 +1,21 @@
 # Plan for Luxx
 
+## Prio One
+    [X] DONE 2025-04-26 15:45 Arrays
+        create
+        length
+        append
+        set at
+        get at
+
+    [X] DONE 2025-04-26 16:10 Maps
+        create
+        length
+        set at
+        get at
+    
+    [] OPEN Wrapper classes for global Array- and Map-functions
+
 ## todo
     [x] DONE 2025-04-26 02:27 conocatanate doubles to sting ends
     [o] POST metaTokens to interprete directly by the parser or even scanner

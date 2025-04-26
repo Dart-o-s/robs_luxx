@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:lox_dart/lox_dart.dart';
 
-bool hadError = true;
+bool hadError = false;
 final interpreter = Interpreter();
 
 void main(List<String> arguments) {
