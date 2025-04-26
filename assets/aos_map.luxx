@@ -1,4 +1,6 @@
 /// fooling around with maps
+/// not really a "test" but the stuff below works
+
 var key1 = "aos";
 var key2 = "enkimaru";
 
@@ -18,4 +20,3 @@ mapSetAt(map2, key1, "cleared");
 print "Lets get 'em! " +
     mapGetAt(map2, key1) + " " +
     mapGetAt(map2, key2);
-

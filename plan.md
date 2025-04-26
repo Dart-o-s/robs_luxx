@@ -2,23 +2,19 @@
 
 ## Prio One
     [X] DONE 2025-04-26 15:45 Arrays
-        create
-        length
-        append
-        set at
-        get at
+        create, length, append, set at, get at
 
     [X] DONE 2025-04-26 16:10 Maps
-        create
-        length
-        set at
-        get at
+        create, length, set at, get at
     
     [] OPEN Wrapper classes for global Array- and Map-functions
+    [] OPEN make the interpreter load a class library
+
+    [] OPEN simple Monitor to dig around in the structures set up by compiler/scanner and interpreter
 
 ## todo
     [x] DONE 2025-04-26 02:27 conocatanate doubles to sting ends
-    [o] POST metaTokens to interprete directly by the parser or even scanner
+    [o] POSTPONED metaTokens to interprete directly by the parser or even scanner
         - scan to EOL and put it as value into the token
         - _meta::printAst
             for some reason the parser loses track if this instruction is on top level?

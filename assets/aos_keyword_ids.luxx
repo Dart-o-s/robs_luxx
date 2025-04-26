@@ -1,4 +1,9 @@
 print "start keyword ids";
+// that below is only fooling around to see if it works in principle
+// for the intended call syntax as for example:
+//  array put: "aos" at: 0;
+// I did nothing yet
+
 var verbose = false;
 
 if (verbose)
@@ -51,7 +56,7 @@ class Array {
 }
 
 var arr = Array(4);
-    arr.put:at ("Something", 5);
+    arr.put:at:("Something", 5);
     arr.get:(5);
 
 print "End keyword ids";

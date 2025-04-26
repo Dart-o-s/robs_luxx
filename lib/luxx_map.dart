@@ -55,7 +55,6 @@ class MapSet extends LoxCallable {
   @override
   String toString() => '<native> Map Set ';
 }
-
 class MapGet extends LoxCallable {
   @override
   int arity() => 2;

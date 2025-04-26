@@ -8,7 +8,7 @@ void main(List<String> arguments) {
   for (var arg in arguments) {
     runFile(arg);
   }
-  // runRepl();
+  runRepl();
 }
 
 void runRepl() {
@@ -39,7 +39,7 @@ void runFile(String filename) {
 }
 
 Interpreter run(String input) {
-  final scanner = Scanner(input);
+  final scanner = _bootStrap((input));
   List<Token> tokens = scanner.scan();
 
   if (scanner.errors.isNotEmpty) {
@@ -84,6 +84,15 @@ Interpreter run(String input) {
   }
   return interpreter;
 }
+
+var _bootStrapFiles = [
+  File("./assets/luxx_array.luxx"),
+  File("./assets/luxx_map.luxx"),
+];
+Scanner _bootStrap(String input) {
+  return Scanner(input);
+}
+
 
 void error(int line, String where, String message) {
   print('[line $line] Error $where: $message');

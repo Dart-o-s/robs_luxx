@@ -1,0 +1,49 @@
+/// for now we only fool around
+/// this will be a library class
+/// we need to make the interpreter tell the parser/scanner
+/// to load it before it starts with its arguments
+
+class Collection {}
+
+class Array < Collection {
+
+    init() {
+        this.instance = arrayCreate();
+    }
+
+    length() {
+        return arrayLength(this.instance);
+    }
+
+    add(item) {
+        arrayAdd(this.instance, item);
+        return this;
+    }
+
+    setAt(item, idx) {
+        arraySetAt(this.instance, item, idx);
+        return this;
+    }
+
+    getAt(idx) {
+        return arrayGetAt(this.instance, idx);
+    }
+}
+
+
+var array = Array();
+    array.add("aos");
+    array.add("enkimaru");
+
+print "Array length: " +
+    array.length() + " " +
+    array.getAt(0) + " " +
+    array.getAt(1);
+
+    array.setAt("was here", 1);
+
+print "Array length: " +
+    array.length() + " " +
+    array.getAt(0) + " " +
+    array.getAt(1);
+
