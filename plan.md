@@ -1,6 +1,7 @@
 # Plan for Luxx
 
 ## Prio One
+    [X] DONE 2025-04-26 18:28 Bugfix, multiline comment did raise an error, while there was none, missing *if* 
     [X] DONE 2025-04-26 15:45 Arrays
         create, length, append, set at, get at
 

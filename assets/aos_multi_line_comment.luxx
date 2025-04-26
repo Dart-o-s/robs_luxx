@@ -12,6 +12,6 @@ print "nothing to print";
     /*
     print "nested is not printed either
     */
-
 */
+
 print "END: multi line comment";

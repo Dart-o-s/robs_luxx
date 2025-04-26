@@ -302,8 +302,9 @@ class Scanner {
 
   void _advanceUntilCommentEnd() {
     int commentLevel = 1;
-    int lastOpening = line;
+    int lastOpening = line; // + 1; // no idea why it is reported 1 to less
 
+    advance(); // we are standing on the '*'
     while (commentLevel > 0 && !isOutOfRange()) {
       if (_match('\n')) {
         line++;
@@ -316,8 +317,8 @@ class Scanner {
       }
       advance();
     }
-    isOutOfRange();
-    errors.add(ScanError('Closing "*/" expected. Last opening "/*" at ${lastOpening}', line));
+    if (isOutOfRange())
+      errors.add(ScanError('Closing "*/" expected. Last opening "/*" at ${lastOpening}', line));
 
   }
 }
