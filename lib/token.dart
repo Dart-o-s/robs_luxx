@@ -1,7 +1,7 @@
 enum TokenType {
   and,
 
-  a,
+  a, // we only need one token type I think, but several lexems
   an,
 
   bang,
@@ -32,6 +32,9 @@ enum TokenType {
   less,
   lessEqual,
   minus,
+
+  modulo,
+
   nil,
   number,
   or,

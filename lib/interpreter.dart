@@ -1,4 +1,5 @@
 import 'package:lox_dart/lox_dart.dart';
+import 'package:lox_dart/luxx_ffi_dart.dart';
 import 'package:lox_dart/native_funs.dart';
 import 'luxx_array.dart';
 import 'luxx_map.dart';
@@ -179,7 +180,14 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
         throw InterpretError(
             'Both values must be strings or numbers (AoS: OOPS, how did we get here?)', expr.operator.line);
 
+      case TokenType.modulo:
+        _checkNumberOperands(expr.operator, [left, right]);
+        debugPrintObjects([expr.operator, left, right]);
+        return ">> modulo called <<";
+
       case TokenType.minus:
+        debugPrintObjects([expr.operator, left, right]);
+
         _checkNumberOperands(expr.operator, [left, right]);
         return (left as double) - (right as double);
 

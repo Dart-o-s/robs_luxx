@@ -1,0 +1,19 @@
+fun callit(aa, bb, cc) {
+    return cc(aa,bb);
+}
+
+fun add(x, y) {
+    return x + y;
+}
+
+// works
+print callit(1, 4, add);
+
+/*
+/* does not work as of 2025-04-26 */
+print callit(1, 5, fun (aa, bb) {
+    return bb - aa;
+});
+*/
+
+// print add(11, 22);

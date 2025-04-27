@@ -1,6 +1,12 @@
 # Plan for Luxx
 
+## Lessions Leaerned
+    in future when trying to introduce a new operator
+        - make a minimal luxx-file, and reuse an existing one, until it works
+            then introduce the new operator
+
 ## Prio One
+    [ ] BLOCKER OPEN fix scanner multiline comment/eof problem
     [X] DONE 2025-04-26 18:28 Bugfix, multiline comment did raise an error, while there was none, missing *if* 
     [X] DONE 2025-04-26 15:45 Arrays
         create, length, append, set at, get at
@@ -8,10 +14,34 @@
     [X] DONE 2025-04-26 16:10 Maps
         create, length, set at, get at
     
-    [] OPEN Wrapper classes for global Array- and Map-functions
-    [] OPEN make the interpreter load a class library
+    [X] DONE 2025-04-26 18:11 Wrapper classes for global Array- and Map-functions
 
-    [] OPEN simple Monitor to dig around in the structures set up by compiler/scanner and interpreter
+    [ ] OPEN simple Monitor to dig around in the structures set up by compiler/scanner and interpreter
+    [ ] OPEN expand a dictionary into a template string, via FFI to dart
+        use the operator % 
+    [ ] OPEN file access via FFI (with and without exceptions)
+    [ ] make an entry point into the interpreter like the run() - method in the aos_luxx_star
+        - add an option for an Environment
+        - return environment
+    
+## Prio two
+    [ ] OPEN think about an FFI specifically for STB
+    [ ] OPEN make the interpreter load a class library
+    [ ] get all tests from here: https://github.com/munificent/craftinginterpreters/tree/master/test
+    [ ] add Curcumber to STB/Luxx
+    [ ] link classes, nodes do not need to know about them
+    [ ] persistance
+    [ ] simple input from files
+        CSV files that get out rolled into Luxx Objects
+
+## Prio three
+    [ ] OPEN input function
+    [ ] Contracts:
+        - Requires, can be used for type safety 
+        - Ensures, 
+        - Invariant
+        
+    [ ] have a language construct that can trigger an exception in the interpreter
 
 ## todo
     [x] DONE 2025-04-26 02:27 conocatanate doubles to sting ends

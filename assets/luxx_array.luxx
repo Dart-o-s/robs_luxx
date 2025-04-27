@@ -3,6 +3,7 @@
 /// we need to make the interpreter tell the parser/scanner
 /// to load it before it starts with its arguments
 
+// TODO, make sure we do not by accident have two Collection classes later
 class Collection {}
 
 class Array < Collection {

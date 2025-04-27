@@ -251,12 +251,12 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
       throw ResolveError(
           'Already a variable with this name in this scope', name.line);
     }
-    scopes.last[name.lexeme] = false;
+    scopes.last[name.lexeme] = false; // AoS this and look below ...
   }
 
   void define(Token name) {
     if (scopes.isEmpty) return;
-    scopes.last[name.lexeme] = true;
+    scopes.last[name.lexeme] = true; // Aos can be speed up
   }
 
   void beginScope() {

@@ -1,0 +1,30 @@
+// first implementation is supposed to expand a hash map into a string with template params
+
+class Collection {}
+
+class Map < Collection {
+
+    init() {
+        this.instance = mapCreate();
+    }
+
+    length() {
+        return mapLength(this.instance);
+    }
+
+    setAt(item, idx) {
+        mapSetAt(this.instance, item, idx);
+        return this;
+    }
+
+    getAt(idx) {
+        return mapGetAt(this.instance, idx);
+    }
+}
+
+    var string= "Some %{text}";
+    var map = Map();
+
+    var expanded = string * map;
+
+ print "to not get 'outOfRange' ";

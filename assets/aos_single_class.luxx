@@ -1,0 +1,11 @@
+// for fooling around with a simple class
+
+class OneClass {
+    init() {
+    }
+    oneMethod(oneArg) {
+        return oneArg;
+    }
+}
+
+print "So Far So Good!";

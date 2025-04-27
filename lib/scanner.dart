@@ -101,7 +101,9 @@ class Scanner {
           addToken(TokenType.semicolon, ';');
           advance();
           break;
-
+        case '%':
+          addToken(TokenType.modulo, '%');
+          break;
         case '/':
           advance();
           if (peek() == '/') {
@@ -315,10 +317,10 @@ class Scanner {
       } else if (_match('*') && peek() == '/') {
         commentLevel = commentLevel - 1;
       }
-      advance();
+      advance(); // this advance brings me out of range!
     }
     if (isOutOfRange())
-      errors.add(ScanError('Closing "*/" expected. Last opening "/*" at ${lastOpening}', line));
+      errors.add(ScanError('Closing "*/" expected. Last opening "/*" at ${lastOpening} - my _pos: ${_pos}', line));
 
   }
 }

@@ -1,10 +1,9 @@
 import 'package:lox_dart/lox_dart.dart';
 
 class Parser {
+  int _pos = 0;
   final List<Token> tokens;
   final List<ParseError> errors = [];
-
-  int _pos = 0;
 
   Parser(this.tokens);
 
@@ -64,6 +63,7 @@ class Parser {
   }
 
   Stmt funDeclaration(String kind) {
+    // Aos probably we get away by inventing an "anon-#x name" - if kind is function
     ensure(TokenType.identifier, 'Expect $kind name.');
     Token name = peekAndAdvance();
     ensureAndAdvance(TokenType.parenLeft, 'Expect "(" after $kind name.');
@@ -317,9 +317,11 @@ class Parser {
     return expr;
   }
 
+
   Expr factor() {
     Expr expr = unary();
 
+    //  TokenType.modulo
     while (match([TokenType.slash, TokenType.star])) {
       Token operator = peekAndAdvance();
       Expr right = unary();
