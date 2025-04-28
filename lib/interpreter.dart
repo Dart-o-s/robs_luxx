@@ -180,27 +180,26 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
         throw InterpretError(
             'Both values must be strings or numbers (AoS: OOPS, how did we get here?)', expr.operator.line);
 
-      case TokenType.modulo:
-        _checkNumberOperands(expr.operator, [left, right]);
-        debugPrintObjects([expr.operator, left, right]);
-        return ">> modulo called <<";
-
       case TokenType.minus:
         _checkNumberOperands(expr.operator, [left, right]);
         return (left as double) - (right as double);
 
       case TokenType.star: // "is LoxInstance?"
-          LoxInstance li = right as LoxInstance;
-          var theMap = li.getInstanceAsMap();
-          String s = expandMapIntoString(left as String, theMap.cast<String,Object>());
-          return s;
-
-        // _checkNumberOperands(expr.operator, [left, right]);
-        // return (left as double) * (right as double);
+        _checkNumberOperands(expr.operator, [left, right]);
+        return (left as double) * (right as double);
 
       case TokenType.slash:
         _checkNumberOperands(expr.operator, [left, right]);
         return (left as double) / (right as double);
+
+      // PoI
+      case TokenType.modulo:
+      //  _checkNumberOperands(expr.operator, [left, right]);
+      //  debugPrintObjects([expr.operator, left, right]);
+      LoxInstance li = right as LoxInstance;
+      var theMap = li.getInstanceAsMap();
+      String s = expandMapIntoString(left as String, theMap.cast<String,Object>());
+      return s;
 
       case TokenType.greater:
         _checkNumberOperands(expr.operator, [left, right]);

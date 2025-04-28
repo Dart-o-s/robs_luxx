@@ -323,7 +323,7 @@ class Parser {
     Expr expr = unary();
 
     //  TokenType.modulo
-    while (match([TokenType.slash, TokenType.star])) {
+    while (match([TokenType.slash, TokenType.star, TokenType.modulo])) {
       Token operator = peekAndAdvance();
       Expr right = unary();
       expr = Binary(expr, operator, right);

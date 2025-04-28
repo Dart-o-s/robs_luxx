@@ -101,9 +101,12 @@ class Scanner {
           addToken(TokenType.semicolon, ';');
           advance();
           break;
+
         case '%':
           addToken(TokenType.modulo, '%');
+          advance();
           break;
+
         case '/':
           advance();
           if (peek() == '/') {

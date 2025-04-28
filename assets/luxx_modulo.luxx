@@ -28,6 +28,6 @@ class Map < Collection {
     var map = Map();
     map.setAt("text", text);
 
-    var expanded = string * map;
+    var expanded = string % map;
 
 print "Expanded: " + expanded;
