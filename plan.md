@@ -24,17 +24,17 @@
         - return environment
     [ ] OPEN Interpreter needs to emit errors imedietly ... at the moment it waits till EoP (the caller does it)
 
-    [ ] DONE 2025-04-28 21:03 list LoxInstances - put into runner
+    [X] DONE 2025-04-28 21:03 list LoxInstances - put into runner
         Classes and instances
 
-    [ ] OPEN simple Monitor to dig around in the structures set up by compiler/scanner and interpreter
+    [X] DONE 2025-04-28 22:49 simple Monitor to dig around in the structures set up by compiler/scanner and interpreter
 
     [X] DONE 2025-04-28 21:01 make the interpreter load a class library
         - use bootstrap in runner
         - files are loaded alphabetically
         [ ] OPEN for a later "import" statement, we need to remember which files are already loaded
     [ ] OPEN think how to make/declare "instance vars"
-        as in, the init()-method initializes them, there could be 
+        as in, the init()-method initializes them, there could be list with names as in small-talk.
 
     [ ] 
 

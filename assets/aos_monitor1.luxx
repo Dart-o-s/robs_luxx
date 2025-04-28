@@ -1,3 +1,46 @@
 //
 // fooling around with the monitor
 //
+
+print "This class is to inspect and 'manipulate' The LuXX Machine";
+print "The Inheritance relationships are (semantically) nonsense. They are only to fool around with the Monitor";
+
+class RootClass {
+    init(kind) {
+        this.className = "Root";
+        this.treekind = kind;
+        this.what = "This is the root of a tree.";
+    }
+}
+var root = RootClass("Deutsche Eiche!");
+
+class Trunk < RootClass {
+    init(aTree) {
+        // ToDo, make this explorable - as in the compiler sets it
+        this.className = "Trunk";
+        this.growingOn = aTree;
+        this.what = "This is the trunk of a tree.";
+    }
+}
+var trunk = Trunk(root);
+
+class Branch < Trunk {
+    init(trunk) {
+        this.className = "Branch";
+        this.growingOn = trunk;
+        this.what = "This is a branch, growing on a trunk.";
+    }
+}
+var branch = Branch(trunk);
+
+class Twig < Branch {
+    init(branch) {
+        this.className = "Twig";
+        this.growingOn = branch;
+        this.what = "This is a twig, growing on a branch.";
+    }
+}
+var twig = Twig(branch);
+
+
+print "ToDo: new high level keyword to drop into the monitor, at the current parsing position.";
