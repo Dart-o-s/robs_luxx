@@ -10,6 +10,7 @@ final interpreter = Interpreter();
 void main(List<String> arguments) {
   _bootStrap();
   for (var arg in arguments) {
+    if (arg == "--eof--") break; // ignore the remaining arguments
     runFile(arg);
   }
 

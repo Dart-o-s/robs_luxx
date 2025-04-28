@@ -1,0 +1,11 @@
+///
+/// we want to check if a class is loaded, and break into the monitor
+///
+
+var loaded = Collection; // just reference it, do not call constructor
+
+if (loaded != nil) {
+    BRK "Collection loaded. Breaking into Monitor.";
+} else {
+    print "Collection is not loaded";
+}

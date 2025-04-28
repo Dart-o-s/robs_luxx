@@ -1,4 +1,8 @@
 // AoS not sure if it makes sense to inherit ...
+// Collection needs to be loaded, it is defined in Array
+// Our bootstrapping loads Array first, so here it is okay
+// keep that in mind.
+
 class Map < Collection {
 
     init() {
