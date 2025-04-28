@@ -111,6 +111,8 @@ class Parser {
       return ifStmt();
     } else if (match([TokenType.print])) {
       return printStmt();
+    } else if (match([TokenType.BRK])) {
+      return brkStmt();
     } else if (match([TokenType.return$])) {
       return returnStmt();
     } else if (match([TokenType.for$])) {
@@ -147,6 +149,13 @@ class Parser {
     Expr expr = expression();
     ensureAndAdvance(TokenType.semicolon, 'Expect ";" after value.');
     return Print(expr);
+  }
+
+  Stmt brkStmt() {
+    advance();
+    Expr expr = expression();
+    ensureAndAdvance(TokenType.semicolon, 'Expect ";" after value.');
+    return Break(expr);
   }
 
   Stmt returnStmt() {

@@ -275,6 +275,11 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
       }
     }
   }
+
+  @override
+  void visitBreakStmt(Break break$) {
+    resolveExpr(break$.expression);
+  }
 }
 
 class ResolveError extends Error {

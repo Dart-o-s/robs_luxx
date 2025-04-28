@@ -2,7 +2,6 @@
 /// The Machine holds the runtime system, scanners token stream, the parsers ast
 /// and the loaded classes, functions, and instances
 ///
-import "dart:collection";
 
 import "package:lox_dart/stmt.dart";
 import "package:lox_dart/token.dart";

@@ -1,8 +1,6 @@
 import 'dart:collection';
 import 'dart:io';
 import 'package:lox_dart/lox_dart.dart';
-import 'package:lox_dart/lox_instance.dart';
-import 'package:lox_dart/lox_class.dart';
 import 'package:lox_dart/monitor.dart';
 import 'package:path/path.dart' as p;
 

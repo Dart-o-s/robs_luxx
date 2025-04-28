@@ -4,6 +4,7 @@
 ///
 
 print "START: aos_monitor2_fun.luxx";
+BRK "break enters the system monitor"; // you have to have some text here, but it can be an empty string
 
 fun start(one) {
     print "fun 'start': one argument: " + start;

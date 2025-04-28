@@ -3,6 +3,7 @@ import 'package:lox_dart/luxx_ffi_dart.dart';
 import 'package:lox_dart/native_funs.dart';
 import 'luxx_array.dart';
 import 'luxx_map.dart';
+import 'monitor.dart';
 
 final Environment globals = Environment();
 
@@ -57,6 +58,14 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   void visitPrintStmt(Print stmt) {
     Object? result = evaluate(stmt.expression);
     print(stringify(result));
+  }
+
+  @override
+  void visitBreakStmt(Break break$) {
+    Object? result = evaluate(break$.expression);
+    print(stringify(result));
+    Monitor m = Monitor();
+    m.runRepl();
   }
 
   @override

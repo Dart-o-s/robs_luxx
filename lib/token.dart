@@ -3,6 +3,7 @@ enum TokenType {
 
   a, // we only need one token type I think, but several lexems
   an,
+  BRK,
 
   bang,
   bangEqual,

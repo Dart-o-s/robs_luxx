@@ -14,6 +14,8 @@ mixin StmtVisitor<T> {
   T visitReturnStmt(Return stmt);
   T visitVarStmt(Var stmt);
   T visitWhileStmt(While stmt);
+
+  T visitBreakStmt(Break break$);
 }
 
 class Block extends Stmt {
@@ -80,6 +82,16 @@ class Print extends Stmt {
   @override
   T accept<T>(StmtVisitor<T> visitor) {
     return visitor.visitPrintStmt(this);
+  }
+}
+
+class Break extends Stmt {
+  Break(this.expression);
+  final Expr expression;
+
+  @override
+  T accept<T>(StmtVisitor<T> visitor) {
+    return visitor.visitBreakStmt(this);
   }
 }
 

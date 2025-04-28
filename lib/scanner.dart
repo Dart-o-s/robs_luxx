@@ -10,11 +10,12 @@ class Scanner {
   int line = 1;
 
   final Map<String, TokenType> _keywords = {
-    // a, an, is and is_a are fancy end of line comments
-    'a'  : TokenType.a,
+    'a'  : TokenType.a,      // aos a, an, is and is_a are fancy end of line comments
     'an' : TokenType.an,
     'is' : TokenType.is$,
-    'is_a' : TokenType.is_a, // in source code: 'is a' - probably do not need it
+    'is_a' : TokenType.is_a, // aos in source code: 'is a' - probably do not need it
+
+    'BRK' : TokenType.BRK,   // aos
 
     'in' : TokenType.in$,
 

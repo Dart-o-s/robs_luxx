@@ -36,9 +36,11 @@
     [ ] OPEN think how to make/declare "instance vars"
         as in, the init()-method initializes them, there could be list with names as in small-talk.
     [ ] OPEN BRK statement to get into the monitor.
+        Copy/clone the print-statement
     [ ] 
 
 ## Prio two
+    [ ] OPEN think about a punch card analogy for my various "card programs", to reference programs amoung each other
     [ ] OPEN think about an FFI specifically for STB
     [ ] get all tests from here: https://github.com/munificent/craftinginterpreters/tree/master/test
     [ ] add Curcumber to STB/Luxx
@@ -126,11 +128,19 @@ https://stackoverflow.com/questions/12636738/access-to-user-environment-variable
 [ ] port to big decimal https://pub.dev/documentation/big_decimal/latest/
 
 ## Tokens
-<- -> := ::= =>
+    Assignments: <- := ::= 
+    Arrows right: -> =>
+    Unary: * (poor mans pointers?)
 
 ## Keywords
-   Prototype
-   
+self defined keywords
+
+## Language Upgrades
+    - Prototypes
+    - constructs for Design Patterns, e.g. 
+        o delegate <Class Name> to attribute;
+    
+
 ## general features
     [1] add dart list and map
     [2] keyword methods
