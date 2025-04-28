@@ -35,7 +35,9 @@ class Monitor {
   Monitor() {}
 
   void runRepl() {
-
+    stdout.writeln(" =================================");
+    stdout.writeln(" |-- Welcome to the Monitor ][ --|");
+    stdout.writeln(" =================================");
     stdout.write('> ');
     var input = stdin.readLineSync();
 

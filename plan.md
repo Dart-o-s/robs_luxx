@@ -35,14 +35,21 @@
         [ ] OPEN for a later "import" statement, we need to remember which files are already loaded
     [ ] OPEN think how to make/declare "instance vars"
         as in, the init()-method initializes them, there could be list with names as in small-talk.
+
     [X] DONE 2025-04-29 01:00 BRK statement to get into the monitor.
         Copy/clone the print-statement
-    [ ] 
+
+    [ ] OPEN Language statement to LOAD programms. Similar to import, but without managing if they were loaded already.
+        - can be done like BRK,
 
 ## Prio two
+    [ ] OPEN JSONfy-method, and toString()
+
     [ ] OPEN think about a punch card analogy for my various "card programs", to reference programs amoung each other
     [ ] OPEN think about an FFI specifically for STB
+
     [ ] get all tests from here: https://github.com/munificent/craftinginterpreters/tree/master/test
+
     [ ] add Curcumber to STB/Luxx
     [ ] link classes, nodes do not need to know about them
     [ ] persistance
