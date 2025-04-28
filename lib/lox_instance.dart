@@ -1,10 +1,16 @@
+import 'dart:collection';
+
 import 'package:lox_dart/lox_dart.dart';
+
+var gInstances = HashSet<LoxInstance>();
 
 class LoxInstance {
   late final LoxClass klass;
   final Map<String, Object?> fields = {};
 
-  LoxInstance(this.klass);
+  LoxInstance(this.klass) {
+    gInstances.add(this);
+  }
 
   Object? get(Token name) {
     if (fields.containsKey(name.lexeme)) {

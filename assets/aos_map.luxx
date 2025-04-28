@@ -1,6 +1,8 @@
 /// fooling around with maps
 /// not really a "test" but the stuff below works
 
+
+/// this map functions are based on FFI functions in interpreter.dart
 var key1 = "aos";
 var key2 = "enkimaru";
 

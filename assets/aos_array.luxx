@@ -1,5 +1,6 @@
 /// fooling around with arrays
 
+/// this array methods are based on FFI functions in interpreter.dart
 var array = arrayCreate();
 
 if (array != nil)

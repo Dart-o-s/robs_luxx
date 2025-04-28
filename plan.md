@@ -1,6 +1,6 @@
 # Plan for Luxx
 
-## Lessions Leaerned
+## Lessions Learned
     in future when trying to introduce a new operator
         - make a minimal luxx-file, and reuse an existing one, until it works
             then introduce the new operator
@@ -15,19 +15,31 @@
         create, length, set at, get at
     
     [X] DONE 2025-04-26 18:11 Wrapper classes for global Array- and Map-functions
+    [X] DONE 2025-04-28 17:46 expand a dictionary into a template string, via FFI to dart
+        use the operator %
 
-    [ ] OPEN simple Monitor to dig around in the structures set up by compiler/scanner and interpreter
-    [ ] OPEN expand a dictionary into a template string, via FFI to dart
-        use the operator % 
     [ ] OPEN file access via FFI (with and without exceptions)
     [ ] OPEN make an entry point into the interpreter like the run() - method in the aos_luxx_star
         - add an option for an Environment
         - return environment
     [ ] OPEN Interpreter needs to emit errors imedietly ... at the moment it waits till EoP (the caller does it)
 
+    [ ] DONE 2025-04-28 21:03 list LoxInstances - put into runner
+        Classes and instances
+
+    [ ] OPEN simple Monitor to dig around in the structures set up by compiler/scanner and interpreter
+
+    [X] DONE 2025-04-28 21:01 make the interpreter load a class library
+        - use bootstrap in runner
+        - files are loaded alphabetically
+        [ ] OPEN for a later "import" statement, we need to remember which files are already loaded
+    [ ] OPEN think how to make/declare "instance vars"
+        as in, the init()-method initializes them, there could be 
+
+    [ ] 
+
 ## Prio two
     [ ] OPEN think about an FFI specifically for STB
-    [ ] OPEN make the interpreter load a class library
     [ ] get all tests from here: https://github.com/munificent/craftinginterpreters/tree/master/test
     [ ] add Curcumber to STB/Luxx
     [ ] link classes, nodes do not need to know about them

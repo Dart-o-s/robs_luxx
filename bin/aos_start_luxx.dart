@@ -1,31 +1,23 @@
+import 'dart:collection';
 import 'dart:io';
 import 'package:lox_dart/lox_dart.dart';
+import 'package:lox_dart/lox_instance.dart';
+import 'package:lox_dart/lox_class.dart';
+import 'package:lox_dart/monitor.dart';
+import 'package:path/path.dart' as p;
 
 bool hadError = false;
 final interpreter = Interpreter();
 
 void main(List<String> arguments) {
+  _bootStrap();
   for (var arg in arguments) {
     runFile(arg);
   }
-  runRepl();
-}
 
-void runRepl() {
-  stdout.write('> ');
-  var input = stdin.readLineSync();
+  Monitor m = Monitor();
+  m.runRepl();
 
-  while (input != null) {
-    if (input == "exit")
-      exit(0);
-
-    run(input);
-    stdout.write('> ');
-    input = stdin.readLineSync();
-
-    hadError = false;
-    interpreter.errors = [];
-  }
 }
 
 void runFile(String filename) {
@@ -39,7 +31,7 @@ void runFile(String filename) {
 }
 
 Interpreter run(String input) {
-  final scanner = _bootStrap((input));
+  final scanner = _scanner(input);
   List<Token> tokens = scanner.scan();
 
   if (scanner.errors.isNotEmpty) {
@@ -85,14 +77,36 @@ Interpreter run(String input) {
   return interpreter;
 }
 
-var _bootStrapFiles = [
-  File("./assets/luxx_array.luxx"),
-  File("./assets/luxx_map.luxx"),
-];
-Scanner _bootStrap(String input) {
-  return Scanner(input);
+// robertooliveros.cg@outlook.com
+
+Map<String, String> getAllFiles(String directory, String suffix) {
+  Directory dir = Directory(directory);
+  SplayTreeMap<String, String> res = SplayTreeMap<String, String>();
+  for (var entity in dir.listSync(recursive: false, followLinks: false)) {
+    if (entity.path.endsWith(suffix)) {
+      var base = p.basename(entity.path);
+      res[base] = entity.path;
+      print("$base -> ${entity.path}");
+    }
+  }
+  return res;
 }
 
+void _bootStrap() {
+  var files = getAllFiles("./assets/luxx_bootstrap", ".luxx");
+  var keys = files.keys;
+  for (var key in keys) {
+    var file = files[key];
+    if (file != null )
+      runFile(file);
+  }
+  print("loaded bootstrap files");
+}
+
+// Aos PoI this is nonsense!
+Scanner _scanner(String input) {
+  return Scanner(input);
+}
 
 void error(int line, String where, String message) {
   print('[line $line] Error $where: $message');

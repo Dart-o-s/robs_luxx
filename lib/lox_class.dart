@@ -1,11 +1,17 @@
+import 'dart:collection';
+
 import 'package:lox_dart/lox_dart.dart';
+
+var gClasses = HashSet<LoxClass>();
 
 class LoxClass extends LoxCallable {
   final String name;
   LoxClass? superclass;
   late final Map<String, LoxFunction> methods;
 
-  LoxClass(this.name, this.superclass, this.methods);
+  LoxClass(this.name, this.superclass, this.methods) {
+    gClasses.add(this);
+  }
 
   LoxFunction? findMethod(String name) {
     if (methods.containsKey(name)) {

@@ -1,11 +1,17 @@
+import 'dart:collection';
+
 import 'package:lox_dart/lox_dart.dart';
+
+var gFunctions = HashSet<LoxFunction>();
 
 class LoxFunction extends LoxCallable {
   final Fun declaration;
   final Environment closure;
   final bool isInitializer;
 
-  LoxFunction(this.declaration, this.closure, this.isInitializer);
+  LoxFunction(this.declaration, this.closure, this.isInitializer) {
+    gFunctions.add(this);
+  }
 
   @override
   int arity() => declaration.params.length;
