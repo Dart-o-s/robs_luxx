@@ -35,7 +35,7 @@
         [ ] OPEN for a later "import" statement, we need to remember which files are already loaded
     [ ] OPEN think how to make/declare "instance vars"
         as in, the init()-method initializes them, there could be list with names as in small-talk.
-
+    [ ] OPEN BRK statement to get into the monitor.
     [ ] 
 
 ## Prio two

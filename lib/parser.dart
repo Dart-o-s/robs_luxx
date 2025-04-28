@@ -1,16 +1,19 @@
 import 'package:lox_dart/lox_dart.dart';
 
+import 'machine.dart';
+
 class Parser {
   int _pos = 0;
   final List<Token> tokens;
   final List<ParseError> errors = [];
+  final List<Stmt> stmts = [];
 
   Parser(this.tokens) {
-
-  };
+    Machine.gMachine.setTokens(tokens);
+    Machine.gMachine.setStatements(stmts);
+  }
 
   List<Stmt> parse() {
-    List<Stmt> stmts = [];
 
     while (!match([TokenType.eof])) {
       try {

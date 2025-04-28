@@ -2,6 +2,8 @@
 // fooling around with the monitor
 //
 
+print "START: aos_monitor1.luxx";
+
 print "This class is to inspect and 'manipulate' The LuXX Machine";
 print "The Inheritance relationships are (semantically) nonsense. They are only to fool around with the Monitor";
 
@@ -42,5 +44,5 @@ class Twig < Branch {
 }
 var twig = Twig(branch);
 
-
 print "ToDo: new high level keyword to drop into the monitor, at the current parsing position.";
+print "END: aos_monitor2_fun.luxx";

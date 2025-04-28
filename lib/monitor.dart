@@ -11,6 +11,7 @@ import "machine.dart";
 /// Material and Instrument pattern, Monitor is the instrument
 ///
 String help='''
+   Todo: revert commands ... open a new screen
    list classes -> list all class names
    list instances -> list all instances and their class name
    list functions -> list all functions
@@ -18,7 +19,11 @@ String help='''
    
    # for this we make paging, always about 10, and hit a key to go deeper 
    select instance <#> -> fetch instance #x from the shown list and display internals
-   
+   Todo: 
+    page tokens
+    page statements
+    search statements?
+    
    exit -> leave the monitor
    todo: 
     select class and list methods
@@ -50,7 +55,6 @@ class Monitor {
           Interpreter.listIntrinsics();
         case "help":
           print(help);
-
 
         default:
           print("noob! you typoed!");
