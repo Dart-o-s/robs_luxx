@@ -6,7 +6,7 @@
             then introduce the new operator
 
 ## Prio One
-    [ ] BLOCKER OPEN fix scanner multiline comment/eof problem
+    [X] BLOCKER DONE 2025-04-27 19:01 fix scanner multiline comment/eof problem
     [X] DONE 2025-04-26 18:28 Bugfix, multiline comment did raise an error, while there was none, missing *if* 
     [X] DONE 2025-04-26 15:45 Arrays
         create, length, append, set at, get at
@@ -20,10 +20,11 @@
     [ ] OPEN expand a dictionary into a template string, via FFI to dart
         use the operator % 
     [ ] OPEN file access via FFI (with and without exceptions)
-    [ ] make an entry point into the interpreter like the run() - method in the aos_luxx_star
+    [ ] OPEN make an entry point into the interpreter like the run() - method in the aos_luxx_star
         - add an option for an Environment
         - return environment
-    
+    [ ] OPEN Interpreter needs to emit errors imedietly ... at the moment it waits till EoP (the caller does it)
+
 ## Prio two
     [ ] OPEN think about an FFI specifically for STB
     [ ] OPEN make the interpreter load a class library

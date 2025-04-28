@@ -26,6 +26,7 @@ class Block extends Stmt {
   }
 }
 
+// PoI ...
 class Class extends Stmt {
   Class(this.name,this.superclass,this.methods);
   final Token name;

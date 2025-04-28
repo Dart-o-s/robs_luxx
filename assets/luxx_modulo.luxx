@@ -23,8 +23,11 @@ class Map < Collection {
 }
 
     var string= "Some %{text}";
+    var text="Greeting!";
+
     var map = Map();
+    map.setAt("text", text);
 
     var expanded = string * map;
 
- print "to not get 'outOfRange' ";
+print "Expanded: " + expanded;

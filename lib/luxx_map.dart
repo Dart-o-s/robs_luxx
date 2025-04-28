@@ -7,7 +7,8 @@ class MapCreate extends LoxCallable {
 
   @override
   Object? call(Interpreter interpreter, List<Object?> arguments) {
-    return {};
+    Object result = <dynamic, dynamic>{};
+    return result;
   }
 
   @override
@@ -38,14 +39,14 @@ class MapSet extends LoxCallable {
 
   @override
   Object? call(Interpreter interpreter, List<Object?> arguments) {
-    Object? map = arguments[0];
+    Object? into = arguments[0];
 
-    if (map != null) {
-      Map cont = map as Map;
+    if (into != null) {
+      Map map = into as Map;
       Object? idx = arguments[1];
       Object? item = arguments[2];
       if (idx != null)
-        cont[idx] = item;
+        map[idx] = item;
       return map;
     }
 

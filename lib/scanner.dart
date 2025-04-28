@@ -317,10 +317,10 @@ class Scanner {
       } else if (_match('*') && peek() == '/') {
         commentLevel = commentLevel - 1;
       }
-      advance(); // this advance brings me out of range!
+      advance();
     }
-    if (isOutOfRange())
-      errors.add(ScanError('Closing "*/" expected. Last opening "/*" at ${lastOpening} - my _pos: ${_pos}', line));
+    if (isOutOfRange() && commentLevel != 0)
+      errors.add(ScanError('Closing "*/" expected. Last opening "/*" at line: ${lastOpening} - my _pos: ${_pos}', line));
 
   }
 }

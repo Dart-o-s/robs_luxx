@@ -186,14 +186,17 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
         return ">> modulo called <<";
 
       case TokenType.minus:
-        debugPrintObjects([expr.operator, left, right]);
-
         _checkNumberOperands(expr.operator, [left, right]);
         return (left as double) - (right as double);
 
-      case TokenType.star:
-        _checkNumberOperands(expr.operator, [left, right]);
-        return (left as double) * (right as double);
+      case TokenType.star: // "is LoxInstance?"
+          LoxInstance li = right as LoxInstance;
+          var theMap = li.getInstanceAsMap();
+          String s = expandMapIntoString(left as String, theMap.cast<String,Object>());
+          return s;
+
+        // _checkNumberOperands(expr.operator, [left, right]);
+        // return (left as double) * (right as double);
 
       case TokenType.slash:
         _checkNumberOperands(expr.operator, [left, right]);

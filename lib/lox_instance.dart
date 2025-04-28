@@ -27,4 +27,11 @@ class LoxInstance {
   String toString() {
     return '<instance ${klass.name}>';
   }
+
+  Map<dynamic, dynamic> getInstanceAsMap() {
+    if (fields.length == 0) return {};
+    Object? instance = fields["instance"];
+    if (instance !=null ) return instance as Map<dynamic, dynamic>;
+    return {};
+  }
 }
