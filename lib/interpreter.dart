@@ -4,10 +4,11 @@ import 'package:lox_dart/native_funs.dart';
 import 'luxx_array.dart';
 import 'luxx_map.dart';
 
+final Environment globals = Environment();
+
 class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   List<InterpretError> errors = [];
-  final Environment globals = Environment();
-  late Environment environment;
+  late  Environment environment;
   final Map<Expr, int> locals = {};
 
   Interpreter() {
@@ -25,6 +26,10 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
     globals.define('mapSetAt', MapSet());
     globals.define('mapGetAt', MapGet());
 }
+
+  static void listIntrinsics() {
+    print (globals.vars);
+  }
 
   void interpret(List<Stmt> statements) {
     for (final stmt in statements) {

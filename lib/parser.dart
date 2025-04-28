@@ -5,7 +5,9 @@ class Parser {
   final List<Token> tokens;
   final List<ParseError> errors = [];
 
-  Parser(this.tokens);
+  Parser(this.tokens) {
+
+  };
 
   List<Stmt> parse() {
     List<Stmt> stmts = [];
@@ -411,6 +413,7 @@ class Parser {
 
         default:
           final msg = 'Token ${peek().type} cannot be parse, yet.';
+          print(msg);
           throw ParseError(msg, peek().line);
       }
     }

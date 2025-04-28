@@ -1,0 +1,21 @@
+///
+/// part of the monitor package
+/// some functions to fool around with
+///
+
+print "START: aos_monitor2_fun.luxx";
+
+fun start(one) {
+    print "fun 'start': one argument: " + start;
+}
+
+fun middle(mid) {
+    print "fun 'mid': one argument: " + mid;
+}
+
+fun end(aStart, aEnd) {
+    // TODO upgrade print to accept a comma separated list
+    print "fun 'end': two arguments: " + aStart + ", " + aEnd;
+}
+
+print "END: aos_monitor2_fun.luxx";
