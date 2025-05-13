@@ -35,7 +35,7 @@ class Map < Collection {
 
 
 
-
+/*
 var key1 = "aos";
 var key2 = "enkimaru";
 
@@ -55,3 +55,4 @@ mapSetAt(map2, key1, "cleared");
 print "Lets get 'em! " +
     mapGetAt(map2, key1) + " " +
     mapGetAt(map2, key2);
+*/

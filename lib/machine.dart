@@ -13,15 +13,15 @@ import "lox_function.dart";
 /// todo make weak: https://pub.dev/packages/weak
 ///
 /// Material and Instrument pattern, Machine is the material
-///
+/// Monitor and Pagers are the Instruments
 class Machine {
   static var gMachine = Machine();
 
   var functions = gFunctions;
   var classes = gClasses;
-  var instances = gInstances; // TODO, AoS what about GC?
+  var instances = gInstances;    // TODO, AoS what about GC?
   List<Token>  parserTokens = <Token>[];
-  List<Stmt>   stmts = <Stmt>[];
+  List<Stmt>   stmts = <Stmt>[]; // brauch ich verm. nicht
 
   Machine(){}
   void setTokens(List<Token>  tokens) {

@@ -29,6 +29,7 @@ class Parser {
     }
 
     // PoI end of parsing
+    print ("Amount of Statements parsed: ${stmts.length} statements.");
     return stmts;
   }
 

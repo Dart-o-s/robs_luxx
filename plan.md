@@ -1,4 +1,4 @@
-# Plan for Luxx
+# Plan for Luxx - thre should be light!
 
 ## Lessions Learned
     in future when trying to introduce a new operator
@@ -41,6 +41,9 @@
 
     [ ] OPEN Language statement to LOAD programms. Similar to import, but without managing if they were loaded already.
         - can be done like BRK,
+    [ ] OPEN Working on peristence: write and read the token stream
+
+    [o] OPEN make LOAD statement first, to set up bigger test suits
 
 ## Prio two
     [ ] OPEN JSONfy-method, and toString()
@@ -88,25 +91,33 @@
 
 ## Ideas 
     [ ] OPEN OO/Graph Database on Luxx
+
     [ ] OPEN Tree Walking Multi Methods, like in "Adaptive Programming"
-    [ ] 
+        perhaps with a clever case construct:
+        - case "path/of/objects" (that would be types) -> { code block };
+
     [ ] better test suit. The compiler ignores to many errors!
     [ ] OPEN make # an EOL Comment
         [ ] OPEN add also ``` "code"  ``` blocks, which get ignored by the scanner
+    [ ] DI: a factory, just based on names (field names, that would overlap with being able to declare a list of field names)
+    [ ] ensure/requires as methods with "infinite arguments", denoted as method(_);
+        - this actually could be "intro blocks" of arbitrary name ...
+    [ ] AST elements as data, e.g. @(some expressions) <- do not evaluate at point of encounter, but move as parameter/data around
 
-[ ] LUXX the last literal used, should be in an helper variable "it" (or similar).
-- better idea, there is always a helper "declared" and we set it manually where needed
-- in theory, all "keywords" of a previous keyword message could be variables for reuse?
-[ ] OPEN print parse tree, can be high level tokens just like print
 
-[x] DONE 2025-04-25 03:06 Parser break point in source code be able to have a token (on lexer level?) like BRK that is interpreted by the parser to break in a breakpoint. 
-    - break point markers or other message or information markers could be part of the tokens
+    [ ] LUXX the last literal used, should be in an helper variable "it" (or similar).
+        - better idea, there is always a helper "declared" and we set it manually where needed
+        - in theory, all "keywords" of a previous keyword message could be variables for reuse?
+    [ ] OPEN print parse tree, can be high level tokens just like print
+
+    [x] DONE 2025-04-25 03:06 Parser break point in source code be able to have a token (on lexer level?) like BRK that is interpreted by the parser to break in a breakpoint. 
+        - break point markers or other message or information markers could be part of the tokens
     OPEN add some diagnostics output to it, like line surrounding tokens and allow an argument or some.
         treat it as end of line comment, scanner just eats till there
 
-https://stackoverflow.com/questions/12636738/access-to-user-environment-variable
-[ ] Put Environment Variables into a super global scope
-- yes, the **env from C and export of BASH
+    https://stackoverflow.com/questions/12636738/access-to-user-environment-variable
+    [ ] Put Environment Variables into a super global scope
+        - yes, the **env from C and export of BASH
 
 [ ] Meta programming using Kanji, or Cuneiform
 - 石 Ishi, stone for classes that get auto instantiated
@@ -132,6 +143,9 @@ https://stackoverflow.com/questions/12636738/access-to-user-environment-variable
   OFF abc
 
   ON abc
+  - this could also be used as a comment on code, just marking a range of lines, highlighted in an editor,
+    but having no "comment semantics" for the scanner
+  
 [ ] port to big decimal https://pub.dev/documentation/big_decimal/latest/
 
 ## Tokens
@@ -149,7 +163,7 @@ self defined keywords
     
 
 ## general features
-    [1] add dart list and map
+    [1] DONE 2025-04-27 16:11 add dart list and map (done a while ago)
     [2] keyword methods
     - prototypes
     - delegation keyword for design patterns
@@ -158,10 +172,39 @@ self defined keywords
 
 ## field not found
 
-## solid classes
+## solid classes - Japanese word used: 石 ishi
    Classes who's objects get initialized by the compiler
    Useful for stuff like:
    Rule ::= Number | Ident;
    
 ## Reflection
-   as it says
+    as it says
+    - start with listing the methods of a class
+
+## Cracy
+    some commands for class manipulation
+    e.g. a Class could have a: create subclass command
+        - one single meta class 'to rule them all', that can create classes and methods
+        - likely a class itself would create its own methods
+    simple enmums, like:
+        o modes: edit, browse, creates a simple class "modes" and two instances edit and browse.
+    concat operator for identifiers, example:
+        some##test -> sometest. Or better, the contents if not nil/null yields a new identifier?
+        var 'test' does not exist, 'some' = a: some##test -> testa. Some is resolved and test is taken as an atom.   
+    value: 'undefined', like nil? Or is nil good enough?
+
+    𒈨 ME: Use MD syntax for REST-calls, as in "[" + "]" to give the statement a pointy name, and have the parameters 
+        gathered, and in "(" and ")" the URL (to be expanded by the parameters).
+    add translation support into every App!
+
+## for my assembly/jit/VM
+    Calling a function comes into the new function with SP pointing at/behind return address.
+    The function knows how many locals it has, and increases (decreases) SP acxcordingly.
+    It remembers old SP ... to return, it sets old SP back and executes RTS.
+    local variables are refered to as small offsets from SP, and arguments are refered to with bigger
+    See the ARM assembly here: https://cs.lmu.edu/~ray/notes/compilerarchitecture/
+                 00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15
+    before call:  ^
+    during call: arg1   arg2 [res]   ^
+    during exec: arg1   arg2 [res]  ret  loc1  loc2   ^ 
+    returned:     ^  ... ...   res

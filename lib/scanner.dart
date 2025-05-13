@@ -15,7 +15,7 @@ class Scanner {
     'is' : TokenType.is$,
     'is_a' : TokenType.is_a, // aos in source code: 'is a' - probably do not need it
 
-    'BRK' : TokenType.BRK,   // aos
+    'BRK' : TokenType.BRK,   // aos breaks into the monitor
 
     'in' : TokenType.in$,
 
@@ -182,6 +182,8 @@ class Scanner {
     }
 
     addToken(TokenType.eof, '');
+
+    print("Amount of Tokens: ${tokens.length}");
     return tokens;
   }
 

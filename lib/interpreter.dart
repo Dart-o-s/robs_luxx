@@ -64,6 +64,10 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   void visitBreakStmt(Break break$) {
     Object? result = evaluate(break$.expression);
     print(stringify(result));
+
+    // PoI: breaking into the monitor.
+    // set a breakpoint inside of the monitor package to
+    // investigate stuff of interest with the debugger
     Monitor m = Monitor();
     m.runRepl();
   }

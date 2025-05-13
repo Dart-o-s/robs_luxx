@@ -45,19 +45,23 @@ class Monitor {
       if (input == "exit")
         break;
 
-      if (input == "list classes")
-        print(machine.classes);
-      if (input == "list instances")
-        print(machine.instances);
-      if (input == "list functions")
-        print(machine.functions);
+/*
+  list env
+ */
 
       switch (input) {
+        case "list classes":
+          print(machine.classes);
+        case "list instances":
+          print(machine.instances);
+        case "list functions":
+          print(machine.functions);
         case "list intrinsics":
           Interpreter.listIntrinsics();
+        break;
         case "help":
           print(help);
-
+        break;
         default:
           print("noob! you typoed!");
       }

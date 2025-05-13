@@ -1,0 +1,23 @@
+print "START three_classes.luxx";
+class One {
+    init() {
+        this.one = "one";
+    }
+}
+
+class Two {
+    init() {
+        this.two = 2.0;
+    }
+}
+
+class Three < Two {
+    init() {
+        this.three = 3;
+    }
+}
+
+var o1 = One();
+var tw = Two();
+var t3 = Three();
+print "END three_classes.luxx";
