@@ -21,3 +21,13 @@ At the moment I am working on "Design by Contract" concepts:
     some special key words which make the parser drop into the Dart debugger
         that means during development, you can have a "debug break" statement in the luxx source, 
         which makes the luxx parser halt at a break point, so you can investigate the parser
+
+### Upgrades and History
+
+Most of the work here is based on Roboli's implementation of the Lox language. I renamed it to Luxx and put in some "Upgrades".
+This Git repository is new, I just wanted to push it upwards. So forgive me the bad shape, I will fix that.
+
+The purpose of the language is to be a scripting language for a simple HyperCard clone. Also as I am interested in language design, I upgraded the language a bit, see: plan.md
+
+
+
