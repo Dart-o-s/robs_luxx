@@ -1,0 +1,16 @@
+//
+// first attempt of contracts
+//
+
+fun callMe(aa, b, c) :
+    require(aa < b, b < c), // <- that comma is optional
+    // require { a < c }, // it is not a syntax error to have more than one of the same kind
+                          // however the last one would win ...
+                          // todo: we need labels or names. As 'identifiers' quickly get ugly
+                          //        we could use strings. Or invent a new backtick surrounded
+                          //       identifier
+    ensure(this.val != null)  {
+
+    print "we are in the function";
+
+}

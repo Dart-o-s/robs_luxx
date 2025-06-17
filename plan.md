@@ -13,7 +13,10 @@
 
     [X] DONE 2025-04-26 16:10 Maps
         create, length, set at, get at
-    
+
+    [x] OPEN check if we already have Generators
+        yes we have, return a nested function as generator from a wrapepr function that creates it
+
     [X] DONE 2025-04-26 18:11 Wrapper classes for global Array- and Map-functions
     [X] DONE 2025-04-28 17:46 expand a dictionary into a template string, via FFI to dart
         use the operator %
@@ -33,17 +36,38 @@
         - use bootstrap in runner
         - files are loaded alphabetically
         [ ] OPEN for a later "import" statement, we need to remember which files are already loaded
+
+    [X] DONE 2025-06-17 18:47 add --verbose and --no-boot-strap to aos_start_luxx.dart
+
     [ ] OPEN think how to make/declare "instance vars"
         as in, the init()-method initializes them, there could be list with names as in small-talk.
+
+    [ ] OPEN make a hash keyword, behaves like var but instanciates a map
+        example:
+            hash myVar;
+                myVar.something = "it";
+                myVar.goingOn   = "yes!";
+
+    [ ] OPEN treat "_" in function declarations as special identifier
+        - it indicates the last param is a list, and arguments are put into a list
+        - arguments get passed as a list in _
+
+    [o] OPEN Contracts:
+        - Requires, can be used for type safety 
+        - Ensures, 
+        - Invariant
+        [X] DONE 2025-06-18 00:09 make the parser parse them
+        [ ] OPEN put them into the AST into the relevant function
+        [ ] OPEN make the interpreter interpret them
 
     [X] DONE 2025-04-29 01:00 BRK statement to get into the monitor.
         Copy/clone the print-statement
 
     [ ] OPEN Language statement to LOAD programms. Similar to import, but without managing if they were loaded already.
         - can be done like BRK,
-    [ ] OPEN Working on peristence: write and read the token stream
-
     [o] OPEN make LOAD statement first, to set up bigger test suits
+    [ ] OPEN Working on persitence: write and read the token stream
+        
 
 ## Prio two
     [ ] OPEN JSONfy-method, and toString()
@@ -61,14 +85,13 @@
 
 ## Prio three
     [ ] OPEN input function
-    [ ] Contracts:
-        - Requires, can be used for type safety 
-        - Ensures, 
-        - Invariant
-        
+
+### Monitor
+
+### Interpreter
     [ ] have a language construct that can trigger an exception in the interpreter
 
-## todo
+## todo - that is Prio four
     [x] DONE 2025-04-26 02:27 conocatanate doubles to sting ends
     [o] POSTPONED metaTokens to interprete directly by the parser or even scanner
         - scan to EOL and put it as value into the token
@@ -86,11 +109,12 @@
     [ ] LUXX return named result.
         int found = qaList.findCardContaining(it, from: cur);
         ^^^^^^^^^ this could be a "name" variable provided by the function
-        for example: findCardContaining(it, from) as card -- this would introduce a variable card at point of usage holding the result
+        for example: findCardContaining(it, from) as card -- this would introduce a variable 'card' at point of usage holding the result
         exit keyword/statement.
 
 ## Ideas 
     [ ] OPEN OO/Graph Database on Luxx
+        integrate objectbox?
 
     [ ] OPEN Tree Walking Multi Methods, like in "Adaptive Programming"
         perhaps with a clever case construct:
@@ -105,14 +129,14 @@
     [ ] AST elements as data, e.g. @(some expressions) <- do not evaluate at point of encounter, but move as parameter/data around
 
 
-    [ ] LUXX the last literal used, should be in an helper variable "it" (or similar).
+    [ ] LUXX the last literal used, or return value, should be in an helper variable "it" (or similar).
         - better idea, there is always a helper "declared" and we set it manually where needed
         - in theory, all "keywords" of a previous keyword message could be variables for reuse?
     [ ] OPEN print parse tree, can be high level tokens just like print
 
     [x] DONE 2025-04-25 03:06 Parser break point in source code be able to have a token (on lexer level?) like BRK that is interpreted by the parser to break in a breakpoint. 
         - break point markers or other message or information markers could be part of the tokens
-    OPEN add some diagnostics output to it, like line surrounding tokens and allow an argument or some.
+    [ ] OPEN add some diagnostics output to it, like line surrounding tokens and allow an argument or some.
         treat it as end of line comment, scanner just eats till there
 
     https://stackoverflow.com/questions/12636738/access-to-user-environment-variable
@@ -208,3 +232,6 @@ self defined keywords
     during call: arg1   arg2 [res]   ^
     during exec: arg1   arg2 [res]  ret  loc1  loc2   ^ 
     returned:     ^  ... ...   res
+
+## knowledge
+    https://stackoverflow.com/questions/32128111/intellij-external-tools-available-variables

@@ -1,3 +1,5 @@
+// do not add tokens in the middle (even if it looks as it makes sense on the first glance)
+// see comment at the end of this enum!!
 enum TokenType {
   and,
 
@@ -54,6 +56,14 @@ enum TokenType {
   var$,
   while$,
   printAst,
+
+  require,
+  ensure,
+  invariant,
+
+  colon,
+  // add new tokens above. At some point we might persist the token stream
+  // that means the "order" and hence their numeric value has to stay the same
 }
 
 class Token {

@@ -35,6 +35,11 @@ class Scanner {
     'true': TokenType.true$,
     'var': TokenType.var$,
     'while': TokenType.while$,
+    // new tokens
+    'require' : TokenType.require,
+    'ensure' : TokenType.ensure,
+    'invariant' : TokenType.invariant,
+
     '_meta::printAst': TokenType.printAst,
   };
 
@@ -55,6 +60,11 @@ class Scanner {
 
         case '.':
           addToken(TokenType.dot, '.');
+          advance();
+          break;
+
+        case ':':
+          addToken(TokenType.colon, ':');
           advance();
           break;
 

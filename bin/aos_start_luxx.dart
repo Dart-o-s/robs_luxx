@@ -5,10 +5,22 @@ import 'package:lox_dart/monitor.dart';
 import 'package:path/path.dart' as p;
 
 bool hadError = false;
+bool verbose = false;
+
 final interpreter = Interpreter();
 
-void main(List<String> arguments) {
-  _bootStrap();
+void main(List<String> args) {
+  List<String> arguments =  [];
+  arguments.addAll(args);
+
+  if (!arguments.contains("--no-boot-strap"))
+    _bootStrap();
+  else
+    arguments.remove("--no-boot-strap");
+
+  verbose = arguments.contains("--verbose");
+  arguments.remove("--verbose");
+
   for (var arg in arguments) {
     if (arg == "--eof--") break; // ignore the remaining arguments
     runFile(arg);
@@ -21,7 +33,7 @@ void main(List<String> arguments) {
 
 void runFile(String filename) {
   var input = File(filename).readAsStringSync();
-  print("running: $filename");
+  if (verbose ) print("running: $filename");
   run(input);
   // if (hadError) print("errors detected");
   // if (interpreter.errors.isNotEmpty) print(70);
@@ -85,7 +97,7 @@ Map<String, String> getAllFiles(String directory, String suffix) {
     if (entity.path.endsWith(suffix)) {
       var base = p.basename(entity.path);
       res[base] = entity.path;
-      print("$base -> ${entity.path}");
+      if (verbose ) print("$base -> ${entity.path}");
     }
   }
   return res;
@@ -99,7 +111,7 @@ void _bootStrap() {
     if (file != null )
       runFile(file);
   }
-  print("loaded bootstrap files");
+  if (verbose ) print("loaded bootstrap files");
 }
 
 // Aos PoI this is nonsense!
@@ -108,5 +120,5 @@ Scanner _scanner(String input) {
 }
 
 void error(int line, String where, String message) {
-  print('[line $line] Error $where: $message');
+  if (verbose )  print('[line $line] Error $where: $message');
 }

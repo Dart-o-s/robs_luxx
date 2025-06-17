@@ -51,13 +51,31 @@ class Expression extends Stmt {
   }
 }
 
+// Something smaller than a statement
+// it is basically an optional part of a statement
+// the first fragment will be the one for contracts
+class Fragment {
+
+}
+
+// open question, we could allow repeated require etc. and just join the expressions
+class Contract extends Fragment {
+  List<Expr>? require;
+  List<Expr>? ensure;
+  List<Expr>? invariant;
+
+  Contract(this.require, this.ensure, this.invariant);
+
+  bool isEmpty() { return require == null && ensure == null && invariant == null; }
+}
+
 class Fun extends Stmt {
-  Fun(this.name,this.params,this.body);
+  Fun(this.name, this.params, this.body, this.contract);
   final Token name;
   final List<Token> params;
   final List<Stmt> body;
+  final Contract   contract;
 
-  @override
   T accept<T>(StmtVisitor<T> visitor) {
     return visitor.visitFunStmt(this);
   }

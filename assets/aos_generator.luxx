@@ -1,0 +1,18 @@
+// test if a nested function can be returned and be used as a generator
+// Yes! It can!
+
+fun maker() {
+  var count = 0;
+
+  fun counter() {
+    count = count + 1;
+    return count;
+  }
+
+  return counter;
+}
+
+var counter = maker();
+
+print counter();
+print counter();

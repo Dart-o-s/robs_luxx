@@ -29,7 +29,7 @@ class Parser {
     }
 
     // PoI end of parsing
-    print ("Amount of Statements parsed: ${stmts.length} statements.");
+    // print ("Amount of Statements parsed: ${stmts.length} statements.");
     return stmts;
   }
 
@@ -89,8 +89,13 @@ class Parser {
     }
 
     ensureAndAdvance(TokenType.parenRight, 'Expect ")" after parameters.');
+    Contract con = Contract(null, null, null);
+
+    if (match([TokenType.colon, TokenType.require, TokenType.ensure, TokenType.invariant]))
+      con = contract();
+
     ensureAndAdvance(TokenType.braceLeft, 'Expect "{" before $kind body.');
-    return Fun(name, params, block());
+    return Fun(name, params, block(), con);
   }
 
   Stmt varDeclaration() {
@@ -380,7 +385,7 @@ class Parser {
     Token paren = peekAndAdvance();
     List<Expr> arguments = [];
 
-    if (!match([TokenType.parenRight])) {
+    if (!match([TokenType.parenRight])) { // todo, see contractParameters, extract method
       do {
         if (arguments.length >= 255) {
           errors.add(
@@ -461,13 +466,14 @@ class Parser {
 
   Token peek() {
     var tk = tokens[_pos];
+
     if (tk.type == TokenType.printAst) {
       print(tk.eolComment);
       printAst();
       _pos++;
     }
 
-    return tokens[_pos];
+    return tk;
   }
 
   Token peekAndAdvance() {
@@ -493,7 +499,55 @@ class Parser {
   }
 
   void printAst() {
-    print("OOPS: the AstPrinter can only walk expressions");
+    print("OOPS: the AstPrinter can only walk expressions (TODO)");
+  }
+
+  Contract contract() {
+    Contract res = Contract(null, null, null);
+
+    // colon is optional
+    if (peek().type == TokenType.colon)
+      advance();
+
+    Token tk = peek();
+    while (matchAndAdvance([TokenType.require, TokenType.ensure, TokenType.invariant])){
+      var clauses = contractParameters();
+      switch (tk.type) {
+        case TokenType.require:
+          res.require = clauses;
+        case TokenType.ensure:
+          res.ensure = clauses;
+        case TokenType.invariant:
+          res.invariant = clauses;
+        default:
+          ;
+      }
+
+      tk = peek();
+
+      // skip optional comma
+      if (tk.type == TokenType.comma)
+        tk = peekAndAdvance();
+    }
+
+    return res;
+  }
+
+  List<Expr> contractParameters() {
+    Token paren = peekAndAdvance();
+    List<Expr> arguments = [];
+
+    do { // todo, extract method
+      if (arguments.length >= 255) {
+        errors.add(
+            ParseError('Cannot have more than 255 arguments.', peek().line));
+      }
+
+      arguments.add(expression());
+    } while (matchAndAdvance([TokenType.comma]));
+
+    ensureAndAdvance(TokenType.parenRight, 'Expect ")" after arguments.');
+    return arguments;
   }
 }
 

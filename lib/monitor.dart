@@ -38,16 +38,13 @@ class Monitor {
     stdout.writeln(" =================================");
     stdout.writeln(" |-- Welcome to the Monitor ][ --|");
     stdout.writeln(" =================================");
+    stdout.writeln('type: ? or help, for help.');
     stdout.write('> ');
     var input = stdin.readLineSync();
 
     while (input != null) {
       if (input == "exit")
         break;
-
-/*
-  list env
- */
 
       switch (input) {
         case "list classes":
@@ -59,7 +56,7 @@ class Monitor {
         case "list intrinsics":
           Interpreter.listIntrinsics();
         break;
-        case "help":
+        case "help" || "?":
           print(help);
         break;
         default:
