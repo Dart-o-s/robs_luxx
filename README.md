@@ -28,6 +28,3 @@ Most of the work here is based on Roboli's implementation of the Lox language. I
 This Git repository is new, I just wanted to push it upwards. So forgive me the bad shape, I will fix that.
 
 The purpose of the language is to be a scripting language for a simple HyperCard clone. Also as I am interested in language design, I upgraded the language a bit, see: plan.md
-
-
-
