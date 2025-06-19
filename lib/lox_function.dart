@@ -30,11 +30,19 @@ class LoxFunction extends LoxCallable {
       environment.define(declaration.params[i].lexeme, arguments[i]);
     }
 
-    try {
-      interpreter.executeBlock(declaration.body, environment);
+    try { // HERE AoS
+      if (interpreter.executeRequireConstraints(declaration.contract, environment))
+
+        interpreter.executeBlock(declaration.body, environment);
+
+        interpreter.executeEnsureConstraints(declaration.contract, environment);
+        interpreter.executeInvariantConstraints(declaration.contract, environment);
+
     } catch (e) {
       if (e is ReturnException) {
-        if (isInitializer) {
+        interpreter.executeEnsureConstraints(declaration.contract, environment);
+        interpreter.executeInvariantConstraints(declaration.contract, environment);
+        if (isInitializer) {  // in theory an init() could() ensure something
           return closure.getAt(0, 'this');
         } else {
           return e.value;

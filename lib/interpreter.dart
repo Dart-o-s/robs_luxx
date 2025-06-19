@@ -9,8 +9,9 @@ final Environment globals = Environment();
 
 class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   List<InterpretError> errors = [];
-  late  Environment environment;
+  late Environment environment;
   final Map<Expr, int> locals = {};
+  bool _debugLocals = false;
 
   Interpreter() {
     environment = globals;
@@ -26,10 +27,10 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
     globals.define('mapLength', MapLength());
     globals.define('mapSetAt', MapSet());
     globals.define('mapGetAt', MapGet());
-}
+  }
 
   static void listIntrinsics() {
-    print (globals.vars);
+    print(globals.vars);
   }
 
   void interpret(List<Stmt> statements) {
@@ -61,6 +62,11 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   }
 
   @override
+  void visitContractStmt(Contract cont) {
+    // do nothing, this is in the function call ... AoS todo: figure if we even need this method
+  }
+
+  @override
   void visitBreakStmt(Break break$) {
     Object? result = evaluate(break$.expression);
     print(stringify(result));
@@ -68,8 +74,10 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
     // PoI: breaking into the monitor.
     // set a breakpoint inside of the monitor package to
     // investigate stuff of interest with the debugger
+    // You do not really need a Breakpoint as you end in
+    // the Repl-Monitor now.
     Monitor m = Monitor();
-    m.runRepl();
+    m.runRepl(fromInterpreter: true);
   }
 
   @override
@@ -142,7 +150,7 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
     Map<String, LoxFunction> methods = {};
     for (Fun method in stmt.methods) {
       LoxFunction function =
-          LoxFunction(method, environment, method.name.lexeme == 'init');
+      LoxFunction(method, environment, method.name.lexeme == 'init');
       methods[method.name.lexeme] = function;
     }
 
@@ -184,7 +192,9 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
 
   @override
   Object? visitBinaryExpr(Binary expr) {
+    //_debugLocals = true;
     final left = evaluate(expr.left);
+    //_debugLocals = false;
     final right = evaluate(expr.right);
 
     switch (expr.operator.type) {
@@ -192,11 +202,17 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
         if (left is double && right is double) {
           return left + right;
         }
-        if (left is String) {
+        if (left is String) { // works now with LuxInstance's
           return left + right.toString();
         }
+        return left.toString() + " + " + right.toString();
+
+        // AoS todo left side can be a LoxInstance
+        // AoS we already have to think about FFI here:
+        //     how to call a toString() method that is defined in lox/luxx
         throw InterpretError(
-            'Both values must be strings or numbers (AoS: OOPS, how did we get here?)', expr.operator.line);
+            'Both values must be strings or numbers (AoS: OOPS, how did we get here?)',
+            expr.operator.line);
 
       case TokenType.minus:
         _checkNumberOperands(expr.operator, [left, right]);
@@ -210,14 +226,15 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
         _checkNumberOperands(expr.operator, [left, right]);
         return (left as double) / (right as double);
 
-      // PoI
+    // PoI
       case TokenType.modulo:
       //  _checkNumberOperands(expr.operator, [left, right]);
       //  debugPrintObjects([expr.operator, left, right]);
-      LoxInstance li = right as LoxInstance;
-      var theMap = li.getInstanceAsMap();
-      String s = expandMapIntoString(left as String, theMap.cast<String,Object>());
-      return s;
+        LoxInstance li = right as LoxInstance;
+        var theMap = li.getInstanceAsMap();
+        String s = expandMapIntoString(
+            left as String, theMap.cast<String, Object>());
+        return s;
 
       case TokenType.greater:
         _checkNumberOperands(expr.operator, [left, right]);
@@ -248,13 +265,14 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
 
   @override
   Object? visitCallExpr(Call expr) {
-    final function = evaluate(expr.callee);
+    final function = evaluate(expr.callee); // HERE AoS
 
     List<Object?> arguments = [];
     for (final argument in expr.arguments) {
       arguments.add(evaluate(argument));
     }
 
+    // AoS for variable length argument calls we probably only have to fix here
     if (function is! LoxCallable) {
       throw InterpretError(
           'Can only call functions and classes', expr.paren.line);
@@ -398,12 +416,88 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   }
 
   Object? lookUpVariable(Token name, Expr expr) {
+    if (_debugLocals) {
+      print("Key: ${expr}");
+      for (var l in locals.keys) {
+        // HERE AoS
+        print("Loc: " + l.toString());
+      }
+    }
     if (locals[expr] != null) {
+      if (_debugLocals) print ("Key: ${expr} :-> ${locals[expr]!}\n");
       return environment.getAt(locals[expr]!, name.lexeme);
     } else {
       return globals.get(name);
     }
   }
+
+  bool executeRequireConstraints(Contract contract, Environment environment) {
+    if (contract.hasRequirements()) { // AoS push one call layer up
+      Environment previous = this.environment;
+      try {
+        this.environment = environment;
+        var req = contract.require!;
+        bool res = true;
+        for (var it in req) {
+          var midres = evaluate(it);
+          res = res && midres as bool;
+          print ("$it :-> $midres");
+        }
+        // AoS TODO, fiffle the line out and print it here
+        if (!res) print ("Error in Interpreter (IGNORED) :-> 'require' constraint failed!");
+        return res; // HERE return the faulty statement/expression?
+      } finally {
+        this.environment = previous;
+      }
+    } else {
+      return true;
+    }
+  }
+  bool executeEnsureConstraints(Contract contract, Environment environment) {
+    if (contract.doesEnsure()) { // AoS push one call layer up
+      Environment previous = this.environment;
+      try {
+        this.environment = environment;
+        var req = contract.ensure!;
+        bool res = true;
+        for (var it in req) {
+          var midres = evaluate(it);
+          res = res && midres as bool;
+          // print ("$it :-> $midres");
+        }
+        // AoS TODO, fiffle the line out and print it here
+        if (!res) print ("Error in Interpreter (IGNORED) :-> 'ensure' constraint failed!");
+        return res; // HERE return the faulty statement/expression?
+      } finally {
+        this.environment = previous;
+      }
+    } else {
+      return true;
+    }
+  }
+  bool executeInvariantConstraints(Contract contract, Environment environment) {
+    if (contract.hasInvariant()) { // AoS push one call layer up
+      Environment previous = this.environment;
+      try {
+        this.environment = environment;
+        var req = contract.invariant!;
+        bool res = true;
+        for (var it in req) {
+          var midres = evaluate(it);
+          res = res && midres as bool;
+          print ("$it :-> $midres");
+        }
+        // AoS TODO, fiffle the line out and print it here
+        if (!res) print ("Error in Interpreter (IGNORED) :-> invariant constraint failed!");
+        return res; // HERE return the faulty statement/expression?
+      } finally {
+        this.environment = previous;
+      }
+    } else {
+      return true;
+    }
+  }
+
 }
 
 class InterpretError extends Error {

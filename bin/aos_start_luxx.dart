@@ -120,5 +120,5 @@ Scanner _scanner(String input) {
 }
 
 void error(int line, String where, String message) {
-  if (verbose )  print('[line $line] Error $where: $message');
+   print('[line $line] Error $where: $message');
 }

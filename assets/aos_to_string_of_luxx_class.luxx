@@ -1,0 +1,22 @@
+// check what happens, if toString() is called on a luxx object
+
+class AboutToString {
+    init() {
+        this.num = 3.1415;
+        this.str = "some string";
+    }
+    aMethod() {
+        return str + ": " + num;
+    }
+}
+
+var it = AboutToString();
+
+print "AboutToString: " + it; // interpreter will call toString() on a LoxObject. Lets see what we have to fix
+
+/*
+okay, I changed LoxInstance::toString and added the 'fields'
+ String toString() {
+    return '<instance ${klass.name}> {' + fields + "}";
+  }
+ */

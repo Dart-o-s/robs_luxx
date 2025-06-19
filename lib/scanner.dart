@@ -318,6 +318,7 @@ class Scanner {
     }
   }
 
+  // lox and luxx supports nested multi line comments
   void _advanceUntilCommentEnd() {
     int commentLevel = 1;
     int lastOpening = line; // + 1; // no idea why it is reported 1 to less

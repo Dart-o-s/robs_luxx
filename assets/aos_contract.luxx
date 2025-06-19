@@ -2,15 +2,50 @@
 // first attempt of contracts
 //
 
-fun callMe(aa, b, c) :
+fun callMeWithRequirements(aa, b, c)  :  // <- colon is optional, imho looks better
     require(aa < b, b < c), // <- that comma is optional
-    // require { a < c }, // it is not a syntax error to have more than one of the same kind
-                          // however the last one would win ...
-                          // todo: we need labels or names. As 'identifiers' quickly get ugly
-                          //        we could use strings. Or invent a new backtick surrounded
-                          //       identifier
-    ensure(this.val != null)  {
+    // require { a < c },   // it is not a syntax error to have more than one of the same kind.
+                            // However the last one would win ...
+                            // todo: we need labels or names. As 'identifiers' quickly get ugly
+                            //      , we could use strings. Or invent a new backtick surrounded
+                            //       identifier
+    {
+        print aa;
+        aa = 34;
+        print aa;
 
-    print "we are in the function";
+    //var x1 = aa < b and b < c;
+    //var x2 = aa > c;
 
+    //BRK "Check call tree";
+    print "we are in the 'callMeWithRequirements()' function";
+
+    //print x1 + x2;
 }
+
+
+fun callMeWithEnsure(aa2, b2, c2)  :
+    ensure(aa2 < 0, b2 != 0, c2 != 0) {
+    /*
+    var aa_2 = aa2 > b2;
+    var b_2 = b2 < c2;
+
+    var c_2 = "something";
+
+    print aa_2 + b_2; */
+
+    print "we are in the 'callMeWithEnsure()' function";
+    // what happens with implicit return? Where in the interpreter is that handled, probably after executing "block"
+}
+
+
+fun callMeWithInvariant(aa3, b3, c3) :
+    invariant(true, false)   {
+
+    print "we are in the 'callMeWithInvariant()' function";
+}
+
+
+callMeWithRequirements(11, 9, 10);
+callMeWithEnsure(11, 9, 10);
+callMeWithInvariant(11, 9, 10);

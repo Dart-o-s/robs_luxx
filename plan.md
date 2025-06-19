@@ -47,30 +47,45 @@
             hash myVar;
                 myVar.something = "it";
                 myVar.goingOn   = "yes!";
-
+        
     [ ] OPEN treat "_" in function declarations as special identifier
         - it indicates the last param is a list, and arguments are put into a list
         - arguments get passed as a list in _
 
-    [o] OPEN Contracts:
+    [X] DONE 2025-06-19 23:47 Contracts:
         - Requires, can be used for type safety 
         - Ensures, 
         - Invariant
-        [X] DONE 2025-06-18 00:09 make the parser parse them
-        [ ] OPEN put them into the AST into the relevant function
-        [ ] OPEN make the interpreter interpret them
+        [X] DONE 2025-06-18 16:09 make the parser parse them
+        [X] DONE 2025-06-17 17:17 put them into the AST into the relevant function
+        [X] DONE 2025-06-19 23:47 make the interpreter interpret them
+
+        [ ] OPEN consider if the Resolver should/could break into the Monitor, on certain "break points"
+    
+    [ ] OPEN Luxx classes should be able to define a toString method (and others), which can
+        be called from dart, for example when the '+' operator is expanded
+
+    [ ] OPEN fix the "a" problem, it can not be a variable at the moment, scan the "is a" better with a look ahead
 
     [X] DONE 2025-04-29 01:00 BRK statement to get into the monitor.
         Copy/clone the print-statement
+
+        [ ] OPEN - we need the same for the parser itself, and probably for the scanner, too
 
     [ ] OPEN Language statement to LOAD programms. Similar to import, but without managing if they were loaded already.
         - can be done like BRK,
     [o] OPEN make LOAD statement first, to set up bigger test suits
     [ ] OPEN Working on persitence: write and read the token stream
-        
+        - lets first try serialization ...
 
 ## Prio two
-    [ ] OPEN JSONfy-method, and toString()
+    [ ] OPEN scanner needs to add the filename to the token
+    [ ] OPEM FILE directive so 'files' loaded from strings, have a filename
+    [ ] OPEN keywords for operators, just like identifier versus keyword, look first if an ident line "not"
+        is an operator, and return that one to the parser
+
+    [ ] OPEN JSONfy-method, 
+        [x] DONE 2025-06-18 22:11 and toString()
 
     [ ] OPEN think about a punch card analogy for my various "card programs", to reference programs amoung each other
     [ ] OPEN think about an FFI specifically for STB
@@ -158,7 +173,7 @@
 - 𒄑 GES - tree, spit out AST
 - 𒆸 LAGAB - block
 - 𒈨 ME - the ME, yes 
-[ ] conserve comments, add them to the next token
+[X] DONE 2025-06-11 11:11 - long ago conserve comments, add them to the next token
 [ ] keyword as token, could be a 𒈨 or similar, followed by allowed "tokentypes". 
 - interpreted by the scanner added to the keyword list and treated by the parser
 [ ] high level variables like ClassName, so the program itself can access its environment
@@ -235,3 +250,6 @@ self defined keywords
 
 ## knowledge
     https://stackoverflow.com/questions/32128111/intellij-external-tools-available-variables
+    https://en.wikipedia.org/wiki/Box-drawing_characters - the "mini monitor" uses them
+    https://pub.dev/packages/graphql_parser2/install
+    https://pub.dev/documentation/graphql_codegen/latest/

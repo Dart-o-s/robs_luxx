@@ -46,10 +46,12 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
     currentFunction = type;
 
     beginScope();
-    for (Token param in stmt.params) {
+    for (Token param in stmt.params) { // AoS notjing to resolve here :D
       declare(param);
       define(param);
     }
+    // AoS here,
+    resolveContract(stmt);
     resolveBlock(stmt.body);
     endScope();
 
@@ -279,6 +281,30 @@ class Resolver with ExprVisitor<void>, StmtVisitor<void> {
   @override
   void visitBreakStmt(Break break$) {
     resolveExpr(break$.expression);
+  }
+
+  @override
+  void visitContractStmt(Contract cont) {
+  // AoS dead code ... probably we do not need to visit Contracts
+  }
+
+  void resolveContract(Fun stmt) {
+    Contract cont = stmt.contract;
+    if (cont.require != null ) {
+      for (var it in cont.require!) {
+        resolveExpr(it);
+      }
+    }
+    if (cont.ensure != null ) {
+      for (var it in cont.ensure!) {
+        resolveExpr(it);
+      }
+    }
+    if (cont.invariant != null ) {
+      for (var it in cont.invariant!) {
+        resolveExpr(it);
+      }
+    }
   }
 }
 

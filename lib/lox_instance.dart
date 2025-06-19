@@ -31,7 +31,7 @@ class LoxInstance {
 
   @override
   String toString() {
-    return '<instance ${klass.name}>';
+    return '<instance ${klass.name}> {' + fields.toString() + "}";
   }
 
   Map<dynamic, dynamic> getInstanceAsMap() {

@@ -16,6 +16,7 @@ mixin StmtVisitor<T> {
   T visitWhileStmt(While stmt);
 
   T visitBreakStmt(Break break$);
+  T visitContractStmt(Contract contract);
 }
 
 class Block extends Stmt {
@@ -54,7 +55,7 @@ class Expression extends Stmt {
 // Something smaller than a statement
 // it is basically an optional part of a statement
 // the first fragment will be the one for contracts
-class Fragment {
+abstract class Fragment extends Stmt {
 
 }
 
@@ -67,6 +68,15 @@ class Contract extends Fragment {
   Contract(this.require, this.ensure, this.invariant);
 
   bool isEmpty() { return require == null && ensure == null && invariant == null; }
+
+  bool hasRequirements() => require != null;
+  bool doesEnsure() => ensure != null;
+  bool hasInvariant() => invariant != null;
+
+  @override
+  T accept<T>(StmtVisitor<T> visitor) {
+     return visitor.visitContractStmt(this);
+  }
 }
 
 class Fun extends Stmt {

@@ -149,5 +149,9 @@ class Variable extends Expr {
   T accept<T>(ExprVisitor<T> visitor) {
     return visitor.visitVariableExpr(this);
   }
+  // AoS HERE
+  String toString() {
+    return "Variable: ${name.lexeme} - idx: ${name.type.index}, line: ${name.line} # ${hashCode}";
+  }
 }
 

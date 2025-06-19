@@ -1,0 +1,13 @@
+// empty class, lets see if that works
+class hash {
+}
+
+var test_hash = hash();
+
+test_hash.it = 0;
+test_hash.str = "something";
+
+print test_hash.it;
+print test_hash.str;
+
+// the above works, can be used as a poor mans hash table

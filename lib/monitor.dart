@@ -34,10 +34,16 @@ class Monitor {
 
   Monitor() {}
 
-  void runRepl() {
-    stdout.writeln(" =================================");
-    stdout.writeln(" |-- Welcome to the Monitor ][ --|");
-    stdout.writeln(" =================================");
+  void runRepl({bool fromInterpreter = false}) {
+    stdout.writeln(" ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+    stdout.writeln(" ┃-- Welcome to the Monitor ][ --┃");
+    stdout.writeln(" ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+
+    if (fromInterpreter)
+      stdout.writeln("Interpreter Break Point.");
+    else
+      stdout.writeln("REPL ...");
+
     stdout.writeln('type: ? or help, for help.');
     stdout.write('> ');
     var input = stdin.readLineSync();
