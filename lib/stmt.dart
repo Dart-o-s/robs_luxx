@@ -1,4 +1,4 @@
-import 'package:lox_dart/lox_dart.dart';
+import 'package:luxx_dart/lox_dart.dart';
 
 abstract class Stmt {
   T accept<T>(StmtVisitor<T> visitor);

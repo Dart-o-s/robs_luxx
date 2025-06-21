@@ -13,9 +13,9 @@ import 'package:path/path.dart' as p;
 import '../scanner.dart';
 import '../token.dart';
 
-import 'package:lox_dart/lox_dart.dart';
-import 'package:lox_dart/interpreter.dart';
-import 'package:lox_dart/monitor.dart';
+import 'package:luxx_dart/lox_dart.dart';
+import 'package:luxx_dart/interpreter.dart';
+import 'package:luxx_dart/monitor.dart';
 
 ///
 /// Load a source file and scan it

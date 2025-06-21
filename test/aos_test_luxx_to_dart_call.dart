@@ -1,33 +1,43 @@
+// TODO clean up and reuse the start script here
+
 import 'dart:collection';
 import 'dart:io';
 import 'package:luxx_dart/lox_dart.dart';
 import 'package:luxx_dart/monitor.dart';
 import 'package:path/path.dart' as p;
+import 'package:luxx_dart/luxx_dfi.dart';
 
 bool hadError = false;
 bool verbose = false;
 
 final interpreter = Interpreter();
 
-void main(List<String> args) {
-  List<String> arguments =  [];
-  arguments.addAll(args);
+void main() {
+  // C:\Users\angel\AndroidStudioProjects\roboli_lox_dart\assets\aos_test_luxx_to_dart_call.luxx
+  dart = eatingDartCallBack; // here should be your own callback
 
-  if (!arguments.contains("--no-boot-strap"))
-    _bootStrap();
-  else
-    arguments.remove("--no-boot-strap");
+  runFile("assets/aos_test_luxx_to_dart_call.luxx");
+  exit(0);
 
-  verbose = arguments.contains("--verbose");
-  arguments.remove("--verbose");
-
-  for (var arg in arguments) {
-    if (arg == "--eof--") break; // ignore the remaining arguments
-    runFile(arg);
-  }
-
-  Monitor m = Monitor();
-  m.runRepl();
+  //
+  // List<String> arguments =  [];
+  // arguments.addAll(args);
+  //
+  // if (!arguments.contains("--no-boot-strap"))
+  //   _bootStrap();
+  // else
+  //   arguments.remove("--no-boot-strap");
+  //
+  // verbose = arguments.contains("--verbose");
+  // arguments.remove("--verbose");
+  //
+  // for (var arg in arguments) {
+  //   if (arg == "--eof--") break; // ignore the remaining arguments
+  //   runFile(arg);
+  // }
+  //
+  // Monitor m = Monitor();
+  // m.runRepl();
 
 }
 

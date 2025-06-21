@@ -1,4 +1,4 @@
-import 'package:lox_dart/lox_dart.dart';
+import 'package:luxx_dart/lox_dart.dart';
 
 // TODO aos think about initial size or clamped maps
 class MapCreate extends LoxCallable {

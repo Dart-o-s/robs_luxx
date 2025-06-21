@@ -1,4 +1,4 @@
-import 'package:lox_dart/lox_dart.dart';
+import 'package:luxx_dart/lox_dart.dart';
 
 class AstPrinter with ExprVisitor<String> {
   String print(Expr expr) {

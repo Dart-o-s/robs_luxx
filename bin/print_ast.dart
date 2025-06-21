@@ -1,5 +1,5 @@
-import 'package:lox_dart/ast_printer.dart';
-import 'package:lox_dart/lox_dart.dart';
+import 'package:luxx_dart/ast_printer.dart';
+import 'package:luxx_dart/lox_dart.dart';
 
 void main(List<String> arguments) {
   Expr expression = Binary(

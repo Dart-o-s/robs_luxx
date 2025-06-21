@@ -3,8 +3,8 @@
 /// and the loaded classes, functions, and instances
 ///
 
-import "package:lox_dart/stmt.dart";
-import "package:lox_dart/token.dart";
+import "package:luxx_dart/stmt.dart";
+import "package:luxx_dart/token.dart";
 
 import "lox_class.dart";
 import "lox_instance.dart";

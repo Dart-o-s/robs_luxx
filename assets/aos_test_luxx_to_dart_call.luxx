@@ -1,0 +1,10 @@
+/*
+Lets call the Dark side, erm, oops, the Dart side!
+*/
+
+print "Calling Dart Functions from Luxx";
+
+sent2dart("just one long string");
+sent2dart("and here is another one");
+dart();
+

@@ -2,7 +2,13 @@ import 'interpreter.dart';
 import 'lox_callable.dart';
 
 /// a collection of implementations on the dart side, called from luxx
+/// not to be mixed up with the generic dart <-> luxx FFI/DFI
+///
+/// The implementation here is for accessing hard coded intrinsic dart
+/// functions from the luxx side.
+
 /// 1) expand a dictionary into a string template
+///
 
 /// lolz, do not need this, as "Interpreter" can call the below method itself
 class ExpandString extends LoxCallable {

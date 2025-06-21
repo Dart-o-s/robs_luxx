@@ -1,22 +1,40 @@
-import 'package:lox_dart/lox_dart.dart';
-import 'package:lox_dart/luxx_ffi_dart.dart';
-import 'package:lox_dart/native_funs.dart';
+import 'package:luxx_dart/lox_dart.dart';
+import 'package:luxx_dart/luxx_ffi_dart.dart';
+import 'package:luxx_dart/luxx_dfi.dart';
+import 'package:luxx_dart/native_funs.dart';
+
 import 'luxx_array.dart';
 import 'luxx_map.dart';
 import 'monitor.dart';
 
 final Environment globals = Environment();
+Interpreter gInterpreter = Interpreter(); // gets replaced as soon as someone does some real work
+
+void receiveDartEvents() {
+  gInterpreter.handleCallFromDart();
+}
 
 class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   List<InterpretError> errors = [];
   late Environment environment;
   final Map<Expr, int> locals = {};
-  bool _debugLocals = false;
+  bool _debugLocals = false; // that is for a print look in "locals()"
 
   Interpreter() {
     environment = globals;
+
+    gInterpreter = this;
+
+
+    // initialize the dart <-> luxx bridge
+    luxx = receiveDartEvents;
+    globals.define('sent2dart', Darcy()); // TODO AoS find a better name
+    globals.define('dart', ThrowTheDart());
+
+    // just an example, but kind of useful
     globals.define('clock', Clock());
 
+    // the following are objects of classes that implement the LoxCallable interface
     globals.define('arrayCreate', ArrayCreate());
     globals.define('arrayLength', ArrayLength());
     globals.define('arrayAdd', ArrayAdd());
@@ -495,6 +513,14 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
       }
     } else {
       return true;
+    }
+  }
+
+  void handleCallFromDart() {
+    while (gLuxxy.isNotEmpty) {
+      var it = gLuxxy.removeAt(0);
+      // todo aos handle the call
+      print (it);
     }
   }
 

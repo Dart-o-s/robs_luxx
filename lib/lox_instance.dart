@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:lox_dart/lox_dart.dart';
+import 'package:luxx_dart/lox_dart.dart';
 
 var gInstances = HashSet<LoxInstance>();
 

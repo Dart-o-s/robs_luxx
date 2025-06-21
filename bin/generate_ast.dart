@@ -39,7 +39,7 @@ void defineAst(String outputDir, String baseName, List<String> types) {
   String path = '$outputDir/${baseName.toLowerCase()}.dart';
   final file = File(path);
   final sink = file.openWrite();
-  sink.writeln('import \'package:lox_dart/lox_dart.dart\';');
+  sink.writeln('import \'package:luxx_dart/lox_dart.dart\';');
   sink.writeln();
   sink.writeln('abstract class $baseName {');
   sink.writeln('  T accept<T>(${baseName}Visitor<T> visitor);');

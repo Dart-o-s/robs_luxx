@@ -1,4 +1,4 @@
-import 'package:lox_dart/token.dart';
+import 'package:luxx_dart/token.dart';
 
 class Scanner {
   final String input;
