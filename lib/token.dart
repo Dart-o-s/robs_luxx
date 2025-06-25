@@ -78,8 +78,9 @@ class Token {
   String eolComment = "";
 
   bool isKeyword = false;
+  bool isBackTickIdent = false;
 
-  Token({required this.type, required this.lexeme, required this.line, this.value});
+  Token({required this.type, required this.lexeme, required this.line, this.value, this.isBackTickIdent=false});
 
   @override
   String toString() {

@@ -1,0 +1,17 @@
+/*
+    test identifiers like this:
+    var `total amount` = 123;
+    fun `calculate maximum of list`(argL) {}
+*/
+
+print "fool around with the new back-tick-idents";
+
+var `total amount` = 123;
+
+fun `calculate maximum of list`(argL) {
+    return 0;
+}
+
+`calculate maximum of list` (nil);
+
+print "total: " + `total amount`;

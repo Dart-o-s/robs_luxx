@@ -173,6 +173,9 @@ class Scanner {
           string();
           break;
 
+        case '`':
+          backTickIdent();
+          break;
         default:
           if (isNumeric()) {
             number();
@@ -209,6 +212,26 @@ class Scanner {
     } while (peek().isNotEmpty && peek() != '\n');
   }
 
+  void backTickIdent() {
+    advance();
+
+    String value = '';
+    while (peek().isNotEmpty && peek() != '`') {
+      value += peek();
+      advance();
+    }
+
+    if (peek().isEmpty) {
+      errors.add(ScanError("Closing '`' (back tick) expected", line));
+    } else {
+      advance();
+    }
+
+    tokens.add(Token(
+        type: TokenType.identifier, lexeme: '"$value"', value: value, line: line, isBackTickIdent:true));
+  }
+
+  // AoS TODO: handle \n \t etc. and perhaps even \"
   void string() {
     advance();
 

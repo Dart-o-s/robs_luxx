@@ -1,6 +1,6 @@
-# Plan for Luxx - thre should be light!
+# Plan for Luxx - there should be light!
 
-## Lessions Learned
+## Lessons Learned
     in future when trying to introduce a new operator
         - make a minimal luxx-file, and reuse an existing one, until it works
             then introduce the new operator
@@ -77,6 +77,9 @@
     [o] OPEN make LOAD statement first, to set up bigger test suits
     [ ] OPEN Working on persitence: write and read the token stream
         - lets first try serialization ...
+
+    [X] DONE 2025-06-26 01:02 allow back tick identifiers
+        - `this is an identifier containing spaces`
 
 ## Prio two
     [ ] OPEN scanner needs to add the filename to the token
@@ -155,7 +158,7 @@
         treat it as end of line comment, scanner just eats till there
 
     https://stackoverflow.com/questions/12636738/access-to-user-environment-variable
-    [ ] Put Environment Variables into a super global scope
+    [ ] OPEN Put Environment Variables into a super global scope
         - yes, the **env from C and export of BASH
 
 [ ] Meta programming using Kanji, or Cuneiform
@@ -229,7 +232,7 @@ self defined keywords
         o modes: edit, browse, creates a simple class "modes" and two instances edit and browse.
     concat operator for identifiers, example:
         some##test -> sometest. Or better, the contents if not nil/null yields a new identifier?
-        var 'test' does not exist, 'some' = a: some##test -> testa. Some is resolved and test is taken as an atom.   
+        var 'test' does not exist, 'some' = a: some##test -> atest. Some is resolved and test is taken as an atom.   
     value: 'undefined', like nil? Or is nil good enough?
 
     𒈨 ME: Use MD syntax for REST-calls, as in "[" + "]" to give the statement a pointy name, and have the parameters 
@@ -244,12 +247,31 @@ self defined keywords
     See the ARM assembly here: https://cs.lmu.edu/~ray/notes/compilerarchitecture/
                  00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15
     before call:  ^
-    during call: arg1   arg2 [res]   ^
+    during call: arg1   arg2 [res]   ^                            // "during call" means pushing the args and an empty result slot, after that comes the call, not shown here, which pushes the return address
     during exec: arg1   arg2 [res]  ret  loc1  loc2   ^ 
     returned:     ^  ... ...   res
+
+## ideas
+    A LoxObject is not callable (yet), but could be.
+    The hyper card like "On Event" constructs can be just ordinary classes, where the classname is
+        bound to a card or item?
+        - or like in a template? Should we have templates?
+        Events would just be ordinary methods like onOpenCard() {}
+
+    Can we integrate the "properties" into Card-Luxx for STB at least?
+        - three calles: retrieve(), store() and delete()
+    classes: OnStory<CardName>, OnChapter, OnBook, OnEpic, and so on?
+    Supposed everything that makes STB 'HyperCard-ish' is written in Luxx. What would that mean, imply?
+
+## HyperCard-ish ToDo's
+    [ ] OPEN step I: passive "on event" handling, just calculations and input/outputs, no call backs into the "Card Engine"
+    [ ] OPEN step II: call backs like "go to next card"
+    Idea: could some commands just be simple multi word strings, like in the line above?
 
 ## knowledge
     https://stackoverflow.com/questions/32128111/intellij-external-tools-available-variables
     https://en.wikipedia.org/wiki/Box-drawing_characters - the "mini monitor" uses them
     https://pub.dev/packages/graphql_parser2/install
     https://pub.dev/documentation/graphql_codegen/latest/
+
+For STB: https://github.com/termux/termux-app/discussions/2975 more SAF and picker related info!
