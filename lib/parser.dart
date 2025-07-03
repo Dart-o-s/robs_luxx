@@ -430,7 +430,7 @@ class Parser {
           return Super(kw, peekAndAdvance());
 
         default:
-          final msg = 'Token ${peek().type} cannot be parse, yet.';
+          final msg = 'Line ${peek().line}: Token ${peek().type} cannot be parsed, yet.';
           print(msg);
           throw ParseError(msg, peek().line);
       }

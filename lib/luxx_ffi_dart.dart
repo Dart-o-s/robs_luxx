@@ -34,14 +34,14 @@ class ExpandString extends LoxCallable {
 /// todo: room for optimization
 /// called by the interpreter, so not really FFI ... TODO: put it somewhere else
 String expandMapIntoString(String string, Map<String, Object> map) {
-  print (string);
-  String result = "";
+  // print (string);
+  String result = string;
   for (var it in map.keys) {
     var value = map[it].toString();
     String item = "%{$it}"; // seems I made an regexp pattern, without knowing? Without expanding $it, the line below does not work
-    result = string.replaceAll(item, value);
+    result = result.replaceAll(item, value);
   }
-  print (result);
+  // print (result);
   return result;
 }
 

@@ -69,17 +69,26 @@
 
     [X] DONE 2025-04-29 01:00 BRK statement to get into the monitor.
         Copy/clone the print-statement
-
         [ ] OPEN - we need the same for the parser itself, and probably for the scanner, too
 
     [ ] OPEN Language statement to LOAD programms. Similar to import, but without managing if they were loaded already.
-        - can be done like BRK,
+        - can be done like BRK
+        OOPS, is that not closed and done? check ...
+
     [o] OPEN make LOAD statement first, to set up bigger test suits
     [ ] OPEN Working on persitence: write and read the token stream
         - lets first try serialization ...
 
     [X] DONE 2025-06-26 01:02 allow back tick identifiers
         - `this is an identifier containing spaces`
+
+    [ ] OPEN introduce class defined operators, make the below possible
+        [ ] OPEN filter expressions on lists/arrays (any collection) to apply a closure
+            [some, items] /it.length >= 4/ { accu, curr | some code here; last line is returned } // result is a list or an accu
+
+    [ ] OPEN figure what groups do in lox / luxx and how we can use them
+    [ ] OPEN give classes/objects an intrinsic toHashMap() method, so it can be used in # - expressions
+          OR: upgrade the interpreter to inspect right side of `#` and extract the map. 
 
 ## Prio two
     [ ] OPEN scanner needs to add the filename to the token

@@ -28,6 +28,25 @@ class Map < Collection {
     var map = Map();
     map.setAt("text", text);
 
+    // interpolate the map into the string
     var expanded = string % map;
 
 print "Expanded: " + expanded;
+
+// poor man`s map
+class Hash {}
+
+var hash = Hash();
+    hash.greeting = "Hello";
+    hash.name = "Enki";
+
+var greeting = "%{greeting} %{name}";
+
+print "Expanded is: " + greeting % hash;
+
+// test original modulo
+var sixtysix = 66;
+var twelve = 12;
+
+// call the old modulo, so we see all is fine
+print sixtysix % twelve;

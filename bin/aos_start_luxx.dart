@@ -104,6 +104,7 @@ Map<String, String> getAllFiles(String directory, String suffix) {
 }
 
 void _bootStrap() {
+  // TODO AoS use manifest and really read from assets
   var files = getAllFiles("./assets/luxx_bootstrap", ".luxx");
   var keys = files.keys;
   for (var key in keys) {

@@ -18,7 +18,7 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
   List<InterpretError> errors = [];
   late Environment environment;
   final Map<Expr, int> locals = {};
-  bool _debugLocals = false; // that is for a print look in "locals()"
+  bool _debugLocals = false; // that is for a print in "locals()"
 
   Interpreter() {
     environment = globals;
@@ -246,13 +246,16 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
 
     // PoI
       case TokenType.modulo:
-      //  _checkNumberOperands(expr.operator, [left, right]);
-      //  debugPrintObjects([expr.operator, left, right]);
-        LoxInstance li = right as LoxInstance;
-        var theMap = li.getInstanceAsMap();
-        String s = expandMapIntoString(
-            left as String, theMap.cast<String, Object>());
-        return s;
+        // debugPrintObjects([expr.operator, left, right]);
+        if (left is String && right is LoxInstance) {
+          LoxInstance li = right as LoxInstance;
+          var theMap = li.getInstanceAsMap();
+          String s = expandMapIntoString(
+              left as String, theMap.cast<String, Object>());
+          return s;
+        }
+        _checkNumberOperands(expr.operator, [left, right]);
+        return (left as double) % (right as double);
 
       case TokenType.greater:
         _checkNumberOperands(expr.operator, [left, right]);

@@ -1,0 +1,21 @@
+//luxx script, first line is a marker, it also could be JavaScript
+
+print "Luxx is running ...";
+
+class Sample {
+    init() {
+       this.aa = 22; // "Sample's a";
+   }
+
+   changeA(newA) {
+      this.aa = newA;
+   }
+}
+
+var sample = Sample();
+
+print "init: " + sample.aa;
+
+sample.changeA(3.1415);
+
+print "changed: " + sample.aa;
