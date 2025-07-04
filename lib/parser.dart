@@ -432,6 +432,7 @@ class Parser {
         default:
           final msg = 'Line ${peek().line}: Token ${peek().type} cannot be parsed, yet.';
           print(msg);
+          // AoS this throw bites itself with the synchronize() if we hang on a semicolon
           throw ParseError(msg, peek().line);
       }
     }
@@ -485,7 +486,7 @@ class Parser {
   void synchronize() {
     while (!match([TokenType.eof])) {
       if (match([
-        TokenType.semicolon,
+        // TokenType.semicolon, // AoS - this is a bug, it keeps the rest of the parser hanging on a ";" if there as an error before
         TokenType.fun,
         TokenType.var$,
         TokenType.for$,

@@ -1,0 +1,18 @@
+// some tests about which identifiers are legal
+
+// error, we can not have multiple declarations (yet)
+// var a1, b2;
+
+var _a3 = "with underscore";
+
+var c1:c2  = "with colon"; // colon can not lead
+var c2:c3: = "but, you can have a colon at the end";
+
+var $d1 = 3.141; // `$` should be okay, if not I fix it right now, haha
+
+print "$d1: " + $d1 + ", c1:c2:: " + c1:c2 + ", _a3: " + _a3;
+
+var _ = 11; // should work
+
+// colons in the names, and at the end are for later small talk like messages
+// for convenience (for the scanner and parser) we allow them in all identifiers

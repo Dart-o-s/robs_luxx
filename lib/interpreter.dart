@@ -25,7 +25,6 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
 
     gInterpreter = this;
 
-
     // initialize the dart <-> luxx bridge
     luxx = receiveDartEvents;
     globals.define('sent2dart', Darcy()); // TODO AoS find a better name
@@ -45,6 +44,13 @@ class Interpreter with ExprVisitor<Object?>, StmtVisitor<void> {
     globals.define('mapLength', MapLength());
     globals.define('mapSetAt', MapSet());
     globals.define('mapGetAt', MapGet());
+  }
+
+  // as some code assumes the globals are the last resort
+  // we put our injected "globals" behind the actual globals.
+  Environment injectXEnv(Environment env) {
+    globals.enclosing = env;
+    return env;
   }
 
   static void listIntrinsics() {
@@ -533,5 +539,6 @@ class InterpretError extends Error {
   final String description;
   final int line;
 
-  InterpretError(this.description, this.line);
+  InterpretError(this.description, this.line) {
+  }
 }

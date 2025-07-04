@@ -11,6 +11,19 @@
     [X] DONE 2025-04-26 15:45 Arrays
         create, length, append, set at, get at
 
+    [ ] BLOCKER OPEN some errors, parser or even interpreter cause an endless exception loop
+        - that needs to be fixed before we can use STB on the tablet/phone
+
+    [ ] OPEN Menu to call a function from Dart
+        helper function in Luxx to find them
+
+    [ ] OPEN create a Luxx object from the Dart side
+        - create a Luxx class from Dart
+        - create a Luxx method from Dart ... probably just "via text"
+
+    [ ] OPEN Luxx meta programming, e.g. adding a method on the fly to a class, probbaly via a function
+        - need reflection, too
+
     [X] DONE 2025-04-26 16:10 Maps
         create, length, set at, get at
 
@@ -89,10 +102,15 @@
     [ ] OPEN figure what groups do in lox / luxx and how we can use them
     [ ] OPEN give classes/objects an intrinsic toHashMap() method, so it can be used in # - expressions
           OR: upgrade the interpreter to inspect right side of `#` and extract the map. 
+### Monitor
+    [ ] OPEN gather the old Monitor issues to here
+    [ ] OPEN list all global variables - how could we forget that? 
 
 ## Prio two
     [ ] OPEN scanner needs to add the filename to the token
     [ ] OPEM FILE directive so 'files' loaded from strings, have a filename
+        - actually even files have no filenames, haha. I mean: the parser and scanner reports line numbers without file information
+
     [ ] OPEN keywords for operators, just like identifier versus keyword, look first if an ident line "not"
         is an operator, and return that one to the parser
 

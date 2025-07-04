@@ -320,7 +320,7 @@ class Scanner {
   }
 
   bool isAlphaNumeric() {
-    final alphanumeric = RegExp(r'^[_a-zA-Z0-9]+$');
+    final alphanumeric = RegExp(r'^[_a-zA-Z0-9$@]+$');
     return alphanumeric.hasMatch(peek());
   }
 

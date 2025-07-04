@@ -5,10 +5,10 @@ import 'package:luxx_dart/lox_dart.dart';
 var gInstances = HashSet<LoxInstance>();
 
 class LoxInstance {
-  late final LoxClass klass;
+  late final LoxClass _klass;
   final Map<String, Object?> fields = {};
 
-  LoxInstance(this.klass) {
+  LoxInstance(this._klass) {
     gInstances.add(this);
   }
 
@@ -17,7 +17,7 @@ class LoxInstance {
       return fields[name.lexeme];
     }
 
-    LoxFunction? method = klass.findMethod(name.lexeme);
+    LoxFunction? method = _klass.findMethod(name.lexeme);
     if (method != null) {
       return method.bind(this);
     }
@@ -31,7 +31,7 @@ class LoxInstance {
 
   @override
   String toString() {
-    return '<instance ${klass.name}> {' + fields.toString() + "}";
+    return '<instance ${_klass.name}> {' + fields.toString() + "}";
   }
 
   // AoS a bit fishy code here. Iff this is a Luxx Map
