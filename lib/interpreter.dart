@@ -541,4 +541,8 @@ class InterpretError extends Error {
 
   InterpretError(this.description, this.line) {
   }
+
+  String toString() {
+    return "InterpreterError: $description, line: $line";
+  }
 }

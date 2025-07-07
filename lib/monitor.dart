@@ -19,15 +19,11 @@ String help='''
    
    # for this we make paging, always about 10, and hit a key to go deeper 
    select instance <#> -> fetch instance #x from the shown list and display internals
-   Todo: 
-    page tokens
-    page statements
-    search statements?
-    
+   Todo: page tokens, page statements, search statements?
+   todo: select class and list methods, select object/instance and 
+   
    exit -> leave the monitor
-   todo: 
-    select class and list methods
-    select object/instance and 
+    
 ''';
 class Monitor {
   Machine machine = Machine();

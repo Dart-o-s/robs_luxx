@@ -73,12 +73,14 @@
         [X] DONE 2025-06-17 17:17 put them into the AST into the relevant function
         [X] DONE 2025-06-19 23:47 make the interpreter interpret them
 
-        [ ] OPEN consider if the Resolver should/could break into the Monitor, on certain "break points"
+    [ ] OPEN consider if the Resolver should/could break into the Monitor, on certain "break points"
     
-    [ ] OPEN Luxx classes should be able to define a toString method (and others), which can
+    [X] DONE 2025-07-04 11:11 (Done a while ago) Luxx classes should be able to define a toString method (and others), which can
         be called from dart, for example when the '+' operator is expanded
 
-    [ ] OPEN fix the "a" problem, it can not be a variable at the moment, scan the "is a" better with a look ahead
+    [_] DONE 2025-07-03 11:11 fix the "a" problem, it can not be a variable at the moment 
+        [ ] OPEN scan the "is a" better with a look ahead
+            if the scanner sees an "a" identifier, it only needs to check if the previous token was an "is" and change it
 
     [X] DONE 2025-04-29 01:00 BRK statement to get into the monitor.
         Copy/clone the print-statement
@@ -203,6 +205,7 @@
 - 𒄑 GES - tree, spit out AST
 - 𒆸 LAGAB - block
 - 𒈨 ME - the ME, yes 
+
 [X] DONE 2025-06-11 11:11 - long ago conserve comments, add them to the next token
 [ ] keyword as token, could be a 𒈨 or similar, followed by allowed "tokentypes". 
 - interpreted by the scanner added to the keyword list and treated by the parser
