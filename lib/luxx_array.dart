@@ -1,11 +1,11 @@
 import 'package:luxx_dart/lox_dart.dart';
 
 /*
-  globals.define('create', Clock());
-  globals.define('length', Clock());
-  globals.define('add', Clock());
-  globals.define('setAt', Clock());
-  globals.define('getAt', Clock());
+  globals.define('createArray', ArrayCreate());
+  globals.define('lengthArray', ArrayLength());
+  globals.define('addArray', ArrayAdd()); // TODO AoS perhaps a candidate for "+"
+  globals.define('ArraySetAt', ArraySet());
+  globals.define('ArrayGetAt', ArrayGet());
  */
 
 // TODO aos think about initial size or clamped arrays
