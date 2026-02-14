@@ -195,7 +195,7 @@ class Scanner {
 
     addToken(TokenType.eof, '');
 
-    print("Amount of Tokens: ${tokens.length}");
+    // print("Amount of Tokens: ${tokens.length}");
     return tokens;
   }
 
